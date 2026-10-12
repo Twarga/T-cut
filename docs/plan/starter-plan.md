@@ -1,45 +1,45 @@
-# Engineering Qualification and First Editable Export Implementation Plan
+# Engineering Qualification and First Editable Export Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans. Steps use checkboxes (`- [ ]`).
 
-**Goal:** Prove the selected Rust/Linux stack, then deliver import → edit → save/reopen → export with real media and exact timing.
-**Architecture:** [architecture.md](architecture.md), particularly ownership, rational time, immutable render snapshots and durable saves.
-**Tech Stack:** Rust 1.96.0 initial pin, GTK4 Rust 0.10, GLib 0.21, GStreamer/GES Rust 0.24, GTK sink 0.14; GTK >=4.14 and native GStreamer/GES >=1.26.
-**Spec:** [product-spec.md](product-spec.md), F01–F04/F09/F29/F30/F36; parent tasks T01–T09 in [implementation.md](implementation.md).
+## At a glance
 
-## Global Constraints
+- **Goal:** prove the Rust/Linux stack, then ship import → edit → save/reopen → export with real media and exact timing.
+- **Scope:** this is the engineering starter and first safe edit/export slice. It is **not** the whole v0.1 release. The [MVP contract](release-roadmap.md) also needs Home, basic geometry/text/audio, settings, relink/recovery, and installed-package acceptance.
+- **Architecture:** [architecture.md](architecture.md). Key ideas: ownership, rational time, immutable render snapshots, durable saves.
+- **Spec:** [product-spec.md](product-spec.md) features F01–F04, F09, F29, F30, F36. Parent tasks T01–T09 in [implementation.md](implementation.md).
+- **Stack:** Rust 1.96.0 (initial pin). GTK4 Rust 0.10, GLib 0.21, GStreamer/GES Rust 0.24, GTK sink 0.14. Native floors: GTK ≥4.14, GStreamer/GES ≥1.26.
+- **Known open issue:** a nominal 4-second, 30 fps render produced **121 frames (4.033333 seconds)**. T01 must explain and fix it, or reject the engine.
 
-Apply the product spec's Global Constraints. This is a plan, not an already-created application. All shell commands below are **future implementation instructions** unless explicitly listed as observed. No package installation, model download, or new application repository creation has been performed for this planning deliverable.
+> **Rule:** this is a plan, not a created app. Every shell command below is a **future instruction**, unless it is listed as observed. No packages were installed, no models downloaded, and no repo created.
 
-Do not start by drawing forty disabled feature tabs. Start with real media, correct time, reversible edits and reliable output. Styling cannot resolve a faulty renderer.
+Start with real media, correct time, reversible edits, and reliable output. Don't start by drawing forty disabled feature tabs. Styling can't fix a broken renderer.
 
-This starter is engineering qualification and the first safe edit/export slice, not the whole v0.1 release. The finalized [MVP contract](release-roadmap.md) also requires real Home/project lifecycle, basic geometry/text/audio slices, settings, relink/recovery and installed-package acceptance. Its version boundaries supersede older milestone shorthand.
+## A. Observed local state
 
-## A. Observed local prerequisite state
-
-During this research session:
+Checked during the research session:
 
 | Check | Observed result | Consequence |
 |---|---|---|
-| `rustc --version` | 1.96.0 | Usable starting compiler available |
+| `rustc --version` | 1.96.0 | Usable starting compiler |
 | `cargo --version` | 1.96.0 | Cargo available |
-| `pkg-config --modversion gstreamer-1.0` | 1.28.7 | Native GStreamer development metadata found |
+| `pkg-config --modversion gstreamer-1.0` | 1.28.7 | GStreamer dev metadata found |
 | `gst-launch-1.0 --version` | GStreamer 1.28.7 | GStreamer CLI available |
-| `pkg-config` for gtk4 and gst-editing-services-1.0 | Packages not found in search path | Need development packages/runtime SDK; does not prove runtime absent |
-| `ges-launch-1.0 --version` | Rejected as timeline input | Not a supported version query; do not infer GES version from it |
+| `pkg-config` for gtk4 and gst-editing-services-1.0 | Not found in search path | Need dev packages or a runtime SDK. Does not prove the runtime is absent |
+| `ges-launch-1.0 --version` | Rejected as timeline input | Not a version query. Don't infer the GES version from it |
 
-A supplementary `libges-1.0` pkg-config query also failed, but the inspected bindings correctly request **`gst-editing-services-1.0`**; use that name for the real build prerequisite.
+- A `libges-1.0` pkg-config query also failed. The inspected bindings request **`gst-editing-services-1.0`**. Use that name for the real build prerequisite.
+- An earlier research render of a GES CLI timeline with a transparent title decoded fine. But it gave 121 frames / 4.033333 s for the nominal 4 s, 30 fps case.
+- That proves a basic installed render path. It does **not** prove frame-exactness, Rust integration, speed ramps, or production readiness.
 
-Earlier research rendered a GES CLI timeline with a transparent title and decoded it. The nominal four-second 30fps case yielded 121 frames/4.033333 seconds. That proves a basic installed render path, **not** frame-exactness, Rust integration, speed ramps, or production readiness. T01 must explain and resolve or reject that behavior.
+## B. Repository and dependency setup
 
-## B. New repository and reproducible dependency setup
+- [ ] Create `linux-creator-editor/` as a **new sibling** project. Do not put it inside or replace `photocraft/`. Confirm the path before running shell setup.
+- [ ] Add `LICENSE` (GPL-3.0-or-later), SPDX headers, `README.md`, `.gitignore`, `rust-toolchain.toml`, and root `Cargo.toml`. Don't move existing research repos.
+- [ ] Pick a maintained Flatpak SDK or runtime that meets the native floors. Record the exact runtime branch, commit, and offline source hashes. Native Fedora dev is useful, but it does not replace package qualification.
+- [ ] Lock the matched dependency families below. Run `cargo tree -d` to catch duplicate GLib families. Check advisories before freezing the lockfile.
 
-- [ ] Create `linux-creator-editor/` as a new sibling project, not inside or replacing `photocraft/`. Confirm intended path before executing shell initialization.
-- [ ] Add `LICENSE` (GPL-3.0-or-later), SPDX headers, `README.md`, `.gitignore`, `rust-toolchain.toml` and root `Cargo.toml`. Do not move existing research repositories.
-- [ ] Select a maintained Flatpak SDK/runtime satisfying native floors; record exact runtime branch/commit and offline source hashes. Native development on Fedora is useful, but does not replace package qualification.
-- [ ] Resolve and lock the matched dependency families below; inspect `cargo tree -d` for duplicate GLib families and check advisories before freezing the lockfile.
-
-Proposed initial root manifest, with only the first real crates present:
+**Proposed root manifest.** Only the first real crates are listed:
 
 ```toml
 [workspace]
@@ -70,9 +70,11 @@ serde_json = "1"
 thiserror = "2"
 ```
 
-The sink is initially built/installed as a native GStreamer plugin from the matched `gst-plugin-gtk4` 0.14 family, not assumed to appear because `gtk4` is in Cargo.toml. Record its feature set (`waylandegl`, selected X11 GL path, `dmabuf`) and license. An in-process static registration is an alternative only after ownership and licensing review; do not link two copies accidentally.
+- **GTK sink:** built or installed as a native GStreamer plugin from the matched `gst-plugin-gtk4` 0.14 family. Don't assume it appears just because `gtk4` is in `Cargo.toml`.
+- **Record:** the feature set (`waylandegl`, the chosen X11 GL path, `dmabuf`) and the license.
+- **Alternative:** static in-process registration. Only after ownership and license review. Don't link two copies by accident.
 
-`rust-toolchain.toml`:
+**`rust-toolchain.toml`:**
 
 ```toml
 [toolchain]
@@ -81,7 +83,7 @@ components = ["rustfmt", "clippy"]
 profile = "minimal"
 ```
 
-Development prerequisite commands, to run only when beginning implementation:
+**Dev prerequisite commands.** Run these only when implementation begins:
 
 ```sh
 pkg-config --modversion gtk4 gstreamer-1.0 gst-editing-services-1.0
@@ -91,36 +93,51 @@ gst-inspect-1.0 audiomixer
 cargo tree -d
 ```
 
-Fedora package families from upstream binding documentation include `gstreamer1-devel`, `gstreamer1-plugins-base-devel`, `gst-editing-services-devel`, with `gtk4-devel` for GTK development. Plugin availability/restricted codecs varies by configured repository. Debian/Ubuntu equivalents include `libgtk-4-dev`, `libgstreamer1.0-dev`, `libgstreamer-plugins-base1.0-dev`, `libges-1.0-dev`. Check repository versions against chosen floors before installing; an old LTS default may be too old. Do not enable external codec repositories automatically or silently change system packages.
+**Package names by distro:**
 
-## C. Qualification corpus and expected results
+- **Fedora:** `gstreamer1-devel`, `gstreamer1-plugins-base-devel`, `gst-editing-services-devel`, and `gtk4-devel`.
+- **Debian/Ubuntu:** `libgtk-4-dev`, `libgstreamer1.0-dev`, `libgstreamer-plugins-base1.0-dev`, `libges-1.0-dev`.
+- **Check first:** repo versions against the chosen floors. An old LTS default may be too old.
+- **Codecs:** plugin availability depends on the repo. Don't enable external codec repos automatically. Don't silently change system packages.
 
-Create original fixtures with generated visuals/audio, plus consented phone samples where generation cannot emulate hardware quirks. Each fixture manifest includes license, generator command, hash and intended timing. Use image-frame sequence labels as an independent oracle; not a renderer-derived label that shares the bug under test.
+## C. Qualification corpus
+
+**Fixtures:**
+
+- Generate original visuals and audio.
+- Add consented phone samples where generation can't copy hardware quirks.
+- Each fixture manifest records: license, generator command, hash, intended timing.
+- Use **image-frame sequence labels** as the oracle. Don't use a renderer-derived label, because it shares the bug under test.
 
 | Fixture | Inputs and operation | Required result |
 |---|---|---|
-| Q01 exact duration | 120 uniquely numbered source frames at 30fps; render full source | Exactly 120 decoded output frames; labels 0 through 119 |
+| Q01 exact duration | 120 uniquely numbered source frames at 30 fps; render the full source | Exactly 120 decoded output frames; labels 0 through 119 |
 | Q02 trim | Same source; range `[1,3)` seconds | Exactly 60 output frames; labels 30 through 89 |
-| Q03 adjacent clips | Red clip `[0,2)`, blue clip `[2,4)` | Red frame 59, blue frame 60; no black/duplicate boundary |
-| Q04 fractional rate | 30000/1001 numbered-frame source, repeated splits/undo | Same frame identities and rational duration as unsplit source |
-| Q05 alpha title | White outlined text over two colored clips | Background remains visible; title does not become opaque white plane |
-| Q06 audio timing | Flash frames with sample-positioned impulses | Known flash/impulse alignment after cuts, resample and export |
+| Q03 adjacent clips | Red clip `[0,2)`, blue clip `[2,4)` | Red frame 59, blue frame 60; no black or duplicate boundary |
+| Q04 fractional rate | 30000/1001 numbered-frame source, repeated splits and undo | Same frame identities and rational duration as the unsplit source |
+| Q05 alpha title | White outlined text over two colored clips | Background stays visible; title is not an opaque white plane |
+| Q06 audio timing | Flash frames with sample-positioned impulses | Known flash/impulse alignment after cuts, resample, and export |
 | Q07 VFR | Deliberately irregular PTS, unique frame content | Selected source frame follows PTS intervals; proxy mapping matches |
-| Q08 reverse/freeze | Reverse selected range, then hold one frame | Descending labels then repeated chosen frame for defined duration |
-| Q09 ramp | Piecewise rate with analytically known integral | Output maps to expected source times within specified frame selection rule |
-| Q10 nesting | Same edits flat and in child sequence | Equivalent decoded pixels/audio within operator/codec tolerance |
-| Q11 ownership | Rapid seek/window resize/open-close while playing | No GTK/GES thread violations, stale frame acceptance or deadlock |
-| Q12 color | Known SDR patches and tagged HDR sample | Correct documented interpretation; unsupported path explicitly blocked |
+| Q08 reverse/freeze | Reverse a selected range, then hold one frame | Descending labels, then the chosen frame repeated for the defined duration |
+| Q09 ramp | Piecewise rate with an analytically known integral | Output maps to the expected source times under the specified frame-selection rule |
+| Q10 nesting | Same edits flat and in a child sequence | Equivalent decoded pixels and audio within operator/codec tolerance |
+| Q11 ownership | Rapid seek, window resize, and open/close while playing | No GTK/GES thread violations, no stale frame accepted, no deadlock |
+| Q12 color | Known SDR patches and a tagged HDR sample | Correct documented interpretation. Unsupported path explicitly blocked |
 
-Qualification runner outputs JSON fields: `scenario`, `backend_version`, `plugins`, `input_hashes`, `output_frames`, `first_frame_id`, `last_frame_id`, `audio_offset_samples`, `failures`, `elapsed`, `peak_memory`, `gpu_path`. Record all failures; do not reduce a result to a single boolean hiding hard-path gaps.
+**Runner output.** JSON fields: `scenario`, `backend_version`, `plugins`, `input_hashes`, `output_frames`, `first_frame_id`, `last_frame_id`, `audio_offset_samples`, `failures`, `elapsed`, `peak_memory`, `gpu_path`.
+
+- Record every failure.
+- Never collapse the result into one boolean. That hides hard-path gaps.
+
+**Tasks:**
 
 - [ ] Build the Rust qualification example with real GES objects on one owning context.
-- [ ] Add actual GTK sink preview and exercise Q11 visibly.
-- [ ] Decode generated files independently with ffprobe/FFmpeg or a second qualified reader, then inspect first/boundary/last images and audio samples.
-- [ ] Diagnose the known 121-frame endpoint result with stream PTS/EOS/range evidence. No blanket “drop the last frame” patch without establishing the interval contract and checking all rates.
-- [ ] Complete `docs/adr/0001-media-engine.md`: tested paths, unresolved failures, custom-element requirements, accepted version set and backend decision.
+- [ ] Add the actual GTK sink preview. Exercise Q11 visibly.
+- [ ] Decode the generated files with ffprobe/FFmpeg or a second qualified reader. Inspect first, boundary, and last images, and the audio samples.
+- [ ] Diagnose the known 121-frame endpoint result using stream PTS, EOS, and range evidence. **No blanket "drop the last frame" patch.** First establish the interval contract and check all rates.
+- [ ] Complete `docs/adr/0001-media-engine.md`: tested paths, unresolved failures, custom-element requirements, accepted version set, and the backend decision.
 
-Example independent output inspection commands, after the example creates its file:
+**Inspection commands** (run after the example writes its file):
 
 ```sh
 ffprobe -v error -count_frames -select_streams v:0 \
@@ -129,58 +146,63 @@ ffprobe -v error -count_frames -select_streams v:0 \
 ffmpeg -v error -i target/qualification/q01.webm -f null -
 ```
 
-Frame count is necessary but insufficient: a duplicated frame and a missing frame can preserve the count. Check labels/PTS and audio alignment as well.
+> **Frame count is necessary but not enough.** A duplicated frame plus a missing frame can keep the count. Check labels, PTS, and audio alignment too.
 
-## D. First domain behavior tests
+## D. First domain tests
 
-Define public domain APIs in `lce-core` before UI code mutates state. Initial types: `Time`, `FrameRate`, `TimeRange`, `Project`, `Sequence`, `Track`, `Clip`, `Command`, `EditError`. Constructors validate invariants. No GLib types enter this crate.
+Define the public domain APIs in `lce-core` **before** UI code touches state.
 
-- [ ] Time tests: normalize 2/4 to 1/2; reject denominator zero; compare 1/3 + 1/6 to 1/2; reject checked arithmetic overflow; map frame 30000 at 30000/1001 to exactly 1001 seconds.
-- [ ] Split tests: split two-second clip at one second; source intervals partition without gap/overlap; boundary split rejected; undo restores original ID and state; redo restores stable child identities according to stored operation.
-- [ ] Lock tests: multi-clip move affecting one locked dependency rejects the entire transaction, leaving all positions unchanged.
-- [ ] Animation split test: an interpolated property has the same value at sample points before and after clip split, including split boundary.
-- [ ] Journal tests: partial trailing record ignored, earlier committed records replayed once, checksum failure not silently skipped, snapshot/journal rotation cannot duplicate commands.
+- **Types:** `Time`, `FrameRate`, `TimeRange`, `Project`, `Sequence`, `Track`, `Clip`, `Command`, `EditError`.
+- **Rule:** constructors validate invariants. No GLib types enter this crate.
 
-For every test, verify the behavioral failure before implementation, then implement the smallest domain behavior, run the targeted test, and exercise the consuming path. Do not retain tests that only assert a menu string, wrapper forwarding or file layout.
+- [ ] **Time:** normalize 2/4 to 1/2. Reject denominator zero. Check 1/3 + 1/6 equals 1/2. Reject checked-arithmetic overflow. Map frame 30000 at 30000/1001 to exactly 1001 seconds.
+- [ ] **Split:** split a two-second clip at one second. Source intervals partition with no gap or overlap. Reject a boundary split. Undo restores the original ID and state. Redo restores stable child identities from the stored operation.
+- [ ] **Lock:** a multi-clip move that touches one locked dependency rejects the whole transaction. All positions stay unchanged.
+- [ ] **Animation split:** an interpolated property has the same value at sample points before and after a clip split, including the split boundary.
+- [ ] **Journal:** a partial trailing record is ignored. Earlier committed records replay once. A checksum failure is never silently skipped. Snapshot and journal rotation cannot duplicate commands.
 
-## E. First end-to-end product slice
+**Rule for every test:** watch it fail for the right behavioral reason first. Implement the smallest domain behavior. Run the targeted test. Exercise the consuming path.
 
-After qualification passes, implement T02–T08 in this exact dependency order:
+Don't keep tests that only check a menu string, wrapper forwarding, or file layout.
 
-1. Exact domain model and durable save/recovery; exercise headlessly.
-2. Import/probe local media and selected stream descriptors.
-3. Native workbench with real preview/playback and source/sequence mode.
-4. Clip insert/split/trim/move/delete with one-transaction undo and keyboard alternatives.
-5. Immutable export snapshot and headless export worker.
-6. GUI export destination/progress/cancel using that same worker.
-7. Reopen/collect/relink/offline scenario runner and initial package.
-8. Full snapping/magnet/linkage mode matrix before adding complicated creator effects.
+## E. First end-to-end slice
 
-### Concrete acceptance project
+After qualification passes, implement T02–T08 in this order:
 
-Use 12 seconds of numbered 30fps video, 12 seconds of owned spoken audio and one still image.
+1. Exact domain model and durable save/recovery. Exercise headlessly.
+2. Import and probe local media, plus the selected stream descriptors.
+3. Native workbench with real preview, playback, and source/sequence mode.
+4. Clip insert, split, trim, move, and delete. One-transaction undo. Keyboard alternatives.
+5. Immutable export snapshot and a headless export worker.
+6. GUI export: destination, progress, cancel. Uses the same worker.
+7. Reopen, collect, relink, and offline scenario runner. Initial package.
+8. Full snapping, magnet, and linkage mode matrix. Before any complicated creator effects.
 
-- [ ] Import all three without network access.
-- [ ] Create a 1920×1080/30fps sequence; insert video `[0,12)`.
-- [ ] Split at 4 and 8 seconds, remove middle with explicit ripple, leaving output source ranges `[0,4)` then `[8,12)`.
-- [ ] Add still-image overlay during sequence `[1,3)` and a manually authored title through the qualified text path when T18 is available; do not make title a prerequisite of the initial bare editing slice.
-- [ ] Apply a simple fade only after that operator is qualified; unsupported optional effects are not silently included in the initial acceptance result.
-- [ ] Save, close, reopen; compare all clip/source intervals and edit history invariants.
-- [ ] Export eight seconds at 30fps: **240 decoded frames**, with source frame 119 followed by 240 at the cut (before overlays), and correct audio policy.
-- [ ] Cancel a second export; confirm first export remains intact and project editable.
-- [ ] Terminate during a later save and recover the last durable revision.
+### Acceptance project
 
-The initial voice audio must be linked or explicitly edited to match the video cut; keeping an independent twelve-second audio bed would legitimately extend the sequence. Assert the intended link/ripple state and explicit export range rather than guessing timeline duration from video alone.
+**Inputs:** 12 seconds of numbered 30 fps video, 12 seconds of owned spoken audio, and one still image.
 
-## F. Starter review checkpoints
+- [ ] Import all three with no network access.
+- [ ] Create a 1920×1080, 30 fps sequence. Insert video `[0,12)`.
+- [ ] Split at 4 and 8 seconds. Remove the middle with explicit ripple. Output source ranges become `[0,4)` then `[8,12)`.
+- [ ] Add a still-image overlay during sequence `[1,3)`. Add a manual title through the qualified text path when T18 is ready. The title is **not** a prerequisite for the bare editing slice.
+- [ ] Apply a simple fade only after that operator is qualified. Unsupported optional effects are never silently included in the initial result.
+- [ ] Save, close, reopen. Compare all clip and source intervals, and check the edit-history invariants.
+- [ ] Export 8 seconds at 30 fps: **240 decoded frames**. Source frame 119 is followed by 240 at the cut (before overlays). Audio policy must be correct.
+- [ ] Cancel a second export. The first export stays intact and the project stays editable.
+- [ ] Kill the app during a later save. Recover the last durable revision.
+
+**Audio note:** the voice audio must be linked to the video, or explicitly edited to match the cut. An independent 12-second audio bed would legitimately extend the sequence. Assert the intended link and ripple state, and the explicit export range. Don't guess the timeline duration from the video alone.
+
+## F. Review checkpoints
 
 | Checkpoint | Evidence required | Stop condition |
 |---|---|---|
-| Dependency gate | Matched GLib family, plugin discovered, native floors met, licenses inventoried | Unresolved ABI/license/runtime mismatch |
-| Engine gate | Q01–Q12 reports and real preview evidence | Timing, retime, ownership or output correctness unresolved |
-| Model gate | Behavioral tests + kill/recover trace | Partial edits, drift or lost durable changes |
+| Dependency gate | Matched GLib family, plugin discovered, native floors met, licenses inventoried | Unresolved ABI, license, or runtime mismatch |
+| Engine gate | Q01–Q12 reports and real preview evidence | Timing, retime, ownership, or output correctness unresolved |
+| Model gate | Behavioral tests and a kill/recover trace | Partial edits, drift, or lost durable changes |
 | Workbench gate | Actual familiar import/edit workflow | Fake frames, mouse-only critical edits, text shortcut collisions |
-| Export gate | Full decoded output + frame/audio oracle | Preview/export disagreement or corrupt publication |
-| Package gate | Same workflow in installed sandbox | Host-only dependencies or lost portal access |
+| Export gate | Full decoded output and frame/audio oracle | Preview/export disagreement or corrupt publication |
+| Package gate | The same workflow in an installed sandbox | Host-only dependencies or lost portal access |
 
-Only then expand creator feature tasks. This ordering does not shrink the full product scope; it prevents the rest of the project from depending on an unqualified foundation.
+Expand creator feature tasks **only after** these pass. This order does not shrink the product scope. It keeps the rest of the project from depending on an unqualified foundation.

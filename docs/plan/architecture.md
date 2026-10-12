@@ -1,56 +1,79 @@
 # Stack, Architecture, and Data Contracts
 
-Spec: [product-spec.md](product-spec.md). Status: proposed architecture with explicit qualification gates, not an implemented system. Primary evidence: [sources.md](sources.md).
+> **Status:** proposed architecture with explicit qualification gates. Not an implemented system.
+> **Spec:** [product-spec.md](product-spec.md). **Evidence:** [sources.md](sources.md).
 
-## 1. Starter stack decision
+## At a glance
 
-**Choose a Rust domain/application layer, GTK4 desktop UI, and a GStreamer/GES media backend. Qualify the difficult paths before making it the production backend.** This uses existing media infrastructure instead of rebuilding codecs, audio clocks, containers, and Linux video presentation.
+- **Decision:** Rust domain and app layer, GTK4 desktop UI, GStreamer/GES media backend.
+- **Condition:** qualify the hard paths before the backend is locked in.
+- **Why:** reuse mature media infrastructure. Don't rebuild codecs, audio clocks, containers, or Linux video presentation.
+- **Hard rules:**
+  - Rational time. Half-open intervals.
+  - Atomic JSON snapshots plus a journal. SQLite is for disposable indices only.
+  - GES objects live on one owning context.
+  - Preview and export share one compiler.
+  - Models never mutate the project directly.
+
+## 1. Starter stack
+
+**Choose:** a Rust domain layer, a GTK4 UI, and a GStreamer/GES backend.
 
 | Layer | Selected starting point | Why / constraint |
 |---|---|---|
-| Language/toolchain | Rust 2024 edition; pin stable 1.96.0 initially | Installed toolchain observed; update deliberately after CI qualification |
-| UI | `gtk4` 0.10 family, `glib`/`gio` 0.21 family | Native Linux integration and shared GLib family with media bindings |
-| Video/timeline | `gstreamer`, `gstreamer-editing-services`, `gstreamer-video`, `gstreamer-audio`, `gstreamer-pbutils` 0.24 family | Rust bindings to established native media stack |
-| GTK preview sink | `gst-plugin-gtk4` 0.14 family | Manifest confirms GTK 0.10/GStreamer 0.24; MPL-2.0, not the bindings' MIT/Apache license |
-| Native baseline | GTK >=4.14; GStreamer/GES >=1.26 | Chosen product floor; DMA-BUF is optional at runtime, not assumed |
-| Timeline UI | Custom GTK widget using snapshot/render nodes plus accessible clip navigator | Virtualize visible clips; native widgets for controls, not thousands of child widgets |
-| Text | Pango/HarfBuzz/FreeType through audited platform stack | Mature shaping, font fallback, bidi; share render parameters between preview/export |
-| Serialization | `serde`/`serde_json`; explicit schema versions | Human-inspectable project format, not GES serialization as sole truth |
-| IDs/hashes | UUIDs for identities; BLAKE3 for application asset/cache hashes | Identity survives relink; checksums key derived data |
-| Persistence | Atomic JSON snapshots plus transactional journal; SQLite only for disposable catalog/search indices | Do not make editor project correctness depend on cache DB |
-| Jobs | Bounded channels and worker processes; `tokio` only for asynchronous I/O/service tasks where justified | GTK/GLib remains UI event loop; no async work on realtime audio path |
-| Media utility tools | FFmpeg/ffprobe for diagnostics, selected offline conversions, corpus generation | Audit build license; avoid uncontrolled second render implementation |
-| Local transcription | `whisper.cpp` native worker first | Offline C API; select exact model separately |
-| Other inference | Model-specific native runtime or isolated pinned Python worker | ONNX only when export/operators are actually supported |
-| Packaging | Flatpak first, pinned runtime/build inputs | Consistent native dependencies, portal integration, GPU driver extension testing |
-| Governance | GPL-3.0-or-later original code; DCO sign-off; REUSE/SPDX | User freedom, contributor provenance, auditable redistribution |
+| Language and toolchain | Rust 2024 edition. Pin stable 1.96.0 at first. | Installed toolchain observed. Update deliberately after CI qualification. |
+| UI | `gtk4` 0.10 family, `glib` and `gio` 0.21 family | Native Linux integration. Shared GLib family with the media bindings. |
+| Video and timeline | `gstreamer`, `gstreamer-editing-services`, `gstreamer-video`, `gstreamer-audio`, `gstreamer-pbutils` 0.24 family | Rust bindings to an established native media stack. |
+| GTK preview sink | `gst-plugin-gtk4` 0.14 family | Manifest confirms GTK 0.10 and GStreamer 0.24. License is MPL-2.0, not the bindings' MIT/Apache. |
+| Native baseline | GTK ≥4.14. GStreamer/GES ≥1.26. | Product floor. DMA-BUF is optional at runtime, never assumed. |
+| Timeline UI | Custom GTK widget on snapshot and render nodes, plus an accessible clip navigator | Virtualize visible clips. Native widgets for controls, not thousands of child widgets. |
+| Text | Pango, HarfBuzz, FreeType, via the audited platform stack | Mature shaping, font fallback, bidi. Preview and export share render parameters. |
+| Serialization | `serde` and `serde_json`, with explicit schema versions | Human-readable project format. GES serialization is **not** the sole source of truth. |
+| IDs and hashes | UUIDs for identity. BLAKE3 for asset and cache hashes. | Identity survives relink. Checksums key derived data. |
+| Persistence | Atomic JSON snapshots plus a transactional journal. SQLite only for disposable catalog and search indices. | Project correctness must not depend on a cache DB. |
+| Jobs | Bounded channels and worker processes. `tokio` only for async I/O or service tasks where justified. | GTK/GLib stays the UI loop. No async work on the realtime audio path. |
+| Media utilities | FFmpeg and ffprobe for diagnostics, selected offline conversion, corpus generation | Audit the build license. Avoid a second, uncontrolled render path. |
+| Local transcription | `whisper.cpp` native worker first | Offline C API. Pick the exact model separately. |
+| Other inference | Model-specific native runtime, or an isolated pinned Python worker | ONNX only where export and operators are actually supported. |
+| Packaging | Flatpak first, with pinned runtime and build inputs | Consistent native deps, portal integration, GPU driver extension testing. |
+| Governance | GPL-3.0-or-later for original code. DCO sign-off. REUSE and SPDX. | User freedom, contributor provenance, auditable redistribution. |
 
 ### Version policy
 
-The inspected GTK 0.10.1 and GStreamer 0.24.0 upstream manifests both declare Rust 1.83 and GLib 0.21. LCE's Rust 2024 edition and selected toolchain are separate project choices. The sink 0.14.0 manifest also matches those crate families. This is a **compatible starting family, not a claim that these are the newest or currently vulnerability-free releases**.
+- The inspected GTK 0.10.1 and GStreamer 0.24.0 manifests both declare Rust 1.83 and GLib 0.21.
+- The sink 0.14.0 manifest matches those crate families.
+- LCE's Rust 2024 edition and toolchain are separate project choices.
+- **This is a compatible starting family.** It is not a claim that these are the newest or vulnerability-free releases.
 
-Resolve patched versions within those families, inspect advisories and native security updates, commit `Cargo.lock`, and pin package source checksums. If moving to the next GLib family, upgrade GTK, GStreamer and sink together. Do not mix floating git dependencies with published crates or assume `latest` documentation describes the pinned API.
+**Rules:**
 
-Enable native API feature floors explicitly (`gtk4/v4_14`, media bindings `v1_26`). Sink features at the inspected version include `waylandegl`, `x11egl`, `x11glx`, `dmabuf`, `gtk_v4_14`. Test the subset shipped; enabling a feature is not proof of an actual zero-copy path. MPL-2.0 source/notice and any secondary-license conditions need review for the actual sink distribution.
+- Resolve patched versions inside those families. Check advisories and native security updates. Commit `Cargo.lock`. Pin source checksums.
+- When moving to the next GLib family, upgrade GTK, GStreamer, and the sink together.
+- Don't mix floating git dependencies with published crates. Don't assume `latest` docs match the pinned API.
+- Enable native API floors explicitly: `gtk4/v4_14` and media bindings `v1_26`.
+- Sink features at the inspected version: `waylandegl`, `x11egl`, `x11glx`, `dmabuf`, `gtk_v4_14`.
+- Test only the subset you ship. Enabling a feature does not prove a zero-copy path.
+- Review the MPL-2.0 source and notice duties, and any secondary-license terms, for the actual sink distribution.
 
-No exact Flatpak runtime branch is invented here: T01 selects a supported, non-EOL runtime meeting the native floors and records its branch/commit and extension versions in the manifest. Reject a runtime that cannot meet these floors instead of assuming host libraries fill the gap.
+**Runtime:** no Flatpak branch is named here. T01 picks a supported, non-EOL runtime that meets the native floors. It records the branch, commit, and extension versions in the manifest. Reject a runtime that can't meet the floors. Don't assume host libraries fill the gap.
 
-### Alternatives deliberately not selected initially
+### Alternatives not chosen first
 
-| Alternative | Useful property | Why not first choice / trigger to reconsider |
+| Alternative | Useful property | Why not first / when to reconsider |
 |---|---|---|
-| MLT | Established NLE engine used by Kdenlive/Shotcut; C API | Rust wrapper/ownership work and UI integration; evaluate if GES fails hard-path gate |
-| FFmpeg-only editor engine | Excellent codecs/filtering/offline processing | Interactive seek/cache/timeline/audio scheduling still our responsibility |
-| Custom `wgpu` engine | GPU effect/compositor control | No automatic demux/decode/audio clock; major engineering burden |
-| Tauri + web UI | Web UI iteration and familiar CSS | Large custom timeline/native video bridge; no reason to add browser boundary for this Linux-first product |
-| Qt via Rust bridges | Mature docking/pro-app widgets | Binding/FFI/tooling and licensing choices; reasonable fallback if GTK UI qualification fails |
-| egui/Iced | Rust-led custom UI | Accessibility, IME and complex editor UX still require qualification; not automatically less work |
+| MLT | Established NLE engine behind Kdenlive and Shotcut. C API. | Rust wrapper and ownership work, plus UI integration. Evaluate if GES fails a hard-path gate. |
+| FFmpeg-only engine | Excellent codecs, filters, offline processing | Interactive seek, cache, timeline, and audio scheduling would still be ours. |
+| Custom `wgpu` engine | GPU effect and compositor control | No automatic demux, decode, or audio clock. Large engineering burden. |
+| Tauri and a web UI | Fast UI iteration, familiar CSS | Large custom timeline and native-video bridge. No reason to add a browser boundary for a Linux-first app. |
+| Qt via Rust bridges | Mature docking and pro-app widgets | Binding, FFI, tooling, and licensing choices. Reasonable fallback if GTK fails qualification. |
+| egui or Iced | Rust-first custom UI | Accessibility, IME, and complex editor UX still need qualification. Not automatically less work. |
 
-Do not maintain two shipping authoritative media backends. The T01 decision either accepts GES, funds a specific missing element/offline render path, or changes the backend before downstream implementation. A partial failure is investigated; it is not concealed by an unexplained alternate renderer.
+**Rule:** do not run two authoritative media backends. T01 either accepts GES, funds a specific missing element or offline render path, or changes the backend **before** downstream work. A partial failure is investigated. It is never hidden behind an unexplained alternate renderer.
 
 ## 2. Repository map and ownership
 
-Create a new repository `linux-creator-editor/` only when implementation begins. All paths below are relative to that future repository, **not** the existing `photocraft/` checkout.
+- Create `linux-creator-editor/` only when implementation begins.
+- All paths below are relative to that future repo. **Not** the existing `photocraft/` checkout.
 
 ```text
 Cargo.toml / Cargo.lock / rust-toolchain.toml
@@ -74,41 +97,85 @@ xtask/                        corpus, qualification, package and benchmark orche
 docs/                         ADRs, contributors, formats, parity, user migration guide
 ```
 
-Start only crates needed by T01–T08; the map is not a request to generate empty crates for every future feature. Split a crate when it has a real boundary, tests, and consumers. `lce-core` has no GTK/GES/Python dependencies. `lce-engine` consumes validated immutable core snapshots; it never owns the user's authoritative project. UI uses commands, not engine object mutation.
+**Crate rules:**
 
-One owner reviews core schema/command changes; media, UI and AI contributors consume those contracts. Contributors can work independently on effects, audio, captions and packaging after shared contracts stabilize. Do not parallelize conflicting edits to the same foundational types.
+- Create only the crates T01–T08 need. The map is **not** a request for empty crates for every future feature.
+- Split a crate only when it has a real boundary, tests, and consumers.
+- `lce-core` has **no** GTK, GES, or Python dependencies.
+- `lce-engine` consumes validated, immutable core snapshots. It never owns the authoritative project.
+- The UI sends commands. It never mutates engine objects directly.
+
+**Ownership:**
+
+- One owner reviews core schema and command changes.
+- Media, UI, and AI contributors consume those contracts.
+- After shared contracts stabilize, effects, audio, captions, and packaging can proceed in parallel.
+- Don't parallelize conflicting edits to the same foundational types.
 
 ## 3. Ownership and concurrency
 
-- GTK main thread owns widgets, interaction draft state, command dispatch, and the initial preview GES owner context. Co-locating preview GES control with GTK avoids moving paintables/GTK objects across threads.
-- GES API is explicitly not thread-safe. Construct, change and dispose each GES object on its owning GLib context only. Never add unsafe `Send`/`Sync` implementations to bypass this.
-- Pipeline streaming/decoding already uses native worker threads. Control operations on the main context must be bounded and nonblocking; probing, hashing, file work and long analysis happen elsewhere.
-- If measured GES control calls block the UI, T01 must qualify a dedicated GES owner thread and a supported sink handoff, or an isolated preview worker. Do not guess that raw GTK/GObject pointers can be sent safely.
-- Export runs in a separate process with its own GLib/GES context and immutable project revision, so encoder crashes and slow renders do not freeze editing.
-- CPU workers receive bounded jobs. Resource policy prioritizes preview/audio over proxy creation, inference and export; expensive jobs can pause or reduce concurrency.
-- AI runtimes live in persistent worker processes when startup is expensive. They have explicit input/output capabilities and no authority to mutate the project.
-- Pipeline events carry session/generation IDs. Ignore late events from an old project, seek, engine rebuild or cancelled job.
+- **GTK main thread** owns widgets, draft interaction state, command dispatch, and the initial preview GES owner context. Keeping preview GES control on GTK avoids moving GTK objects across threads.
+- **GES is not thread-safe.** Construct, change, and dispose each GES object only on its owning GLib context. Never add `unsafe impl Send` or `Sync` to get around this.
+- **Streaming and decoding** already run on native worker threads. Control calls on the main context must be bounded and nonblocking. Probing, hashing, file work, and long analysis run elsewhere.
+- **If GES control calls block the UI,** T01 must qualify one of two fixes: a dedicated GES owner thread with a supported sink handoff, or an isolated preview worker. Don't assume raw GTK or GObject pointers can be sent safely.
+- **Export** runs in a separate process, with its own GLib and GES context and an immutable project revision. Encoder crashes and slow renders can't freeze editing.
+- **CPU workers** get bounded jobs. Priority: preview and audio first, then proxy creation, then inference and export. Expensive jobs can pause or reduce concurrency.
+- **AI runtimes** run as persistent worker processes when startup is expensive. They have explicit input and output capabilities. They cannot mutate the project.
+- **Pipeline events** carry session and generation IDs. Ignore late events from an old project, a seek, an engine rebuild, or a cancelled job.
 
-## 4. Time and source mapping contract
+## 4. Time and source mapping
 
-All durable times use normalized rational seconds `{num: i64, den: u32}` with `den > 0`; normalization and range checks occur on deserialization. Use checked i128 intermediates for arithmetic. Reject overflow. Durations and sequence positions are nonnegative; intermediate deltas may be negative.
+### Time rules
 
-- Intervals are **half-open** `[start, end)`. Adjacent clips share a boundary, not a duplicate displayed frame.
-- Sequence rate is rational frames/second, e.g. 30000/1001. Frame n is at `n * 1001 / 30000` seconds. Drop-frame timecode affects labels, not actual frame rate.
-- Audio is addressed in sample indices at its processing rate. Quantize once at defined boundaries, never by repeated float addition.
-- Source VFR video uses actual PTS and duration metadata. Select the source frame whose presentation interval covers the mapped source time; do not treat average frame rate as a frame index oracle.
-- Conversion to GStreamer nanoseconds occurs at the engine boundary using an explicit rounding policy. Export frames are scheduled from rational output frame indices, not accumulated nanosecond steps.
-- At a requested non-frame-aligned video out point, show the resulting rounded frame interval before export. The chosen contract is start rounded down and end rounded up to the selected export grid; exact source/audio ranges remain preserved in the project.
+- **Durable times:** normalized rational seconds `{num: i64, den: u32}`, with `den > 0`. Normalization and range checks run on deserialization.
+- **Arithmetic:** checked `i128` intermediates. Reject overflow.
+- **Signs:** durations and sequence positions are nonnegative. Intermediate deltas may be negative.
+- **Intervals:** half-open `[start, end)`. Adjacent clips share a boundary, not a duplicate displayed frame.
+- **Sequence rate:** rational frames per second, e.g. 30000/1001. Frame *n* is at `n * 1001 / 30000` seconds.
+- **Drop-frame timecode** changes labels, not the actual frame rate.
+- **Audio** is addressed in sample indices at its processing rate. Quantize once at defined boundaries. Never by repeated float addition.
 
-A clip stores placement, visible duration, source reference, source stream selection, and a time map. For constant forward rate `r`, `source(t) = source_in + r * local_t`. A speed ramp integrates a positive rate curve into a monotonic source mapping with documented interpolation and bounded numeric error. Reverse segments map decreasing source time explicitly. Freeze segments map every output time to one chosen source frame.
+### Source video
 
-Keyframe time domains are explicit: clip-output local time by default; source-time only for tracking/matting analysis tied to the original media. Sequence effects use sequence time. Moving a clip does not retime clip-local animation; trimming exposes a different portion according to the trim contract. A split divides the time map and animation without discontinuity.
+- **VFR video:** use actual PTS and duration metadata.
+- **Frame selection:** pick the source frame whose presentation interval covers the mapped source time.
+- **Never** treat average frame rate as a frame-index oracle.
 
-For multicamera/nesting, child sequence time is mapped through the parent's time map. Cycles are invalid. Bound nesting depth (initial limit 32) and total expansion cost to prevent malformed-project resource exhaustion.
+### Engine boundary
+
+- Convert to GStreamer nanoseconds only at the engine boundary, with an explicit rounding policy.
+- Schedule export frames from rational output frame indices. Never from accumulated nanosecond steps.
+- **Non-frame-aligned out point:** show the rounded frame interval before export. Contract: start rounds down, end rounds up, to the selected export grid. Exact source and audio ranges stay preserved in the project.
+
+### Time maps
+
+A clip stores: placement, visible duration, source reference, source stream selection, and a time map.
+
+- **Constant forward rate** `r`: `source(t) = source_in + r * local_t`.
+- **Speed ramp:** integrate a positive rate curve into a monotonic source mapping. Use documented interpolation and bounded numeric error.
+- **Reverse:** map decreasing source time explicitly.
+- **Freeze:** map every output time to one chosen source frame.
+
+### Keyframes
+
+- **Default domain:** clip-output local time.
+- **Source time:** only for tracking and matting analysis tied to the original media.
+- **Sequence effects:** sequence time.
+- **Moving a clip** does not retime clip-local animation.
+- **Trimming** exposes a different part of the source, per the trim contract.
+- **Split:** divides the time map and the animation with no discontinuity.
+
+### Nesting
+
+- Map child-sequence time through the parent's time map.
+- **Cycles are invalid.**
+- **Depth limit:** 32. Also bound total expansion cost. This stops malformed projects from exhausting resources.
 
 ## 5. Project model and format
 
-Project folders use suffix `.lceproj/` with the following conceptual layout:
+### Layout
+
+Project folders use the suffix `.lceproj/`:
 
 ```text
 project.json                 authoritative durable snapshot
@@ -118,127 +185,242 @@ media/                       only assets explicitly collected into the project
 analysis/                    accepted derived assets required for reproducible output
 ```
 
-Disposable proxies/thumbnails/search indices live under the user's cache directory and can be regenerated. User-selected local model directories are separate; project archives reference model identity/provenance but do not silently bundle multi-gigabyte model weights.
+- **Disposable** proxies, thumbnails, and search indices live in the user's cache directory. They can be regenerated.
+- **Model directories** are chosen by the user, kept separate. Project archives reference model identity and provenance. They do **not** silently bundle multi-gigabyte weights.
 
-Required manifest fields: schema version, project ID, revision, title, timestamps, sequence list, asset list, captions/styles, effect references, default export profiles and required feature versions. UI pane geometry and transient job progress are not project truth.
+### Manifest fields
 
-Core entities:
+Schema version, project ID, revision, title, timestamps, sequence list, asset list, captions and styles, effect references, default export profiles, and required feature versions.
 
-| Entity | Required data / invariant |
+**Not project truth:** UI pane geometry and transient job progress.
+
+### Core entities
+
+| Entity | Required data and invariant |
 |---|---|
-| Asset | Stable ID, relative/portal/local locator, content hash state, stream descriptors, original metadata, provenance |
-| Sequence | ID, dimensions, rational frame rate, audio rate/layout, color policy, ordered tracks, range markers |
-| Track | ID, kind, name, layer order, lock/mute/visibility, clips; visual ordering maps explicitly to compositor z-order |
-| Clip | ID, asset/child-sequence/generator reference, placement, duration, source map, enabled streams, effects, animation |
-| Link | Explicit relationship kind and members/anchor; no dangling IDs |
-| Effect | Stable type ID, semantic version, typed parameters, enabled state, input/output requirements |
-| Caption | Text, interval, optional timed words, language/speaker, style, provenance and review state |
-| Derived asset | Input hashes/ranges, operation/settings/model hash, output hash, semantic version |
-| Export job snapshot | Project revision/hash, range, profile, dependency hashes and destination policy |
+| Asset | Stable ID. Relative, portal, or local locator. Content hash state. Stream descriptors. Original metadata. Provenance. |
+| Sequence | ID, dimensions, rational frame rate, audio rate and layout, color policy, ordered tracks, range markers |
+| Track | ID, kind, name, layer order, lock/mute/visibility, clips. Visual order maps explicitly to compositor z-order. |
+| Clip | ID, asset or child-sequence or generator reference, placement, duration, source map, enabled streams, effects, animation |
+| Link | Explicit relationship kind, members, and anchor. **No dangling IDs.** |
+| Effect | Stable type ID, semantic version, typed parameters, enabled state, input and output requirements |
+| Caption | Text, interval, optional timed words, language, speaker, style, provenance, review state |
+| Derived asset | Input hashes and ranges, operation, settings, model hash, output hash, semantic version |
+| Export job snapshot | Project revision and hash, range, profile, dependency hashes, destination policy |
 
-JSON schemas are produced alongside typed serialization and example projects. Unknown future schema versions open read-only with export blocked if semantics are unknown. Preserve an original copy before migration. Migrations are deterministic, backed up and tested in both ordinary and interrupted-save scenarios; do not pretend downgrade is always possible.
+### Schemas and migrations
+
+- JSON schemas are generated alongside typed serialization and example projects.
+- **Unknown future version:** open read-only. Block export if the semantics are unknown.
+- **Before migrating:** keep an original copy.
+- Migrations are deterministic, backed up, and tested in both normal and interrupted-save runs.
+- **Don't promise** that downgrade is always possible.
 
 ### Durable saves and recovery
 
-1. Validate a command against current revision and invariants.
-2. Compute its forward/inverse operations; commit one in-memory revision.
-3. Append a length/checksum-delimited journal record (JSONL payload plus verifiable framing fields). Batch fsync within a bounded interval; UI indicates whether the latest revision is durable.
-4. Snapshot to a temporary file in the same filesystem; flush file, atomically rename, flush parent directory where supported.
-5. Record the snapshot revision before rotating old journal segments; replay skips already included revisions.
-6. Startup recovery validates records in order and stops at an incomplete/corrupt suffix; it never guesses missing commands.
+1. Validate the command against the current revision and invariants.
+2. Compute its forward and inverse operations. Commit one in-memory revision.
+3. Append a length- and checksum-delimited journal record (JSONL payload plus verifiable framing). Batch fsync within a bounded interval. The UI shows whether the latest revision is durable.
+4. Snapshot to a temp file on the same filesystem. Flush the file, atomically rename, then flush the parent directory where supported.
+5. Record the snapshot revision **before** rotating old journal segments. Replay skips revisions already included.
+6. On startup, validate records in order. Stop at an incomplete or corrupt suffix. **Never guess missing commands.**
 
-Manual Save forces durability. Autosave target is at most two seconds of edit loss after a hard process crash on supported local storage; this is a measured target, not a guarantee for failing hardware/network filesystems. Single-writer project lock prevents two independent processes from interleaving journals. Opening a locked project offers read-only or a separately named copy.
+**Targets:**
 
-## 6. Commands, undo and engine boundary
+- **Manual Save** forces durability.
+- **Autosave:** at most 2 seconds of edit loss after a hard crash on supported local storage. This is a measured target, not a guarantee on failing hardware or network filesystems.
+- **Single-writer lock:** stops two processes from interleaving journals.
+- **Opening a locked project:** offer read-only, or a separately named copy.
 
-Commands use stable IDs and domain values, not widget indexes or GES handles. Initial command set: ImportAsset, InsertClip, MoveClips, TrimClip, SplitClips, DeleteClips, SetProperty, SetKeyframe, LinkItems, SetTrackState, SetSequenceSettings. Later tasks add typed commands for their entities.
+## 6. Commands, undo, and the engine
 
-Every edit transaction carries expected project revision. Validation returns either an atomic edit plus inverse or a structured error identifying affected entities. Stale revisions are rejected/recomputed by the owner; no last-writer-wins mutation of a live local project.
+### Commands
 
-Undo restores edited model state, not the entire OS world: deleting a generated file outside the app is not undone by restoring its reference. Own generated/collected media remains retained while reachable by active project or bounded undo history. Undoing import does not delete the user's original source.
+- Use stable IDs and domain values. Never widget indexes or GES handles.
+- **Initial set:** ImportAsset, InsertClip, MoveClips, TrimClip, SplitClips, DeleteClips, SetProperty, SetKeyframe, LinkItems, SetTrackState, SetSequenceSettings.
+- Later tasks add typed commands for their own entities.
 
-Engine requests: LoadSnapshot, ApplyValidatedDelta, Seek(target, generation), SetTransport, SetPreviewQuality, QueryCapabilities. Engine events: Ready, FramePresented(timestamp/generation), Position, Buffering, Ended, Warning, Error. A delta is an optimization; LoadSnapshot is the correctness fallback after divergence. Do not recompile the whole timeline on every pointer movement.
+**Transactions:** each edit carries the expected project revision. Validation returns either an atomic edit plus its inverse, or a structured error naming the affected entities. Stale revisions are rejected or recomputed by the owner. **No last-writer-wins** on a live local project.
 
-A `RenderPlan` is an immutable, validated schedule compiled from a project revision and export profile. It resolves assets, source maps, effects, color transforms and output timing. Preview uses the same semantic compiler with preview-quality substitutions that are explicitly identified; export uses originals and full-quality operators.
+### Undo
+
+- Undo restores **edited model state**. It does not restore the whole OS.
+- Deleting a generated file outside the app is not undone by restoring a reference to it.
+- Own generated and collected media stays while the active project or the bounded undo history still references it.
+- Undoing an import does not delete the user's original source.
+
+### Engine protocol
+
+- **Requests:** LoadSnapshot, ApplyValidatedDelta, Seek(target, generation), SetTransport, SetPreviewQuality, QueryCapabilities.
+- **Events:** Ready, FramePresented(timestamp, generation), Position, Buffering, Ended, Warning, Error.
+- **Deltas** are an optimization. **LoadSnapshot** is the correctness fallback after any divergence.
+- **Never** recompile the whole timeline on every pointer move.
+
+### RenderPlan
+
+A `RenderPlan` is an immutable, validated schedule compiled from one project revision and one export profile. It resolves assets, source maps, effects, color transforms, and output timing.
+
+- **Preview** uses the same semantic compiler, with preview-quality substitutions that are explicitly labeled.
+- **Export** uses originals and full-quality operators.
 
 ## 7. Media pipeline
 
-### Import/discovery
+### Import and discovery
 
-Probe in a worker with timeout/resource limits. Record stream choice, sample aspect, rotation, duration uncertainty, VFR, color metadata, HDR tags, audio channel layout and decoder capability. Unknown/malformed input yields an actionable error; filenames and metadata are untrusted text.
+- Probe in a worker, with a timeout and resource limits.
+- Record: stream choice, sample aspect ratio, rotation, duration uncertainty, VFR, color metadata, HDR tags, audio channel layout, decoder capability.
+- Unknown or malformed input returns an actionable error.
+- **Filenames and metadata are untrusted text.**
 
-Use fast identity metadata for immediate UI; compute content hashes in background. Do not claim a file-size/mtime key is a permanent content identity. Invalidate cached work when hashes or decode semantics differ. Thumbnail jobs include orientation and color interpretation in their cache key.
+**Identity:**
 
-### Proxy strategy
+- Use fast identity metadata for instant UI. Compute content hashes in the background.
+- **Never** treat file size and mtime as permanent content identity.
+- Invalidate cached work when hashes or decode semantics change.
+- Thumbnail cache keys include orientation and color interpretation.
 
-Offer automatic proxy suggestion, not silent destructive conversion. Use a qualified intraframe or short-GOP profile chosen by disk/speed benchmarks; do not assume one codec is best everywhere. Proxy manifest maps source PTS to proxy PTS and carries rotation/color handling. VFR proxies require mapping, not approximate duration matching.
+### Proxies
 
-Export originals by default. If originals are missing, block or require an explicit lower-quality proxy export with a visible warning. Never label proxy-rendered output original quality.
+- **Offer** an automatic proxy suggestion. Never silent destructive conversion.
+- Use a qualified intraframe or short-GOP profile, chosen by disk and speed benchmarks. No single codec is best everywhere.
+- The proxy manifest maps source PTS to proxy PTS. It carries rotation and color handling.
+- VFR proxies need **mapping**, not approximate duration matching.
+
+**Export rules:**
+
+- Export originals by default.
+- If originals are missing: block, or require an explicit lower-quality proxy export with a visible warning.
+- **Never** label proxy output as original quality.
 
 ### Playback
 
-Audio pipeline clock is master during ordinary AV playback. Video frames are scheduled against it; dropped frames are counted, not hidden. Frame-step while paused must present the requested output frame. Rapid seeks are coalesced; stale completions cannot move the playhead backward.
-
-Hardware decode/encode is selected by capability probing and tested actual output, with visible software fallback. GPU availability does not imply codec/profile support. DMA-BUF negotiation includes format/modifier/planes/strides, GL context compatibility, and compositor support. Copy paths remain supported; profiling determines whether zero-copy actually occurs.
+- The **audio pipeline clock** is the master during normal AV playback. Video is scheduled against it. Dropped frames are counted, not hidden.
+- Frame-step while paused must show the requested output frame.
+- Rapid seeks are coalesced. Stale completions can't move the playhead backward.
+- **Hardware decode and encode:** chosen by capability probing and tested output, with a visible software fallback. GPU presence does not imply codec or profile support.
+- **DMA-BUF** negotiation covers format, modifier, planes, strides, GL context compatibility, and compositor support.
+- Copy paths stay supported. Profiling decides whether zero-copy actually happens.
 
 ### Effects and color
 
-Start with qualified native elements and small Rust GStreamer operators where needed. Define effect semantics and parameter units once. Do not add an unrelated `wgpu` compositor merely to make the stack sound more Rust-centric.
+- Start with qualified native elements. Add small Rust GStreamer operators where needed.
+- Define each effect's semantics and parameter units once.
+- **Don't** add an unrelated `wgpu` compositor just to sound more Rust-centric.
 
-Processing policy: explicit input transfer/range/primaries/matrix; geometry and compositing in a documented working space; alpha is consistently premultiplied at compositor boundaries; output transform is explicit. P: start SDR Rec.709 with clearly tagged sRGB still-image conversion. Qualify linear-light versus display-referred operators individually rather than blanket claiming all filters are physically correct.
+**Processing policy:**
 
-HDR input detection and explicit SDR tone-map choice are required before accepting HDR phone media. Full HDR output, 10-bit pipelines, display color management, PQ/HLG metadata and scopes are separate T16/T32 acceptance cases; unsupported HDR export must not be silently labeled HDR.
+- Explicit input transfer, range, primaries, and matrix.
+- Geometry and compositing in a documented working space.
+- Alpha is premultiplied consistently at compositor boundaries.
+- Explicit output transform.
+- **Proposed:** start with SDR Rec.709. Use a clearly tagged sRGB still-image conversion.
+- Qualify linear-light versus display-referred operators **one by one**. Don't claim all filters are physically correct.
+
+**HDR:**
+
+- HDR input detection and an explicit SDR tone-map choice are required before HDR phone media is accepted.
+- Full HDR output, 10-bit pipelines, display color management, PQ and HLG metadata, and scopes are separate T16 and T32 acceptance cases.
+- Unsupported HDR export must **never** be labeled HDR.
 
 ### Export
 
-Export process probes all dependencies before allocating a destination. Render to job-owned temporary file; drain pipeline/muxer, verify decoded stream timing and expected frame count, then publish. Validate encoder priming/trailing samples separately from container duration; a container's duration field is not enough to establish exactness.
+- The export process probes every dependency **before** allocating the destination.
+- Render to a job-owned temp file. Drain the pipeline and muxer. Verify decoded timing and the expected frame count. Then publish.
+- Check encoder priming and trailing samples separately from container duration. The container duration field alone does not prove exactness.
 
-Profiles list required encoder/parser/muxer elements. Baseline open profiles include WebM VP9/Opus where available; MP4 H.264/AAC is an important usability target but must pass legal/build/runtime qualification. Codec patents are separate from FOSS license compatibility. Never use a nonredistributable FFmpeg build in an official package.
+**Profiles** list the required encoder, parser, and muxer elements.
 
-## 8. Job/AI protocol
+- **Baseline open profiles:** WebM VP9 and Opus, where available.
+- **MP4 H.264 and AAC:** an important usability target. Must pass legal, build, and runtime qualification.
+- Codec patents are separate from FOSS license compatibility.
+- **Never** ship a non-redistributable FFmpeg build in an official package.
 
-A job has ID, kind, input asset hashes and ranges, parameter schema version, model/runtime identity, resource estimate, permission set, cancellation token and output directory. States: queued → preparing → running → validating → ready; terminal alternatives failed/cancelled. Downloading is a distinct preparatory state.
+## 8. Job and AI protocol
 
-Workers communicate versioned JSON control messages over a local pipe/socket; large data is passed through capability-limited files or shared buffers, not base64 frame dumps. Enforce message size, schema and path bounds. Validate worker output duration/dimensions/timestamps/hash before presenting it for application.
+### Jobs
 
-Results do not directly mutate the project. User acceptance submits a command with source identity and revision expectations. If the clip has changed, offer recompute or retain result as unattached media; do not apply stale tracking coordinates or transcript cuts to new footage.
+- **Fields:** ID, kind, input asset hashes and ranges, parameter schema version, model and runtime identity, resource estimate, permission set, cancellation token, output directory.
+- **States:** queued → preparing → running → validating → ready.
+- **Terminal alternatives:** failed, cancelled.
+- **Downloading** is a separate preparatory state.
 
-Model manifest records: exact artifact URL/hash, code license, weight license, tokenizer/vocoder/voice licenses, redistribution rights, commercial-use rights, attribution, language coverage, hardware/runtime requirements, precision/quantization, measured benchmarks and known limitations. No remote code execution from model metadata; prefer safe weight formats but still validate resource bounds.
+### Worker messages
+
+- Versioned JSON control messages over a local pipe or socket.
+- Large data goes through capability-limited files or shared buffers. **Not** base64 frame dumps.
+- Enforce bounds on message size, schema, and paths.
+- Validate worker output (duration, dimensions, timestamps, hash) **before** showing it.
+
+### Accepting results
+
+- Results never mutate the project directly.
+- User acceptance submits a command with the source identity and revision expectations.
+- If the clip changed: offer a recompute, or keep the result as unattached media.
+- **Never** apply stale tracking coordinates or transcript cuts to new footage.
+
+### Model manifest
+
+Each model records:
+
+- Exact artifact URL and hash.
+- Code license, weight license, and tokenizer, vocoder, and voice licenses.
+- Redistribution and commercial-use rights.
+- Attribution, language coverage, hardware and runtime needs.
+- Precision or quantization. Measured benchmarks. Known limits.
+
+**Rules:** no remote code execution from model metadata. Prefer safe weight formats. Still validate resource bounds.
 
 ## 9. Local AI candidates and license gates
 
-These are researched candidates, not prequalified dependencies. Recheck exact versions/artifacts before download or distribution.
+These are **researched candidates**, not prequalified dependencies. Recheck exact versions and artifacts before any download or distribution.
 
 | Capability | Candidate | Required caution |
 |---|---|---|
-| Captions | whisper.cpp + selected Whisper checkpoint | Runtime license and checkpoint license recorded independently; word timings need evaluation |
-| Alignment/diarization | WhisperX / separate aligner / pyannote variant | Multiple model terms and download gates; diarization not identity recognition |
-| Speech cleanup | DeepFilterNet | Exact checkpoint rights and algorithmic latency; compensate lookahead |
-| Separation | Demucs-family model | Maintenance status and weight terms; preserve temporal alignment |
-| Segmentation/tracking | SAM2 | Apache-2.0 code/checkpoints stated upstream; segmentation is not high-quality alpha matting |
-| Human matting | Robust Video Matting | GPL code; exact weight redistribution needs explicit confirmation |
-| Interpolation | RIFE / ncnn implementation | Exact implementation and checkpoint licenses; occlusion/cut artifacts |
-| Upscale | Real-ESRGAN | BSD code does not by itself license every checkpoint |
-| TTS | Kokoro-82M or Piper | Kokoro checkpoint Apache-2.0; voices/phonemizers separately; Piper voices have individual terms |
-| Translation | Qualified OPUS-MT language pairs | Pair-specific model license and quality, not a blanket language guarantee |
-| Voice cloning | OpenVoice-compatible qualified stack | Consent, impersonation safeguards, dependent model/vocoder rights |
-| Local generation | Exact Apache-licensed Wan checkpoint candidate | Heavy GPU cost, temporal/quality limits; upstream benchmark not ours |
+| Captions | whisper.cpp plus a selected Whisper checkpoint | Record the runtime license and the checkpoint license separately. Word timings need evaluation. |
+| Alignment and diarization | WhisperX, a separate aligner, or a pyannote variant | Multiple model terms and download gates. Diarization is not identity recognition. |
+| Speech cleanup | DeepFilterNet | Exact checkpoint rights and algorithmic latency. Compensate for lookahead. |
+| Separation | Demucs family | Maintenance status and weight terms. Preserve temporal alignment. |
+| Segmentation and tracking | SAM2 | Apache-2.0 code and checkpoints, as stated upstream. Segmentation is **not** high-quality alpha matting. |
+| Human matting | Robust Video Matting | GPL code. Exact weight redistribution needs explicit confirmation. |
+| Interpolation | RIFE or an ncnn implementation | Exact implementation and checkpoint licenses. Occlusion and cut artifacts. |
+| Upscale | Real-ESRGAN | BSD code does not by itself license every checkpoint. |
+| TTS | Kokoro-82M or Piper | Kokoro checkpoint is Apache-2.0. Voices and phonemizers have separate terms. Piper voices have individual terms. |
+| Translation | Qualified OPUS-MT language pairs | License and quality per pair. Not a blanket language guarantee. |
+| Voice cloning | An OpenVoice-compatible qualified stack | Consent, impersonation safeguards, and the rights of dependent models and vocoders. |
+| Local generation | An exact Apache-licensed Wan checkpoint candidate | Heavy GPU cost, and temporal and quality limits. The upstream benchmark is not ours. |
 
-Do not put NLLB noncommercial weights, XTTS CPML weights/outputs, or revenue-restricted LTX checkpoints into an unrestricted official FOSS model pack. Optional external integrations must disclose their separate service terms; they are not part of a claim that the entire remote service is open source.
+**Exclusions:** do not put NLLB noncommercial weights, XTTS CPML weights or outputs, or revenue-restricted LTX checkpoints into an unrestricted official FOSS model pack.
 
-## 10. Licensing and provenance architecture
+**External integrations** must disclose their separate service terms. Calling a remote service does not make that service open source.
 
-Keep application GPL, third-party library licenses, model weights, sample media and generated output rights separate in the manifest. Use original or CC0 samples; OFL fonts only after checking redistribution/name clauses; original assets can use CC-BY-4.0 with attribution, while code remains GPL. No mandatory CLA or copyright assignment; DCO records contributor attestation but does not replace asset review.
+## 10. Licensing and provenance
 
-The GPL covers distributed program code, not automatically a user's exported video. Particular source media, music, templates, voices or model terms can still affect output rights. The UI must expose those terms without making a false blanket “commercially safe” promise.
+- Keep these separate in the manifest: app GPL, third-party library licenses, model weights, sample media, and generated-output rights.
+- **Samples:** original or CC0. OFL fonts only after checking redistribution and name clauses.
+- **Original assets** can use CC-BY-4.0 with attribution. Code stays GPL.
+- **No** mandatory CLA or copyright assignment.
+- **DCO** records contributor attestation. It does **not** replace asset review.
 
-Record dependency source, version, build flags, license/notice locations and source offer in the SBOM. FFmpeg `--enable-gpl` and codec-library choices affect obligations; `--enable-nonfree` may make resulting binaries unredistributable. Packaging is a release gate, not an afterthought.
+**Output rights:**
+
+- The GPL covers distributed program code. It does not automatically cover a user's exported video.
+- Source media, music, templates, voices, or model terms can still affect output rights.
+- The UI must show those terms. It must **not** make a blanket "commercially safe" promise.
+
+**Packaging:**
+
+- Record each dependency's source, version, build flags, license and notice locations, and source offer in the SBOM.
+- FFmpeg `--enable-gpl` and codec-library choices change the obligations.
+- `--enable-nonfree` can make the binary non-redistributable.
+- Packaging is a release gate, not an afterthought.
 
 ## 11. Interchange and optional services
 
-- Native projects are authoritative. OTIO transfers editorial structure with a machine-readable loss report for effects, text, speed maps or nesting that the selected adapter cannot represent.
-- SRT/VTT preserve timings/text but not all styling or word animation. Warn before lossy export; never overwrite native captions with round-tripped simplified files.
-- CapCut draft import is a bounded adapter for legally readable supported versions. Preserve original files; reject unsupported/encrypted input with explanation. No promise of universal import or export back to CapCut.
-- Sync uses immutable revision snapshots and content-addressed assets, not concurrent synchronization of a live journal directory. Offline concurrent changes initially branch and merge explicitly.
-- Review comments anchor to revision/sequence/time range. Simultaneous collaborative editing requires a server-ordered operation log or qualified merge algorithm and separate tests; basic file sync is not collaboration.
-- Self-hostable services are optional. API credentials live in the OS secret store. Access control and signed download capabilities apply to every asset request. Local mode works if services disappear.
+- **Native projects are authoritative.**
+- **OTIO** carries editorial structure. Ship a machine-readable loss report for effects, text, speed maps, or nesting the adapter can't represent.
+- **SRT and VTT** keep timing and text. They lose styling and word animation. Warn before a lossy export. Never overwrite native captions with a simplified round-trip.
+- **CapCut draft import** is a bounded adapter for legally readable, supported versions. Keep the original file. Reject unsupported or encrypted input, and explain why. **No** promise of universal import or export back to CapCut.
+- **Sync** uses immutable revision snapshots and content-addressed assets. **Not** concurrent sync of a live journal directory. Offline concurrent changes branch first, then merge explicitly.
+- **Review comments** anchor to a revision, sequence, and time range.
+- **Simultaneous editing** needs a server-ordered operation log or a qualified merge algorithm, plus its own tests. Basic file sync is not collaboration.
+- **Self-hosted services** are optional. API credentials live in the OS secret store. Access control and signed download capabilities apply to every asset request. Local mode works if the services disappear.

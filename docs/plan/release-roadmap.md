@@ -1,184 +1,291 @@
-# t-cut Release Roadmap and MVP Implementation Plan
+# t-cut Release Roadmap
 
-> **For agentic workers:** Execute the work packages in [implementation.md](implementation.md), following their dependencies and the release slices below. Checkbox steps represent future implementation, not completed work.
+> **Planning only.** Nothing in this file is built. Versions are capability gates, not dates. Planning baseline: **2026-10-12**.
 
-**Goal:** Ship a free/open-source Linux video editor whose whole application feels familiar to CapCut Desktop users, then expand its tools through evidence-gated releases.
-**Architecture:** Rust owns project state, time and commands; GTK4 renders the desktop interface; one qualified native media backend supplies playback/rendering. Local editing does not depend on accounts, hosted services or AI models.
-**Tech Stack:** Rust 2024, GTK4/GLib, GStreamer/GES subject to qualification, open versioned projects, isolated export/model workers and Flatpak.
-**Spec:** [product-spec.md](product-spec.md), [UI contract](ui-contract.md), [screenshot-backed fidelity contract](../research/fidelity-contract.md).
+## At a glance
 
-Finalized planning baseline: **2026-10-12**. This document controls version boundaries where older milestone wording differs. It does not certify implementation, backend fitness, trademark clearance or exact current CapCut compatibility.
+- **Now:** Phase 0, engine qualification. There is no public editor yet.
+- **First public target:** v0.1, a simple local video editor. Make, edit, save, export.
+- **Not promised:** release dates, full CapCut parity, or AI features without verified model rights.
+- **Next step:** T01 from the [starter plan](starter-plan.md).
 
-## Global Constraints
+**Related:** [product spec](product-spec.md) · [UI contract](ui-contract.md) · [fidelity contract](../research/fidelity-contract.md) · [work packages](implementation.md) · [architecture](architecture.md) · [sources](sources.md)
 
-- Free, open-source, offline-capable core; no mandatory account, subscription, watermark, ads or paid feature unlocks.
-- Primarily Rust does not mean every codec, GUI library and inference runtime must be pure Rust.
-- Save/recovery, correct timing, undo and preview/export equivalence are foundational requirements.
-- No hidden cloud fallback, silent loss of effects, counterfeit output, or unmeasured quality/performance claims.
-- Whole-application familiarity starts in the MVP: Home, project lifecycle, editor, settings, recovery and export, not just a generic timeline.
-- GPL-3.0-or-later is the selected application-license baseline; audit every dependency, model and asset before redistribution. No extra noncommercial restriction is added to the GPL.
-- The name is **t-cut**. Earlier `lce-*` identifiers are internal future-crate names, not a second public product. Do not modify PhotoCraft to bootstrap this editor.
+<details>
+<summary><strong>Project basics</strong></summary>
+
+- **Goal:** a free, open-source Linux video editor whose whole app feels familiar to CapCut Desktop users. Then expand its tools through evidence-gated releases.
+- **Architecture:** Rust owns project state, time, and commands. GTK4 draws the interface. One qualified native media backend handles playback and rendering. Local editing does not need accounts, hosted services, or AI models.
+- **Tech stack:** Rust 2024, GTK4/GLib, GStreamer/GES (subject to qualification), open versioned projects, isolated export and model workers, Flatpak.
+- **Agents:** execute the work packages in [implementation.md](implementation.md), following their dependencies. Checkboxes in this file are future work, not completed work.
+
+</details>
+
+> **This file does not claim:** a working implementation, a backend that fits, trademark clearance, or exact current CapCut compatibility.
+
+## Global constraints
+
+- Free, open-source, offline-capable core.
+- No mandatory account, subscription, watermark, ads, or paid feature unlocks.
+- "Mostly Rust" does not mean every codec, GUI library, or inference runtime must be pure Rust.
+- Save and recovery, correct timing, undo, and preview/export match are foundations, not extras.
+- No hidden cloud fallback, silent loss of effects, fake output, or unmeasured quality or performance claims.
+- Whole-app familiarity starts in the MVP: Home, project lifecycle, editor, settings, recovery, and export. Not just a generic timeline.
+- License: GPL-3.0-or-later. Audit every dependency, model, and asset before redistribution. No extra noncommercial limit is added to the GPL.
+- The name is **t-cut**. Earlier `lce-*` names are internal future-crate names, not a second product. Do not modify PhotoCraft to bootstrap this editor.
 
 ## 1. Version scope in plain language
 
-Versions are capability gates, not dates or promises about how quickly development will finish. An unmet required capability blocks that release; optional capabilities remain visibly tracked rather than silently disappearing.
+Versions are capability gates. An unmet required capability blocks that release. Optional capabilities stay visibly tracked. They are never silently dropped.
 
-| Version | Meaning | User-visible additions | Required proof |
-|---|---|---|---|
-| Engineering qualification, not a public editor | Prove the chosen foundation works | Real GTK window playing and exporting known media; investigate retime/nesting/color hard paths | T01 output, frame/sample checks, ownership and codec/license inventory; select one backend |
-| **v0.1 — MVP / local alpha** | Make and save a simple video | Familiar Home; create/open/manage projects; import; multitrack trim/split/move; basic canvas/transform, static text, music volume/fades; save/recovery/relink; actual export | Complete MVP journey below, UI acceptance at shipped scope, installed offline package and output inspection |
-| **v0.2 — Everyday editing alpha** | Make ordinary editing faster and more predictable | Full snap/magnet/link controls; complete static geometry; richer static text/audio; manual captions and SRT/VTT | Mode/lock/undo scenarios, typography and audio boundaries, subtitle round trips |
-| **v0.3 — Creator beta** | Build polished edits with animation and composition | Keyframes/easing, speed/reverse/freeze, compounds, transitions, masks/chroma, color/LUTs/scopes, deterministic effects, animated text, advanced mixing, recording, original templates/covers, richer export, optional qualified auto captions and OTIO | Applicable W01–W10, preview/export comparison, recovery, installed-package and accessibility gates |
-| **v0.4 — Local AI beta** | Optional assistance without giving up control | Translation/transcript editing, tracking/reframe/stabilization, matting/removal, audio cleanup/separation, beats, licensed TTS/dubbing, highlights/storyboards, restoration | Exact model rights and language/hardware matrix, cancellation, reviewed nondestructive application and offline installed-model scenarios |
-| **v1.0 — Stable local editor** | Recommend the supported local workflows for regular use | Stabilize and document qualified local features; no requirement to invent unavailable AI rights or hidden services | No unresolved release-blocking data loss, timing, security, rights or supported-workflow defects; measured support matrix and migrations |
-| **Post-1.0 ecosystem releases** | Extend beyond a single local editor | Qualified generation/avatars, broader draft interoperability, optional self-hosted sync/review/collaboration and authorized publishing | Independent rights, representative fixtures, conflict resolution, credentials/approval and operating policy |
+### Engineering qualification (not a public editor)
 
-A v1.0 local-editor release is **not** a declaration that every CapCut service or catalog has been reproduced. Failed model/provider qualification remains a named unavailable capability with an owner and prerequisite. Deterministic local editing never secretly depends on it.
+- **Goal:** prove the foundation works.
+- **Adds:** a real GTK window that plays and exports known media. Investigate the hard paths: retime, nesting, color.
+- **Proof:** T01 output, frame and sample checks, ownership and codec or license inventory. Select one backend.
+
+### v0.1: MVP, local alpha
+
+- **Goal:** make and save a simple video.
+- **Adds:** familiar Home. Create, open, and manage projects. Import. Multitrack trim, split, and move. Basic canvas and transform. Static text. Music volume and fades. Save, recovery, relink. Real export.
+- **Proof:** the full MVP workflow (section 2), UI acceptance at shipped scope, an installed offline package, and output inspection.
+
+### v0.2: Everyday editing, alpha
+
+- **Goal:** ordinary editing that is faster and more predictable.
+- **Adds:** full snap, magnet, and link controls. Complete static geometry. Richer static text and audio. Manual captions. SRT and VTT.
+- **Proof:** mode, lock, and undo scenarios. Typography and audio boundaries. Subtitle round trips.
+
+### v0.3: Creator beta
+
+- **Goal:** polished edits with animation and composition.
+- **Adds:** keyframes and easing. Speed, reverse, freeze frames. Compounds. Transitions. Masks and chroma key. Color, LUTs, scopes. Deterministic effects. Animated text. Advanced mixing. Recording. Original templates and covers. Richer export. Optional qualified auto captions. OTIO.
+- **Proof:** applicable W01 to W10 workflows, preview and export comparison, recovery, installed-package and accessibility gates.
+
+### v0.4: Local AI beta
+
+- **Goal:** optional assistance that keeps you in control.
+- **Adds:** translation and transcript editing. Tracking, reframe, stabilization. Matting and removal. Audio cleanup and separation. Beat detection. Licensed TTS and dubbing. Highlights and storyboards. Restoration.
+- **Proof:** exact model rights. A language and hardware matrix. Cancellation. Reviewed, non-destructive application. Offline installed-model scenarios.
+
+### v1.0: Stable local editor
+
+- **Goal:** recommend the supported local workflows for regular use.
+- **Adds:** stabilized, documented local features. No need to invent AI rights or hidden services.
+- **Proof:** no unresolved release-blocking defects in data loss, timing, security, rights, or supported workflows. A measured support matrix. Migrations.
+
+### Post-1.0 releases
+
+- **Goal:** reach beyond one local editor.
+- **Adds:** qualified generation and avatars. Broader draft interoperability. Optional self-hosted sync, review, and collaboration. Authorized publishing.
+- **Proof:** independent rights, representative fixtures, conflict resolution, credentials and approval, and an operating policy.
+
+> **Not a claim:** a v1.0 local editor does not reproduce every CapCut service or catalog. A failed model or provider qualification stays a named unavailable capability, with an owner and a prerequisite. Local editing never secretly depends on it.
 
 ## 2. Exact v0.1 boundary
 
 ### Included
 
-- Home with an empty and populated Projects view; create/open/recent, rename, independent duplicate, safe Trash/Restore and return Home.
-- Familiar editor structure from screenshot cohort A: horizontal left-panel tool categories, inner category list, Player, contextual inspector and full-width timeline. Original branding/assets; no Pro/login clutter.
-- Local video/audio/image import with clear unsupported/corrupt-file failures; library search, thumbnails/waveforms, bounded cache and usable proxies.
-- Multiple video/audio tracks; select/multi-select, move, trim, split, delete, duplicate, basic snapping, track lock/mute/visibility, undo/redo. Full CapCut mode semantics are v0.2, not silently claimed in v0.1.
-- Play/pause, seek, frame-step, source/sequence preview, volume and visible buffering/errors.
-- Static position/scale, fit/fill and 16:9, 9:16 and 1:1 canvas presets, with explicit project rate. Full geometry controls complete in v0.2.
-- Static editable title text with font, size, color, alignment and correct Unicode shaping; no mandatory animation or AI.
-- Audio gain and fade-in/fade-out on ordinary clips, with correct mixed export. No mandatory automation, ducking or EQ.
-- Versioned project save/open, autosave, crash recovery, missing-media relink, per-project identity/locking and safe collection/portability from T08.
-- Working app settings, project Modify, discoverable/remappable shortcuts and accessible keyboard alternatives.
-- Two-column export settings, destination/overwrite checks, progress, cancel/retry, truthful failures and open output/folder.
-- At least one distributable, independently checked video/audio export profile. H.264/AAC MP4 is the desired interchange target, conditional on shipped codec/legal qualification; a qualified open-codec profile can establish rendering, but the release must state explicitly if MP4 is unavailable. Never silently substitute container/codec under an MP4 label.
-- Actual Flatpak installation and offline editing, with permissions, source/license notices and documented supported media.
+**Home and projects**
+- Home with empty and populated Projects views.
+- Create, open, recent, rename, independent duplicate, safe Trash and Restore, return Home.
+
+**Editor**
+- Familiar structure from screenshot cohort A: horizontal left-panel categories, an inner category list, Player, contextual inspector, full-width timeline.
+- Original branding and assets. No Pro or login clutter.
+
+**Media**
+- Local video, audio, and image import. Clear errors for unsupported or corrupt files.
+- Library search, thumbnails, waveforms, bounded cache, usable proxies.
+
+**Timeline**
+- Multiple video and audio tracks.
+- Select, multi-select, move, trim, split, delete, duplicate.
+- Basic snapping. Track lock, mute, visibility. Undo and redo.
+- Full CapCut mode semantics are v0.2. v0.1 does not claim them.
+
+**Playback**
+- Play, pause, seek, frame-step, source and sequence preview, volume.
+- Visible buffering and errors.
+
+**Canvas and text**
+- Static position and scale. Fit and fill. 16:9, 9:16, and 1:1 presets. Explicit project rate.
+- Full geometry arrives in v0.2.
+- Static editable title: font, size, color, alignment, correct Unicode shaping. No mandatory animation or AI.
+
+**Audio**
+- Gain, fade-in, and fade-out on ordinary clips, with correct mixed export.
+- No mandatory automation, ducking, or EQ.
+
+**Save and recovery**
+- Versioned project save and open. Autosave. Crash recovery.
+- Missing-media relink. Per-project identity and locking. Safe collection and portability from T08.
+
+**Settings and shortcuts**
+- Working app settings. Project Modify.
+- Discoverable, remappable shortcuts. Keyboard alternatives for everything.
+
+**Export**
+- Two-column export settings. Destination and overwrite checks.
+- Progress, cancel, retry, honest failures, open output or folder.
+- At least one distributable, independently checked video and audio profile.
+- H.264/AAC MP4 is the target, if codec and legal qualification allow it. If MP4 is unavailable, the release says so.
+- Never silently swap the container or codec under an MP4 label.
+
+**Distribution**
+- Real Flatpak install. Offline editing.
+- Permissions, source and license notices, documented supported media.
 
 ### Not required for v0.1
 
-Auto captions, transitions, keyframe animation, speed ramps, reverse, compounds, masks, advanced color, AI processing, stock catalogs, recording, template galleries, cloud accounts, collaboration and publishing. Their placement and data-model extension points are planned, but fake working controls are prohibited.
+Auto captions, transitions, keyframe animation, speed ramps, reverse, compounds, masks, advanced color, AI processing, stock catalogs, recording, template galleries, cloud accounts, collaboration, publishing.
+
+Their extension points are planned. Fake working controls are not allowed.
 
 ### MVP acceptance project
 
-Use owned/synthetic inputs: three short phone-style clips including portrait/rotation metadata, one image, one music file and a Unicode title. Record exact hashes and project format.
+Use owned or synthetic inputs: three short phone-style clips (with portrait and rotation metadata), one image, one music file, and a Unicode title. Record exact hashes and the project format.
 
-1. Start the installed application offline; create a project from Home without registration or a compulsory setup wizard.
-2. Import inputs; set a 9:16 canvas; arrange clips on the timeline and overlay the image/title.
-3. Trim, split, reorder, adjust fit/position/scale, change title text and apply music gain/fades.
-4. Undo/redo an edit; verify selected-object inspector and preview agree with the model.
-5. Rename and duplicate the project; edit the copy; confirm the original did not change.
-6. Return Home, reopen and inspect persistent edits. Trash/Restore the copy without deleting original media.
-7. Move one source file; reopen and relink without losing timeline state.
-8. Interrupt a save under controlled conditions; recover the last durable/recoverable revision without corrupting the original.
-9. Export through the familiar dialog; independently decode output and check duration, edit boundaries, text/image presence and audio alignment.
-10. Exercise cancellation, unwritable destination and unsupported input; none may produce counterfeit success or destroy prior output.
-11. Repeat essential editing actions with keyboard and verify IME focus prevents timeline shortcuts firing inside text fields.
+1. Start the installed app offline. Create a project from Home with no registration or required setup wizard.
+2. Import the inputs. Set a 9:16 canvas. Arrange clips on the timeline. Overlay the image and title.
+3. Trim, split, reorder. Adjust fit, position, and scale. Change the title text. Apply music gain and fades.
+4. Undo and redo an edit. Check that the inspector and preview match the model.
+5. Rename and duplicate the project. Edit the copy. Confirm the original did not change.
+6. Return Home. Reopen and check that edits persisted. Trash and Restore the copy without deleting the original media.
+7. Move one source file. Reopen and relink without losing timeline state.
+8. Interrupt a save under controlled conditions. Recover the last durable revision without corrupting the original.
+9. Export through the familiar dialog. Decode the output independently. Check duration, edit boundaries, text and image presence, and audio alignment.
+10. Test cancellation, an unwritable destination, and unsupported input. None may report false success or destroy prior output.
+11. Repeat the essential editing actions by keyboard. Check that IME focus stops timeline shortcuts inside text fields.
 
-This is the **MVP scenario**, not full W01/W08: W01 includes a transition and W08 includes a caption model. Those full workflows gate the creator/AI releases when those features ship.
+> This is the **MVP scenario**, not full W01 or W08. W01 includes a transition. W08 includes a caption model. Those full workflows gate the creator and AI releases.
 
-## 3. File ownership and dependency-safe early slices
+## 3. File ownership and early slices
 
-Keep the 40 work packages; split only the following early subsets so the MVP does not depend on all advanced effects. These are real implementations in the same eventual modules, not duplicate temporary code.
+Keep all 40 work packages. Only these early subsets are split out, so the MVP does not depend on every advanced effect. They are real implementations in the same eventual modules, not temporary copies.
 
-| Slice | Consumes | Produces / future files | Verification and downstream reuse |
+| Slice | Depends on | Produces | Verification and reuse |
 |---|---|---|---|
-| T10-basic | T02 exact-time/project model; T04/T05 selected clips and edits; T07 render path | Static position/scale, fit/fill and canvas; `crates/lce-effects/src/{transform,canvas}.rs`, `apps/lce-desktop/src/player/handles.rs` | Known corner/center placement and crop boundaries in preview and rendered frames; T10 extends these modules |
-| T18-basic | T10-basic geometry; T02 commands; T07 render path | Static shaped text; `crates/lce-effects/src/text.rs`, `apps/lce-desktop/src/panels/text.rs`, font manifest | RTL/CJK/combining text and missing-font behavior; saved text equals rendered text; T18 animation later consumes T11, not vice versa |
-| T19-basic | T02 commands/time; T05 edits; T07 render path | Clip gain/fades/mix; `crates/lce-engine/src/audio.rs`, `crates/lce-effects/src/audio_gain.rs`, `apps/lce-desktop/src/panels/audio.rs` | Known impulses and fade envelope at explicit sample boundaries; T19 automation/EQ/buses extend the same path |
-| T20-manual | T08 project/recovery; T18 static text; T19 timing | Manual captions and SRT/VTT, no inference dependency | Subtitle roundtrip/timing plus actual display/export; transcription attaches later through reviewed commands |
-| T31-schema | T08 projects; qualified slots from T13/T14/T18/T20 when used | Declarative template schema/core in T31's existing files | Rejected invalid slot/time/license references; T27 storyboard assembly consumes this core before full template-gallery polish |
+| T10-basic | T02 time and project model; T04/T05 selection and edits; T07 render path | Static position, scale, fit/fill, canvas. `crates/lce-effects/src/{transform,canvas}.rs`, `apps/lce-desktop/src/player/handles.rs` | Known corner and center placement, crop boundaries in preview and rendered frames. T10 extends these modules. |
+| T18-basic | T10-basic geometry; T02 commands; T07 render path | Static shaped text. `crates/lce-effects/src/text.rs`, `apps/lce-desktop/src/panels/text.rs`, font manifest | RTL, CJK, combining text, and missing-font behavior. Saved text equals rendered text. T18 animation consumes T11 later, not the reverse. |
+| T19-basic | T02 commands and time; T05 edits; T07 render path | Clip gain, fades, mix. `crates/lce-engine/src/audio.rs`, `crates/lce-effects/src/audio_gain.rs`, `apps/lce-desktop/src/panels/audio.rs` | Known impulses and fade envelope at explicit sample boundaries. T19 automation, EQ, and buses extend the same path. |
+| T20-manual | T08 project and recovery; T18 static text; T19 timing | Manual captions, SRT and VTT. No inference dependency. | Subtitle round trip, timing, and actual display and export. Transcription attaches later through reviewed commands. |
+| T31-schema | T08 projects; qualified slots from T13, T14, T18, T20 when used | Declarative template schema and core in T31's existing files | Rejects invalid slot, time, and license references. T27 storyboard assembly uses this core before full template-gallery polish. |
 
-No public Rust API is frozen by this release table. Existing domain/engine contracts in [architecture.md](architecture.md) remain authoritative; implementers must not invent a second project model for these slices.
+> No public Rust API is frozen by this table. [architecture.md](architecture.md) stays authoritative. Do not invent a second project model.
 
 ### MVP integration order
 
-- [ ] T01 selects the backend through real playback/render qualification; T37–T40 start their reference, accessibility, threat-model, packaging and provenance baselines.
-- [ ] T02 establishes exact time, typed edits, snapshot/journal and recovery primitives.
-- [ ] T03 establishes real discovery/import and bounded media failures.
-- [ ] T04 builds real Home/project lifecycle and the familiar workspace with loaded media and transport. Text/audio inspector controls land with their actual feature slices, not fabricated state.
-- [ ] T05 implements basic timeline edits and undo; T06 adds media browsing/proxies/caches.
-- [ ] T07 renders a real project and implements export setup/progress/error/cancellation.
-- [ ] T08 integrates relink/recovery/collection and the scenario runner.
-- [ ] T10-basic, T18-basic and T19-basic complete the MVP's canvas/title/music behavior in the existing modules.
-- [ ] Run the eleven-step MVP project and applicable A01–A14 fidelity scenarios on the installed package. Keep unshipped advanced categories absent rather than pretending they work.
-- [ ] Close MVP portions of T37–T40; publish supported media/hardware, known limitations and exact exercised evidence.
+- [ ] T01 selects the backend through real playback and render qualification. T37 to T40 start their reference, accessibility, threat-model, packaging, and provenance baselines.
+- [ ] T02 sets up exact time, typed edits, snapshot and journal, and recovery primitives.
+- [ ] T03 sets up real discovery, import, and bounded media failures.
+- [ ] T04 builds real Home, project lifecycle, and the familiar workspace with loaded media and transport. Text and audio inspector controls land with their real feature slices, not as fake state.
+- [ ] T05 adds basic timeline edits and undo. T06 adds media browsing, proxies, and caches.
+- [ ] T07 renders a real project and implements export setup, progress, errors, and cancellation.
+- [ ] T08 integrates relink, recovery, collection, and the scenario runner.
+- [ ] T10-basic, T18-basic, and T19-basic complete the MVP canvas, title, and music behavior in the existing modules.
+- [ ] Run the eleven-step MVP project and the applicable A01 to A14 fidelity scenarios on the installed package. Unshipped advanced categories stay absent, not faked.
+- [ ] Close the MVP parts of T37 to T40. Publish supported media and hardware, known limits, and exact exercised evidence.
 
-Within a release, execute the dependency graph, not numeric ordering alone. T04 does not wait for all later features to close its own playback/Home work; the release integration gate waits for the relevant real slices.
+> Run in dependency order, not number order. T04 does not wait for later features to finish its own playback and Home work. The release gate waits for the relevant real slices.
 
 ## 4. Complete task-to-release ownership
 
-“Entry” is the first release requiring work; “closure” qualifies the complete relevant scope. Cross-cutting tasks never wait until v1.0 to begin.
+- **Entry:** the first release that needs the work.
+- **Closure:** the release where the full relevant scope is qualified.
+- Cross-cutting tasks never wait until v1.0 to start.
 
 | Tasks | Entry and closure |
 |---|---|
-| T01 | Engineering qualification before v0.1 |
-| T02–T08 | v0.1; later project migrations and export profiles remain integrated obligations |
-| T09 | v0.2 full mode contract; v0.1 only basic snapping from T05 |
-| T10 | Basic v0.1; full static geometry v0.2 |
-| T11–T16 | v0.3 animation, retiming, nesting, transitions, compositing and color; respect dependencies inside the release |
-| T17 | Deterministic effects v0.3; AI-dependent retouch closes with T23 in v0.4 |
-| T18 | Basic v0.1; richer static typography v0.2; animated/composited scope v0.3 |
-| T19 | Basic v0.1; static audio controls v0.2; automation, routing and advanced mixing v0.3 |
-| T20 | Manual captions/subtitles v0.2; qualified optional transcription/word timing v0.3 |
-| T21–T27 | v0.4; T27 recipe assembly consumes T31 schema/core from v0.3 |
-| T28 | v0.3 real portal/device recording |
-| T29 | v0.4 evaluated restoration; related delivery profiles qualify afterward |
-| T30 | Post-1.0 generation/avatar package, independently gated |
-| T31 | v0.3 original templates/covers and early declarative schema |
-| T32 | v0.3 core delivery profiles; restoration-dependent profiles close after T29 |
-| T33 | v0.3 native/OTIO/subtitle interoperability; version-bounded CapCut draft adapter research remains separately gated post-1.0 |
-| T34–T36 | Post-1.0 optional sync/review/collaboration/publishing; never gate local editing |
-| T37–T40 | Start with qualification; close shipped scope at every release, with stable local closure at v1.0 |
+| T01 | Engineering qualification, before v0.1 |
+| T02 to T08 | v0.1. Later project migrations and export profiles stay integrated obligations. |
+| T09 | v0.2 full mode contract. v0.1 has only basic snapping from T05. |
+| T10 | Basic in v0.1. Full static geometry in v0.2. |
+| T11 to T16 | v0.3: animation, retiming, nesting, transitions, compositing, color. Respect dependencies inside the release. |
+| T17 | Deterministic effects in v0.3. AI-dependent retouch closes with T23 in v0.4. |
+| T18 | Basic in v0.1. Richer static typography in v0.2. Animated and composited scope in v0.3. |
+| T19 | Basic in v0.1. Static audio controls in v0.2. Automation, routing, advanced mixing in v0.3. |
+| T20 | Manual captions and subtitles in v0.2. Qualified optional transcription and word timing in v0.3. |
+| T21 to T27 | v0.4. T27 recipe assembly uses the T31 schema and core from v0.3. |
+| T28 | v0.3: real portal and device recording. |
+| T29 | v0.4: evaluated restoration. Related delivery profiles qualify afterward. |
+| T30 | Post-1.0 generation and avatar package, independently gated. |
+| T31 | v0.3: original templates, covers, early declarative schema. |
+| T32 | v0.3: core delivery profiles. Restoration-dependent profiles close after T29. |
+| T33 | v0.3: native, OTIO, and subtitle interoperability. A version-bounded CapCut draft adapter stays a separate post-1.0 research gate. |
+| T34 to T36 | Post-1.0: optional sync, review, collaboration, publishing. They never gate local editing. |
+| T37 to T40 | Start with qualification. Close shipped scope at every release. Stable local closure at v1.0. |
 
-F01–F40 retain their owner mapping in the product specification. No family is deleted by staging or by the local v1.0 boundary.
+F01 to F40 keep their owner mapping in the [product specification](product-spec.md). No family is deleted by staging or by the local v1.0 boundary.
 
 ## 5. UI reference lock and acceptance
 
-- Primary layout target is research cohort A, with screenshot S03 for the populated workspace and S01/S02/S07 for Home, empty editor and export.
-- Supplementary screenshots establish additional states, not permission to combine incompatible versions into one claim of exactness.
-- Match screen hierarchy, control grouping, object-selection behavior and panel proportions before decorative polish.
-- UI01–UI11 and UI16–UI24 are MVP working surfaces at their stated scope; UI12–UI15 gain their real tools in later versions.
-- A01–A14 are interaction checks against a running editor. Capture images/action traces; model-only tests cannot certify them.
-- Full familiarity evaluation W01/W02 from the product specification applies when transitions and captions ship, not to v0.1's smaller feature set.
-- Before advertising an exact compatibility profile, record a lawfully obtained pinned CapCut Desktop build: version, OS, locale, scaling, window size and selected state. Until then, label screenshot-backed layout versus proposed behavior honestly.
-- Current gaps include full Menu/Modify/shortcut dialogs, Trash recovery states and some gesture/curve semantics. Missing exact reference evidence does not block a safe original implementation; it blocks claims that that detail is verified identical.
+- **Layout target:** research cohort A. Screenshot S03 for the populated workspace. S01, S02, S07 for Home, empty editor, and export.
+- Supporting screenshots add states. They do not allow mixing incompatible versions into one claim of exactness.
+- Match hierarchy, control grouping, object selection, and panel proportions before decorative polish.
+- UI01 to UI11 and UI16 to UI24 are MVP working surfaces at their stated scope. UI12 to UI15 get real tools in later versions.
+- A01 to A14 are interaction checks on a running editor. Capture images and action traces. Model-only tests cannot certify them.
+- Full familiarity checks W01 and W02 apply when transitions and captions ship. They do not apply to v0.1's smaller set.
+- Before claiming an exact compatibility profile, record a lawfully obtained, pinned CapCut Desktop build: version, OS, locale, scaling, window size, selected state. Until then, label screenshot-backed layout separately from proposed behavior.
+
+<details>
+<summary><strong>Known reference gaps</strong></summary>
+
+Missing: full Menu, Modify, and shortcut dialogs. Trash recovery states. Some gesture and curve semantics.
+
+A missing reference does not block a safe original implementation. It does block any claim that the detail is verified identical.
+
+</details>
 
 ## 6. Stack lock and decision gates
 
 | Area | Starting decision | Qualification rule |
 |---|---|---|
-| Language | Rust 2024 | Commit toolchain and dependency lockfiles once T01 resolves tested versions |
-| UI | GTK4 via Rust bindings, custom workbench styling | Prove dense pane layout, accessible controls, IME and scaling; no unrelated toolkit rewrite merely for familiar styling |
-| Playback/render | GStreamer/GES, one owned context and isolated render jobs | T01 checks exact timing, seeks, audio, endpoints, nesting/retiming/color; evaluate MLT only if a hard gate fails and record one selected backend |
-| Media path | Native negotiated GPU path where qualified; truthful software/proxy path | Measure copies, latency and driver support; no blanket zero-copy/4K claim |
-| Projects | Versioned local format, atomic snapshots/journal, stable IDs | Recovery, migration, locking, missing-media and malicious-input tests |
-| Text | Native shaping/font stack with the same layout semantics in preview/export | RTL/CJK/combining/fallback corpus and font license manifest |
-| AI | Optional isolated local workers and exact model manifests | No pack without redistribution/commercial-use rights and actual quality/hardware evaluation |
-| Distribution | Flatpak first | Installed-package tests, portals, codec inventory, notices/source and clean upgrade |
-| Services | Optional later self-hostable services where feasible | Credentials, cost and conflict/privacy policy must be explicit; offline core unaffected |
+| Language | Rust 2024 | Commit toolchain and lockfiles once T01 resolves tested versions. |
+| UI | GTK4 via Rust bindings, custom workbench styling | Prove dense pane layout, accessible controls, IME, and scaling. No toolkit rewrite just to look familiar. |
+| Playback and render | GStreamer/GES, one owned context, isolated render jobs | T01 checks exact timing, seeks, audio, endpoints, nesting, retiming, color. Evaluate MLT only if a hard gate fails. Record one selected backend. |
+| Media path | Native negotiated GPU path where qualified. Honest software or proxy path. | Measure copies, latency, driver support. No blanket zero-copy or 4K claim. |
+| Projects | Versioned local format, atomic snapshots and journal, stable IDs | Recovery, migration, locking, missing-media, and malicious-input tests. |
+| Text | Native shaping and font stack, same layout in preview and export | RTL, CJK, combining, and fallback corpus. Font license manifest. |
+| AI | Optional isolated local workers, exact model manifests | No pack without redistribution and commercial-use rights, and real quality and hardware evaluation. |
+| Distribution | Flatpak first | Installed-package tests, portals, codec inventory, notices and source, clean upgrade. |
+| Services | Optional, self-hostable later where feasible | Credentials, cost, and conflict and privacy policy must be explicit. The offline core is unaffected. |
 
-Binding families/native floors remain those documented in [architecture.md](architecture.md) and [starter-plan.md](starter-plan.md). They are a tested-manifest starting proposal, not a claim of latest or qualified installed binaries. No extra web UI, second compositor or cloud database is added to the MVP.
+Binding families and native floors are in [architecture.md](architecture.md) and [starter-plan.md](starter-plan.md). They are a starting proposal to test, not a claim about the latest or qualified installed binaries. The MVP adds no extra web UI, second compositor, or cloud database.
 
 ## 7. Release blockers and evidence packet
 
-A release cannot ship while its supported scenarios have an unresolved data-loss defect, wrong edit/render boundary, incorrect audio alignment, preview/export semantic mismatch, unsafe import, missing required license/source obligation or unusable essential keyboard path. Unsupported content gets an explicit error, not silent effects removal.
+### A release cannot ship with any of these
 
-For every release retain:
+- Unresolved data-loss defect.
+- Wrong edit or render boundary.
+- Incorrect audio alignment.
+- Preview and export semantics that do not match.
+- Unsafe import.
+- Missing required license or source obligation.
+- Essential keyboard path that does not work.
 
-1. Exact source revision, toolchain, lockfiles, native/plugin/driver/runtime versions and build flags.
-2. Capability matrix with implemented, qualified, unavailable-with-reason and not-yet-shipped states; no blanket parity percentage.
-3. Corpus hashes/licenses, actual scenario actions and machine-readable output checks.
-4. Home/editor/settings/export screenshots and interaction traces at known dimensions/scaling.
-5. Crash/recovery, missing-media, cancellation, disk/permission and offline results.
-6. Installed Flatpak and upgrade/migration results on the supported hardware/runtime matrix.
-7. Dependency/model/asset rights, notices, source-availability and privacy inventory.
-8. Known limitations and release notes that match the exercised build.
+Unsupported content gets an explicit error. It never silently loses effects.
 
-Performance budgets in the quality plan are targets until measured. No calendar deadline is implied by a version number.
+### Evidence packet for every release
+
+- [ ] Exact source revision, toolchain, lockfiles, native, plugin, driver, and runtime versions, build flags.
+- [ ] Capability matrix: implemented, qualified, unavailable with reason, not yet shipped. No blanket parity percentage.
+- [ ] Corpus hashes and licenses. Actual scenario actions. Machine-readable output checks.
+- [ ] Home, editor, settings, and export screenshots and interaction traces at known sizes and scaling.
+- [ ] Crash and recovery, missing-media, cancellation, disk and permission, and offline results.
+- [ ] Installed Flatpak and upgrade or migration results on the supported hardware and runtime matrix.
+- [ ] Dependency, model, and asset rights. Notices, source availability, privacy inventory.
+- [ ] Known limitations and release notes that match the exercised build.
+
+Performance budgets in the [quality plan](quality-release.md) are targets until measured. A version number implies no calendar deadline.
 
 ## 8. Final execution handoff
 
-**First assignment:** execute T01 from the starter plan in a new, independent application repository. Do not generate the whole editor, download large models or build a cloud service first. Preserve the earlier observed 121-frame nominal four-second discrepancy as a qualification case; never assume it was fixed by changing the expected result.
+- **First assignment:** T01 from the [starter plan](starter-plan.md), in a new, independent app repository.
+- Do not generate the whole editor, download large models, or build a cloud service first.
+- Keep the earlier observed discrepancy (a nominal four-second, 30 fps render produced 121 frames, 4.033333 seconds) as a qualification case. Never assume it is fixed by changing the expected result.
+- **First review gate:** a working native preview, independently inspected rendered media, and a documented selected backend.
+- **First product gate:** the full v0.1 MVP workflow in a real installed app, not a screenshot-only shell.
 
-**First review gate:** working native preview plus independently inspected rendered media and a documented selected backend. **First product gate:** the full v0.1 MVP journey in a real installed application, not a screenshot-only shell.
-
-This finalization changes planning documents only. Engineering gates remain future work with explicit evidence requirements, not missing decisions concealed behind a “complete product” claim.
+> This planning pass changes documents only. Engineering gates are future work with explicit evidence requirements. They are not hidden decisions behind a "complete product" claim.

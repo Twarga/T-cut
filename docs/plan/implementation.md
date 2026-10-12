@@ -38,13 +38,13 @@ Verification conventions:
 | v0.2 everyday editing | T09/T10; T18/T19 static expansion; T20 manual | Mode matrix, static text/audio/geometry and subtitle scenarios |
 | v0.3 creator beta | T11–T20 advanced local scope, T28/T31/T32, T33 local interchange | Qualified animation/composition/audio/caption/template/capture/delivery paths; explicit later AI exclusions |
 | v0.4 local AI beta | T21–T29; T17 AI closure | Rights-audited measured workers, reviewed nondestructive outputs |
-| v1.0 stable local / post-1.0 ecosystem | Local release closure T37–T40; later T30/T33 adapter/T34–T36 | Stable local evidence first; generation/interoperability/services independently qualified |
+| v1.0 stable local / post-1.0 service releases | Local release closure T37–T40; later T30/T33 adapter/T34–T36 | Stable local evidence first; generation/interoperability/services independently qualified |
 
 T37–T40 are cross-cutting work beginning at M0/M1; their final closure happens after feature integration. They are not a reason to postpone accessibility, threat modeling, licenses or packaging until the end.
 
 Critical path: T01 → T02 → T03/T04 → T05 → T07/T08 → T09 → creator tools. AI workers depend on T06/T08 and relevant domain features; they do not block basic editing. T34–T36 never gate opening a local project.
 
-## T01 — Qualify the media/UI stack before committing to it
+## T01: Qualify the media/UI stack before committing to it
 
 Dependencies: none. Detailed initial commands and manifest: [starter-plan.md](starter-plan.md).
 Files: create root manifests/toolchain, `crates/lce-engine/examples/qualify.rs`, `apps/lce-desktop/src/main.rs`, `corpus/manifests/engine-qualification.json`, `docs/adr/0001-media-engine.md` and `packaging/flatpak/qualification.yml`.
@@ -57,7 +57,7 @@ Files: create root manifests/toolchain, `crates/lce-engine/examples/qualify.rs`,
 
 Verify: `cargo run -p lce-engine --example qualify -- --corpus corpus/manifests/engine-qualification.json`; launch GTK example; inspect decoded frame labels and audio impulses. Exit: evidence-backed engine ADR, not “example compiles.”
 
-## T02 — Exact model, commands and durable project foundation
+## T02: Exact model, commands and durable project foundation
 
 Dependencies: T01 backend boundary selected.
 Files: create `crates/lce-core/src/{time,model,command,history,validate}.rs`, `crates/lce-project/src/{snapshot,journal,migrate}.rs`, `schemas/project-v1.json`; tests `crates/lce-core/tests/edit_invariants.rs`, `crates/lce-project/tests/crash_recovery.rs`.
@@ -69,7 +69,7 @@ Files: create `crates/lce-core/src/{time,model,command,history,validate}.rs`, `c
 
 Verify: both named tests, plus a process-kill/reopen scenario on a disposable local project. Boundary fixture: split `[0,2)` at 1 second, reject split at 0 or 2, undo to byte-equivalent canonical model state; 30000/1001 repeated edits must not drift.
 
-## T03 — Asset discovery and safe import
+## T03: Asset discovery and safe import
 
 Dependencies: T02.
 Files: create `crates/lce-media/src/{discover,asset,hash}.rs`, `apps/lce-desktop/src/panels/import.rs`; test `crates/lce-media/tests/discovery.rs`.
@@ -81,7 +81,7 @@ Files: create `crates/lce-media/src/{discover,asset,hash}.rs`, `apps/lce-desktop
 
 Verify: discovery test plus actual import of the corpus through the file chooser/drop path. Expected: correct visible orientation, stream selection and duration; damaged file cannot freeze the UI.
 
-## T04 — Home, project lifecycle, real workbench and transport
+## T04: Home, project lifecycle, real workbench and transport
 
 Dependencies: T01, T02, T03.
 Files: create `apps/lce-desktop/src/{app,actions,workspace,navigation}.rs`, `src/home/{view,project_card,actions,trash}.rs`, `src/panels/{library,player,inspector,timeline}.rs` and `src/dialogs/{settings,project_settings,shortcuts}.rs` under that app, plus resources tokens/styles; `crates/lce-project/src/registry.rs`; `crates/lce-engine/src/{owner,transport,events}.rs`; test `crates/lce-engine/tests/transport.rs`. Existing T07/T08 own export/relink/recovery integration.
@@ -94,7 +94,7 @@ Files: create `apps/lce-desktop/src/{app,actions,workspace,navigation}.rs`, `src
 
 Verify: transport test and real GUI playback with synchronized click/flash media. Exit: requested frame shown after seek, stale events ignored, no direct GES calls from arbitrary workers.
 
-## T05 — Basic editing and undo
+## T05: Basic editing and undo
 
 Dependencies: T02–T04.
 Files: extend core command/history; create `apps/lce-desktop/src/timeline/{gestures,hit_test,selection}.rs`; test `crates/lce-core/tests/timeline_edits.rs`.
@@ -106,7 +106,7 @@ Files: extend core command/history; create `apps/lce-desktop/src/timeline/{gestu
 
 Verify: named test plus actual GUI edit/playback/export once T07 lands; MVP edit steps use the release roadmap's scenario rather than full W01 before transitions exist. In a 10,000-clip synthetic project only visible clips get thumbnail render work.
 
-## T06 — Media library, proxies and bounded caches
+## T06: Media library, proxies and bounded caches
 
 Dependencies: T03, T04.
 Files: create `crates/lce-media/src/{thumbnail,waveform,proxy,cache}.rs`, `crates/lce-jobs/src/{queue,cancel,budget}.rs`; tests `crates/lce-media/tests/proxy_mapping.rs`, `crates/lce-jobs/tests/cancellation.rs`.
@@ -118,7 +118,7 @@ Files: create `crates/lce-media/src/{thumbnail,waveform,proxy,cache}.rs`, `crate
 
 Verify: named tests; play the same VFR edit with proxies on/off and compare identified source frames at cuts. Remove cache and reopen: project remains correct, cache regenerates.
 
-## T07 — Headless rendering and first export UI
+## T07: Headless rendering and first export UI
 
 Dependencies: T01–T06.
 Files: create `apps/lce-cli/src/main.rs`, `crates/lce-engine/src/{compile,render,profiles}.rs`, `apps/lce-desktop/src/dialogs/export.rs`; test `crates/lce-engine/tests/export_boundaries.rs`.
@@ -130,7 +130,7 @@ Files: create `apps/lce-cli/src/main.rs`, `crates/lce-engine/src/{compile,render
 
 Verify: named test; actual CLI/GUI export, full decode, first/last frame identity, stereo channels, cancel cleanup and existing-file preservation. First useful vertical slice ends here only if save/reopen also works.
 
-## T08 — Recovery, project portability and real scenario runner
+## T08: Recovery, project portability and real scenario runner
 
 Dependencies: T02, T06, T07.
 Files: extend `crates/lce-project/src/{recovery,collect,relink}.rs`; create `xtask/src/{main,verify,corpus}.rs`, `corpus/scenarios/{offline,recovery,collect}.json`; test `crates/lce-project/tests/portable_project.rs`.
@@ -142,7 +142,7 @@ Files: extend `crates/lce-project/src/{recovery,collect,relink}.rs`; create `xta
 
 Verify: portable project test; `cargo run -p xtask -- verify recovery`, then `... verify offline` and `... verify collect`. Move collected project to a different directory/user test environment and export identically within codec tolerance.
 
-## T09 — Familiar timeline mode contract
+## T09: Familiar timeline mode contract
 
 Dependencies: T05, T08.
 Files: create `crates/lce-core/src/{ripple,links,snap}.rs`, `apps/lce-desktop/src/timeline/modes.rs`; test `crates/lce-core/tests/mode_matrix.rs`; scenario `timeline-modes`.
@@ -154,7 +154,7 @@ Files: create `crates/lce-core/src/{ripple,links,snap}.rs`, `apps/lce-desktop/sr
 
 Verify: mode matrix test and `... verify timeline-modes`; observe drag previews and deliberate one-frame gaps in GUI. Record reference-build differences, not guessed compatibility.
 
-## T10 — Geometry, crop and canvas
+## T10: Geometry, crop and canvas
 
 Dependencies: T04, T05, T07. T10-basic (position/scale, fit/fill and canvas) ships in v0.1; remaining static geometry ships in v0.2 using the same modules.
 Files: create `crates/lce-effects/src/{transform,crop,canvas}.rs`, `apps/lce-desktop/src/player/handles.rs`; test `crates/lce-effects/tests/geometry.rs`; scenario `geometry`.
@@ -165,7 +165,7 @@ Files: create `crates/lce-effects/src/{transform,crop,canvas}.rs`, `apps/lce-des
 
 Verify: geometry test and actual rendered labeled corners for rotated/SAR media; compare handles at 100% and 200% UI scale. No drift between preview and export placement.
 
-## T11 — Keyframes and curves
+## T11: Keyframes and curves
 
 Dependencies: T10, T09.
 Files: create `crates/lce-core/src/animation.rs`, `apps/lce-desktop/src/panels/curves.rs`; test `crates/lce-core/tests/animation_split.rs`; scenario `keyframes`.
@@ -176,7 +176,7 @@ Files: create `crates/lce-core/src/animation.rs`, `apps/lce-desktop/src/panels/c
 
 Verify: evaluate known curves before/after split at multiple interior times; render animated title/opacity sequence and inspect boundary frames. Step discontinuities are intentional only for hold interpolation.
 
-## T12 — Speed maps, reverse and freeze
+## T12: Speed maps, reverse and freeze
 
 Dependencies: T01 hard-path solution, T11.
 Files: create `crates/lce-core/src/time_map.rs`, `crates/lce-engine/src/retime.rs`, `apps/lce-desktop/src/panels/speed.rs`; test `crates/lce-engine/tests/retiming.rs`; scenario `speed`.
@@ -188,7 +188,7 @@ Files: create `crates/lce-core/src/time_map.rs`, `crates/lce-engine/src/retime.r
 
 Verify: numbered-frame reverse/freeze/ramp output, endpoint count and impulse audio continuity; no rate=0 arithmetic shortcut. Preview may use reduced quality only with visible indicator; export must honor final semantics.
 
-## T13 — Groups, compounds, adjustment layers and multicamera
+## T13: Groups, compounds, adjustment layers and multicamera
 
 Dependencies: T09–T12.
 Files: create `crates/lce-core/src/{sequence_graph,multicam}.rs`, `crates/lce-engine/src/nesting.rs`, `apps/lce-desktop/src/timeline/breadcrumbs.rs`; test `crates/lce-core/tests/nested_sequences.rs`; scenario `compound`.
@@ -200,7 +200,7 @@ Files: create `crates/lce-core/src/{sequence_graph,multicam}.rs`, `crates/lce-en
 
 Verify: create compound, animate/retime it, change child, decompose, undo and render; multicamera flash/clap fixture remains synchronized at beginning/middle/end.
 
-## T14 — Transitions
+## T14: Transitions
 
 Dependencies: T11, T13.
 Files: create `crates/lce-effects/src/transitions.rs`, `assets/presets/transitions/`, `apps/lce-desktop/src/panels/transitions.rs`; test `crates/lce-effects/tests/transition_handles.rs`; scenario `transitions`.
@@ -211,7 +211,7 @@ Files: create `crates/lce-effects/src/transitions.rs`, `assets/presets/transitio
 
 Verify: cut/transition boundary frames and audio overlap independently; changing adjacent speed or trim updates validity rather than producing black frames.
 
-## T15 — Masks, chroma and blending
+## T15: Masks, chroma and blending
 
 Dependencies: T10, T11, T13.
 Files: create `crates/lce-effects/src/{mask,chroma,blend}.rs`, `apps/lce-desktop/src/panels/mask.rs`; test `crates/lce-effects/tests/compositing.rs`; scenario `compositing`.
@@ -222,7 +222,7 @@ Files: create `crates/lce-effects/src/{mask,chroma,blend}.rs`, `apps/lce-desktop
 
 Verify: synthetic alpha/color edges, overlapping translucent layers and feathered masks; test dark/bright fringes and output transparency where the profile supports it.
 
-## T16 — Color, LUTs, scopes and HDR path
+## T16: Color, LUTs, scopes and HDR path
 
 Dependencies: T10, T15.
 Files: create `crates/lce-effects/src/{color,lut,scopes}.rs`, `apps/lce-desktop/src/panels/color.rs`; test `crates/lce-effects/tests/color_pipeline.rs`; scenario `color`.
@@ -233,7 +233,7 @@ Files: create `crates/lce-effects/src/{color,lut,scopes}.rs`, `apps/lce-desktop/
 
 Verify: reference color patches/range ramps, HDR metadata and SDR tone-map fixture, scopes against known histograms; tolerances defined per operator/bit depth, not screenshot similarity alone.
 
-## T17 — Effects, filters and retouch
+## T17: Effects, filters and retouch
 
 Dependencies: T11, T15, T16; landmark/AI-dependent retouch also uses T23 job contracts.
 Files: create `crates/lce-effects/src/{catalog,blur,sharpen,retouch}.rs`, `assets/presets/filters/`; test `crates/lce-effects/tests/effect_order.rs`; scenario `effects`.
@@ -244,7 +244,7 @@ Files: create `crates/lce-effects/src/{catalog,blur,sharpen,retouch}.rs`, `asset
 
 Verify: operator reference fixtures, reorder/disable/undo, extreme valid parameters and temporal retouch stability. Never claim a preset catalog equivalent merely because category names match.
 
-## T18 — Typography, graphics and text animation
+## T18: Typography, graphics and text animation
 
 Dependencies: basic static text consumes T10-basic, T02 and T07 for v0.1; static styling expansion uses the same text path in v0.2. Full animated/composited closure consumes T10, T11 and T15 in v0.3. Do not make static text depend on keyframes or masks.
 Files: create `crates/lce-effects/src/{text,shapes}.rs`, `apps/lce-desktop/src/panels/text.rs`, `assets/fonts/manifest.json`; test `crates/lce-effects/tests/text_shaping.rs`; scenario `typography`.
@@ -255,7 +255,7 @@ Files: create `crates/lce-effects/src/{text,shapes}.rs`, `apps/lce-desktop/src/p
 
 Verify: Arabic mixed with Latin/numbers, CJK wrapping, combining marks, emoji fallback, long captions, missing font, and exported glyph/layout consistency. No copy of CapCut font/template assets.
 
-## T19 — Deterministic audio editing and mixing
+## T19: Deterministic audio editing and mixing
 
 Dependencies: basic gain/fades/mixing consumes T02, T05 and T07 for v0.1; v0.2 static controls additionally use T09. Full automation/retimed-audio closure consumes T09, T11 and T12 in v0.3. Reuse the same audio modules across releases.
 Files: create `crates/lce-engine/src/audio.rs`, `crates/lce-effects/src/{audio_gain,audio_eq,ducking}.rs`, `apps/lce-desktop/src/panels/audio.rs`; test `crates/lce-engine/tests/audio_timing.rs`; scenario `audio`.
@@ -266,7 +266,7 @@ Files: create `crates/lce-engine/src/audio.rs`, `crates/lce-effects/src/{audio_g
 
 Verify: impulse position, stereo channel identity, silence/gap behavior, mixed sample rates, clipping/limiter case and long-duration sync. Normalization cannot silently alter unrelated clips.
 
-## T20 — Manual and automatic captions
+## T20: Manual and automatic captions
 
 Dependencies: manual captions consume T08 plus static T18 text and basic T19 timing in v0.2. Qualified transcription/word highlighting uses the required completed T18/T19 controls and local worker infrastructure in v0.3; model download/inference must not gate manual subtitles.
 Files: create `crates/lce-ai/src/{manifest,transcribe}.rs`, `workers/whisper/`, `crates/lce-interchange/src/subtitles.rs`, `apps/lce-desktop/src/panels/captions.rs`; tests `crates/lce-interchange/tests/subtitle_roundtrip.rs`, `crates/lce-ai/tests/transcription_apply.rs`; scenario `captions`.
@@ -277,7 +277,7 @@ Files: create `crates/lce-ai/src/{manifest,transcribe}.rs`, `workers/whisper/`, 
 
 Verify: offline multilingual speech corpus, timing/text round-trip, cancel, changed source during job, absent model and IME-safe caption editing. Record WER/timing metrics by language/noise cohort, not one aggregate claim.
 
-## T21 — Translation, diarization and transcript editing
+## T21: Translation, diarization and transcript editing
 
 Dependencies: T20, T09.
 Files: create `crates/lce-ai/src/{translate,diarize,transcript}.rs`, `apps/lce-desktop/src/panels/transcript.rs`; test `crates/lce-core/tests/transcript_edits.rs`; scenario `transcript`.
@@ -288,7 +288,7 @@ Files: create `crates/lce-ai/src/{translate,diarize,transcript}.rs`, `apps/lce-d
 
 Verify: overlaps, two speakers, code switching, punctuation edits, low-confidence text and stale clips. Undo returns all affected tracks exactly; model suggestions never commit automatically.
 
-## T22 — Tracking, stabilization and reframe
+## T22: Tracking, stabilization and reframe
 
 Dependencies: T11, T12, T15, T08.
 Files: create `crates/lce-ai/src/{tracking,stabilize,reframe}.rs`, `apps/lce-desktop/src/panels/tracking.rs`; test `crates/lce-ai/tests/analysis_coordinates.rs`; scenario `tracking`.
@@ -299,7 +299,7 @@ Files: create `crates/lce-ai/src/{tracking,stabilize,reframe}.rs`, `apps/lce-des
 
 Verify: occlusion, scene cuts, camera shake, fast motion, vertical crop and retimed source. Low-confidence tracking stops or asks for correction, not an unexplained jump to another object.
 
-## T23 — Segmentation, matting and inpainting
+## T23: Segmentation, matting and inpainting
 
 Dependencies: T15, T22, T08.
 Files: create `crates/lce-ai/src/{segment,matte,inpaint}.rs`, model-specific worker directories, `apps/lce-desktop/src/panels/cutout.rs`; test `crates/lce-ai/tests/mask_mapping.rs`; scenario `cutout`.
@@ -310,7 +310,7 @@ Files: create `crates/lce-ai/src/{segment,matte,inpaint}.rs`, model-specific wor
 
 Verify: hair, translucent edges, motion blur, occlusion, cuts and difficult backgrounds; report temporal flicker and failure cases. Binary SAM masks are not called studio-quality alpha mattes.
 
-## T24 — Speech cleanup, separation and voice effects
+## T24: Speech cleanup, separation and voice effects
 
 Dependencies: T19, T20 worker infrastructure.
 Files: create `crates/lce-ai/src/{denoise,separate,voice_effect}.rs`, native/model workers; test `crates/lce-ai/tests/audio_latency.rs`; scenario `voice-cleanup`.
@@ -321,7 +321,7 @@ Files: create `crates/lce-ai/src/{denoise,separate,voice_effect}.rs`, native/mod
 
 Verify: speech plus music/noise corpus, latency impulse, stereo preservation, artifacts and recombination error. A denoiser is not advertised as source separation.
 
-## T25 — Beats and music-driven edits
+## T25: Beats and music-driven edits
 
 Dependencies: T19, T11.
 Files: create `crates/lce-ai/src/beats.rs`, `apps/lce-desktop/src/panels/beats.rs`; test `crates/lce-core/tests/beat_edits.rs`; scenario `beats`.
@@ -332,7 +332,7 @@ Files: create `crates/lce-ai/src/beats.rs`, `apps/lce-desktop/src/panels/beats.r
 
 Verify: metronome ground truth, changing tempo, quiet intro and off-beat music; detection failure cannot shift an existing timeline without acceptance.
 
-## T26 — TTS, cloning and dubbing
+## T26: TTS, cloning and dubbing
 
 Dependencies: T20, T21, T24.
 Files: create `crates/lce-ai/src/{tts,voice_consent,dub}.rs`, voice manifests/workers; test `crates/lce-ai/tests/dubbing_alignment.rs`; scenario `dubbing`.
@@ -343,7 +343,7 @@ Files: create `crates/lce-ai/src/{tts,voice_consent,dub}.rs`, voice manifests/wo
 
 Verify: long/short translations, names/numbers, absent voice pack, consent cancellation, lip-sync artifacts and offline operation. Unqualified lip sync remains a tracked blocked sub-capability, never a fake button.
 
-## T27 — Search, highlights and script/storyboard assembly
+## T27: Search, highlights and script/storyboard assembly
 
 Dependencies: T20, T21, T22, T31 template schema when assembling recipes.
 Files: create `crates/lce-ai/src/{search,highlights,storyboard}.rs`, `apps/lce-desktop/src/panels/storyboard.rs`; test `crates/lce-ai/tests/storyboard_apply.rs`; scenario `storyboard`.
@@ -354,7 +354,7 @@ Files: create `crates/lce-ai/src/{search,highlights,storyboard}.rs`, `apps/lce-d
 
 Verify: search relevance on labeled corpus, source-range fidelity and revised source handling; generated storyboard becomes a normal editable project with no hidden server dependency.
 
-## T28 — Linux capture and recording
+## T28: Linux capture and recording
 
 Dependencies: T03, T19, T08.
 Files: create `crates/lce-media/src/{capture,devices}.rs`, `apps/lce-desktop/src/dialogs/record.rs`; test `crates/lce-media/tests/capture_timestamps.rs`; scenario `capture`.
@@ -365,7 +365,7 @@ Files: create `crates/lce-media/src/{capture,devices}.rs`, `apps/lce-desktop/src
 
 Verify: GNOME/KDE Wayland, denied/revoked permission, device unplug, monitor scaling and simultaneous microphone/screen. X11 path tested separately, not assumed equivalent.
 
-## T29 — Restoration and upscaling
+## T29: Restoration and upscaling
 
 Dependencies: T08, T12, T23 worker infrastructure.
 Files: create `crates/lce-ai/src/{upscale,restore}.rs`, workers/model manifests; test `crates/lce-ai/tests/tiled_processing.rs`; scenario `restoration`.
@@ -376,7 +376,7 @@ Files: create `crates/lce-ai/src/{upscale,restore}.rs`, workers/model manifests;
 
 Verify: tile seams, moving textures, faces/text, color shifts, low-memory fallback and unchanged duration. OOM yields an actionable job failure, not project corruption.
 
-## T30 — Advanced image/video generation and presenters
+## T30: Advanced image/video generation and presenters
 
 Dependencies: T26, T27, T29.
 Files: create `crates/lce-ai/src/{generate,avatar,providers}.rs`, model/provider manifests, `apps/lce-desktop/src/panels/generate.rs`; test `crates/lce-ai/tests/generated_asset_apply.rs`; scenario `generation`.
@@ -387,7 +387,7 @@ Files: create `crates/lce-ai/src/{generate,avatar,providers}.rs`, model/provider
 
 Verify: real generation on supported hardware, cancel/OOM, reproducibility limits, offline model use, absent provider and stale-project acceptance. No promise of identical CapCut service outputs.
 
-## T31 — Templates, original content packs and covers
+## T31: Templates, original content packs and covers
 
 Dependencies: T13, T14, T18, T20.
 Files: create `schemas/template-v1.json`, `crates/lce-project/src/templates.rs`, `assets/templates/`, `apps/lce-desktop/src/panels/templates.rs`; test `crates/lce-project/tests/template_instantiation.rs`; scenario `templates`.
@@ -398,7 +398,7 @@ Files: create `schemas/template-v1.json`, `crates/lce-project/src/templates.rs`,
 
 Verify: replace short/long/wrong-aspect media, multilingual text, missing dependencies, hostile archive and original-author attribution. Do not populate catalog from CapCut downloads.
 
-## T32 — Production export and delivery profiles
+## T32: Production export and delivery profiles
 
 Dependencies: T07, T12–T20, T29 as applicable.
 Files: extend engine profiles/render, create `apps/lce-desktop/src/panels/export_queue.rs`, `assets/export-profiles/`; test `crates/lce-engine/tests/delivery_profiles.rs`; scenario `delivery`.
@@ -409,7 +409,7 @@ Files: extend engine profiles/render, create `apps/lce-desktop/src/panels/export
 
 Verify: full decode for each shipped profile, exact output frame selection, seekability, A/V endpoints, metadata, long project, disk-full and cancellation. Packaging must include every advertised element.
 
-## T33 — Interchange and bounded CapCut import research
+## T33: Interchange and bounded CapCut import research
 
 Dependencies: T08, T13, T20, T32.
 Files: create `crates/lce-interchange/src/{otio,capcut,loss_report}.rs`, `docs/formats/compatibility.md`; test `crates/lce-interchange/tests/editorial_roundtrip.rs`; scenario `interchange`.
@@ -420,7 +420,7 @@ Files: create `crates/lce-interchange/src/{otio,capcut,loss_report}.rs`, `docs/f
 
 Verify: foreign timeline cut/source ranges, unsupported speed/effect report, malicious path references and original-file preservation. No universal `.capcut` round-trip claim.
 
-## T34 — Optional self-hosted sync and backup
+## T34: Optional self-hosted sync and backup
 
 Dependencies: T08, T38 security baseline.
 Files: create `services/lce-sync/src/{api,auth,assets,revisions}.rs`, `crates/lce-project/src/sync.rs`, `docs/self-hosting.md`; test `services/lce-sync/tests/sync_conflicts.rs`; scenario `sync`.
@@ -431,7 +431,7 @@ Files: create `services/lce-sync/src/{api,auth,assets,revisions}.rs`, `crates/lc
 
 Verify: disconnect mid-upload, corrupt chunk, unauthorized cross-project read, concurrent offline edits, quota exhaustion and server restore. Do not claim end-to-end encryption without a separate implemented key-management design.
 
-## T35 — Review and collaborative editing
+## T35: Review and collaborative editing
 
 Dependencies: T34, T09.
 Files: extend service with `src/{comments,collaboration}.rs`, create `apps/lce-desktop/src/panels/review.rs`; test `services/lce-sync/tests/collaboration_order.rs`; scenario `collaboration`.
@@ -442,7 +442,7 @@ Files: extend service with `src/{comments,collaboration}.rs`, create `apps/lce-d
 
 Verify: two real clients concurrently trim/delete/relink, reconnect after revocation, resolve branch conflict, and converge on the same validated revision or an explicit unresolved conflict.
 
-## T36 — Authorized publishing
+## T36: Authorized publishing
 
 Dependencies: T32, T34 credentials/security facilities; local export does not depend on this.
 Files: create `crates/lce-jobs/src/publish.rs`, `apps/lce-desktop/src/panels/share.rs`, `docs/publishing.md`; test `crates/lce-jobs/tests/publish_state.rs`; scenario `publishing`.
@@ -453,7 +453,7 @@ Files: create `crates/lce-jobs/src/publish.rs`, `apps/lce-desktop/src/panels/sha
 
 Verify: provider sandbox/test account with actual approved API, expiry/revocation/cancel/rate limit and duplicate retry. Without approval, mark that integration blocked and make no upload-success claim.
 
-## T37 — Familiarity, accessibility and localization closure
+## T37: Familiarity, accessibility and localization closure
 
 Dependencies: begins T04; final gate after local feature integration. Home and editor layout fidelity are early MVP obligations, not deferred until this final closure task.
 Files: create `apps/lce-desktop/src/accessibility/`, `po/`, `docs/migration-from-capcut.md`, `docs/parity/desktop-reference.csv`; scenarios `keyboard`, `ime`, `familiarity`.
@@ -464,7 +464,7 @@ Files: create `apps/lce-desktop/src/accessibility/`, `po/`, `docs/migration-from
 
 Verify: recorded task outcomes and defects at target window sizes/scales. Model tests cannot replace GUI/assistive-technology proof.
 
-## T38 — Security and privacy closure
+## T38: Security and privacy closure
 
 Dependencies: starts T01; final after import/model/template/service surfaces exist.
 Files: create `docs/security/threat-model.md`, `SECURITY.md`, fuzz targets for project/subtitle/template/protocol parsers, release privacy inventory; scenarios `hostile-input`, `offline-privacy`.
@@ -475,7 +475,7 @@ Files: create `docs/security/threat-model.md`, `SECURITY.md`, fuzz targets for p
 
 Verify: fuzz corpus, hostile media/template/project, revoked portal grant, worker crash and network-disabled local workflow. Publish residual risk rather than claiming an invulnerable sandbox.
 
-## T39 — Linux package and release qualification
+## T39: Linux package and release qualification
 
 Dependencies: starts T01; closes after T32/T37/T38.
 Files: create production Flatpak manifest, AppStream/desktop metadata, icons/notices/source bundle, CI release workflow; scenario `package`.
@@ -486,7 +486,7 @@ Files: create production Flatpak manifest, AppStream/desktop metadata, icons/not
 
 Verify: clean-machine install → W01/W07/W08 → export on hardware matrix. A developer-shell success does not certify Flatpak behavior.
 
-## T40 — Governance, sustainability and public parity ledger
+## T40: Governance, sustainability and public parity ledger
 
 Dependencies: begins T01; public release requires T39 evidence.
 Files: create `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `GOVERNANCE.md`, `REUSE.toml`, issue/PR templates, `docs/parity/status.csv`, release notes and contributor setup guide.

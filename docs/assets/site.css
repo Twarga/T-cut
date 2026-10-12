@@ -374,6 +374,43 @@ ul, ol { margin: 0; padding: 0; }
 .status-callout p { margin-top: var(--space-3); color: var(--text-secondary); }
 .status-callout strong { color: var(--text-primary); }
 
+/* ---------- Numbered feature groups (home) ---------- */
+.feature-groups {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+}
+
+@media (min-width: 56rem) {
+  .feature-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-12);
+  }
+}
+
+.feature-group {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--space-5);
+  row-gap: var(--space-3);
+  padding-block: var(--space-6);
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+
+.feature-group-num {
+  grid-row: span 2;
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  color: var(--accent-signature);
+  padding-top: 0.2em;
+}
+
+.feature-group h3 { font-size: var(--text-h2); }
+.feature-group-body { grid-column: 2; }
+
+.rejected-head { margin-top: var(--space-12); }
+.evidence-note { margin-top: var(--space-8); max-width: 66ch; }
+
 /* ---------- Feature cards ---------- */
 .card-grid {
   display: grid;
@@ -563,28 +600,6 @@ tbody td { color: var(--text-secondary); }
   margin-bottom: var(--space-2);
 }
 .evidence-item dd { margin: 0; color: var(--text-secondary); font-size: var(--text-body-sm); }
-
-/* ---------- Facts strip ---------- */
-.facts {
-  display: grid;
-  gap: var(--space-6);
-  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
-  list-style: none;
-  padding: clamp(var(--space-6), 3vw, var(--space-10));
-  background: var(--surface-raised);
-  border: var(--border-width) solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-}
-
-.facts dt {
-  font-family: var(--font-display);
-  font-size: var(--text-h1);
-  font-weight: var(--weight-bold);
-  line-height: 1;
-  color: var(--text-primary);
-  letter-spacing: var(--tracking-snug);
-}
-.facts dd { margin: var(--space-2) 0 0; color: var(--text-muted); font-size: var(--text-body-sm); }
 
 /* ---------- Closing CTA ---------- */
 .cta {

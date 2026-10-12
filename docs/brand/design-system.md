@@ -156,73 +156,73 @@ Native `<button type="button">`; Space/Enter activate; focus stays on the action
 
 Native `<a href>`; Enter follows; inline links remain underlined. CTAs can use `.btn` styles while retaining link semantics. Use `--text-link` and `--text-link-hover`; avoid higher-specificity theme overrides that recolor white button labels. Long labels must wrap. Loading/disabled/mixed states do not apply to ordinary links.
 
-### ToolCategoryStrip — planned desktop
+### ToolCategoryStrip: planned desktop
 
 **Use:** horizontal main tool navigation above the left library pane. **Do not use:** as a substitute for the Home sidebar or inspector subtabs.
 
 Anatomy: icon above label, selection indicator, overflow affordance when needed. Available categories keep stable order. Use tabs or a native accessible selection group with a name, active state, arrow-key navigation and a usable focus outline. Active category changes library content, not the selected timeline object. Long/localized labels scroll or overflow; do not shrink text below readable size. Unsupported categories do not pretend to work.
 
-### CategoryList — planned desktop
+### CategoryList: planned desktop
 
 **Use:** vertical secondary navigation within a library category. **Do not use:** to replace the horizontal main tool strip.
 
 Rows contain label, optional disclosure and count/status when real. Nested groups expose expanded state. Keyboard Up/Down selects/focuses according to the chosen native pattern; Home/End navigate boundaries. Selection uses text/indicator and a semantic selected state. Remember useful child selection without resetting the timeline. Long labels wrap or expose their full value accessibly.
 
-### AssetGrid item — planned desktop
+### AssetGrid item: planned desktop
 
 **Use:** media/preset thumbnails. **Do not use:** the audio catalog where a list better communicates names and duration.
 
 Anatomy: thumbnail, accessible asset name, type/duration, ready/processing/failed state and an explicit insertion action. Focus/select/preview and insertion are distinct. Keyboard activation must not insert a clip accidentally merely because focus moved. Broken/unsupported media show recovery details; loading thumbnails do not block opening a project. Virtualize off-screen items without losing selected-item accessibility.
 
-### ParameterRow — planned desktop
+### ParameterRow: planned desktop
 
 **Use:** one property and its unit/value. **Do not use:** as an ungrouped wall of controls.
 
 Anatomy: persistent label, numeric field or slider, unit, reset, optional real keyframe control. Slider and numeric entry dispatch the same command. Arrow keys adjust according to documented precision; Escape cancels drafts. A continuous drag commits one undo transaction. Mixed selection gets a mixed state; invalid text preserves the draft and explains the constraint. Track locks disable editing through the model, not just the widget. Tooltip is not the sole label.
 
-### InspectorSection — planned desktop
+### InspectorSection: planned desktop
 
 **Use:** related parameter rows such as Transform. **Do not use:** to hide essential selected-object identity.
 
 Heading/disclosure, optional enable control, reset/animation affordances, rows and divider. Disclosures expose expanded state; bypass/check controls exist only for effects that can really be bypassed. Preserve focus when opening a section and independent scroll state when possible. No-selection shows Details; object selection changes to the correct inspector. Label collisions and long translations wrap.
 
-### TimelineClip — planned desktop
+### TimelineClip: planned desktop
 
 **Use:** timed video/audio/text items. **Do not use:** thumbnail imagery as the only accessible clip identity.
 
 Body contains appropriate thumbnails/waveform/text, selected outline, source warnings, edge handles and track relation. Selected/multi-selected/locked/error/loading states represent domain state. Provide a named keyboard clip navigator and numeric move/trim paths for tiny clips. Arrow/split/delete commands follow the published shortcut profile and never fire while text/IME input owns focus. A drag draft cancels safely on Escape/capture loss; undo restores the model, not just widget coordinates.
 
-### ProjectCard — planned desktop
+### ProjectCard: planned desktop
 
 **Use:** Home projects. **Do not use:** as an asset-browser item.
 
 Thumbnail, title, truthful metadata, open action and context menu. Open uses stable identity, not grid index. Rename and duplicate preserve source media; Trash/Restore acts on the managed project. A missing project offers locate/remove-from-recents rather than silently opening a blank replacement. Menu actions have keyboard routes. Thumbnail loading remains independent of project opening. Titles wrap within a bounded card while the full name remains accessible.
 
-### ModalShell — planned desktop
+### ModalShell: planned desktop
 
 **Use:** a focused decision or task such as settings/export/relink. **Do not use:** a modal for ordinary navigation to Home.
 
 Title, content, action footer and error/help region. Use native dialog semantics; contain focus, return it to the trigger and document Escape behavior. Export has preview/settings columns; settings has tabs; relink has rows/status. Do not force all three into one identical form. At small sizes or high scaling, stack columns and scroll content while actions remain reachable. Saving is separate from exporting media. Progress is measured or indeterminate, never invented.
 
-### StatusCallout — implemented site
+### StatusCallout: implemented site
 
 **Use:** information that changes a visitor’s decision, such as no application release. **Do not use:** repeated decorative warnings.
 
 `.status-callout` contains a heading, explanatory text and useful links; icon is decorative. Use `--status-warning-bg/fg` and readable body text. Static status is not an interrupting live alert. Dynamic editor errors may use a bounded live announcement when relevant. At narrow widths, icon/content stack. It is visible before the feature sections so planned features cannot imply current availability.
 
-### Tabs — implemented site
+### Tabs: implemented site
 
 **Use:** peer roadmap sections. **Do not use:** to hide unrelated navigation or essential status.
 
 HTML starts as working anchor links and six headed sections. JavaScript adds `tablist`, `tab`, `tabpanel`, roving tabindex, `aria-selected`, panel labels and orientation. Desktop vertical tabs use Up/Down; narrow horizontal tabs use Left/Right. Home/End jump; Enter/Space activate. One panel appears with JS; all remain readable without it. Selection has a slice indicator and semantics. Long labels wrap. Avoid automatic rotation and hover selection.
 
-### FeatureCard — implemented site
+### FeatureCard: brand page
 
-**Use:** six planned MVP capability summaries. **Do not use:** to imply that every roadmap feature ships in v0.1.
+**Use:** brand swatches and asset tiles on the brand page. **Do not use:** for roadmap or feature claims.
 
-Slice motif, concise heading and one explanatory paragraph. Semantic list/article content, not an interactive card unless it has a real destination. Hover border is decoration, not an action signal. Grid reflows without fixed heights; long content cannot overlap a neighbor. The surrounding heading and status establish planned availability.
+Swatch or asset preview, concise heading, one explanatory paragraph. Semantic list content, not an interactive card unless it has a real destination. Hover border is decoration, not an action signal. Grid reflows without fixed heights; long content cannot overlap a neighbor.
 
-### Table — implemented site
+### Table: implemented site
 
 **Use:** direct comparisons: stack choices, release scope, token values. **Do not use:** tabular layout for unrelated content.
 

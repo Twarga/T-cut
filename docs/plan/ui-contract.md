@@ -1,210 +1,378 @@
 # t-cut Interface and Interaction Contract
 
-Spec: [product-spec.md](product-spec.md). The **2026-10-12 [screenshot-backed research](../research/research.md)** and [fidelity contract](../research/fidelity-contract.md) refine this document and take precedence over its earlier generic layout proposals. All dimensions/defaults remain proposals unless tied to an observed reference. The target is close whole-application CapCut Desktop familiarity, not just four editor panes.
+> **Spec:** [product-spec.md](product-spec.md)
+> **Precedence:** the **2026-10-12 [screenshot-backed research](../research/research.md)** and the [fidelity contract](../research/fidelity-contract.md) override this document's earlier generic layouts.
+> **Proposals:** every dimension and default is a proposal unless tied to an observed reference.
+> **Target:** close whole-application CapCut Desktop familiarity. Not just four editor panes.
 
-## 0. Home and project lifecycle are MVP requirements
+## At a glance
 
-The first screen is a recognizable project dashboard: left navigation, prominent Create project area, Projects heading, project search/view/Trash controls and thumbnail cards. Creating a project leads directly into the empty editor; opening a recent/local project returns to its saved work. Include working Rename, Duplicate, Move to Trash/Restore, return Home, settings and missing-media flows. No mandatory login, fake Pro controls or unsupported AI-service cards.
+- **Home is MVP.** Projects dashboard, create, open, rename, duplicate, Trash and Restore, missing-media flow.
+- **Layout:** familiar workbench. Library left, player center, inspector right, timeline below, Export top right.
+- **Look:** original icons, system typography, independent colors. **No** copied logo, icons, thumbnails, or branding.
+- **Timeline:** three separate systems. Snap, main-track magnet, linked selection.
+- **Edits:** one drag gesture = one undo transaction. Escape cancels.
+- **Every drag** has a keyboard alternative.
+- **Export** freezes a revision. Output is written to a temp file, then published after validation.
+- **Canonical IDs:** UI01–UI24 states and A01–A14 scenarios, from the [fidelity contract](../research/fidelity-contract.md).
 
-Use the new fidelity contract's UI01–UI24 states and A01–A14 scenarios. The earlier SVG lacks Home and several correct control locations; it is historical, not a pixel/layout specification.
+## 0. Home and project lifecycle (MVP)
 
-## 1. Familiar workbench, independent appearance
+The first screen is a recognizable project dashboard:
 
-Official desktop guides document the broad pattern: library/tools left, player center, contextual properties right, multitrack timeline below, Export at the upper right. Preserve these locations. Preserve recognizable task names: Media, Audio, Text, Captions, Effects, Transitions, Filters, Adjustment, Split, Speed, Mask, Keyframe, Export.
+- Left navigation.
+- A prominent **Create project** area.
+- A **Projects** heading, with project search, view, and Trash controls.
+- Thumbnail cards.
 
-Do not recreate CapCut's logo, icon silhouettes, proprietary thumbnails, promotional illustrations, animations, type treatment, or complete branded appearance. Use an original icon set with provenance, system UI typography, and independent semantic colors. Familiarity is tested by task performance, not pixel matching. See legal sources in [sources.md](sources.md).
+**Flows:**
 
-### Regions and responsibilities
+- Create a project → straight into the empty editor.
+- Open a recent or local project → back to its saved work.
+- Working **Rename**, **Duplicate**, **Move to Trash / Restore**.
+- Return Home, settings, and the missing-media flow.
+
+**Never include:** mandatory login, fake Pro controls, or unsupported AI-service cards.
+
+The earlier SVG lacks Home and some control locations. Treat it as history, not a layout spec.
+
+## 1. Familiar workbench, independent look
+
+Official desktop guides describe the broad pattern. Keep these locations:
+
+- Library and tools on the left.
+- Player in the center.
+- Contextual properties on the right.
+- Multitrack timeline below.
+- Export at the upper right.
+
+**Keep these task names:** Media, Audio, Text, Captions, Effects, Transitions, Filters, Adjustment, Split, Speed, Mask, Keyframe, Export.
+
+**Do not copy:**
+
+- CapCut's logo or icon silhouettes
+- Proprietary thumbnails or promo illustrations
+- Animations, type treatment, or the complete branded look
+
+**Do use:** an original icon set with provenance, system UI type, and independent semantic colors.
+
+**Test familiarity by task performance, not pixel matching.** Legal sources: [sources.md](sources.md).
+
+### Regions
 
 | Region | Contents | Always-available command |
 |---|---|---|
-| Project bar | Main menu, project name, save state, layout/shortcut access, Export | Open/save/export through menu and shortcuts |
-| Library | Horizontal main-tool categories above an inner vertical category list and content area | Import; local files first |
-| Player | Sequence/source preview, safe areas, overlay handles, quality and aspect selection | Play/pause, time entry, frame step |
-| Inspector | Contextual fields, keyframe diamonds, reset, animation/effects | Show selected object's editable properties |
-| Timeline toolbar | Select, undo/redo, split/edit tools, snapping, magnet, linkage, zoom and visible modes | Mode names and current state |
-| Timeline | Ruler, playhead, named track headers, clips/waveforms/keyframes | Keyboard clip navigator and time-based editing |
-| Status/jobs | Proxy/model/export status, recoverable error, cancel | Open job details; never conceal failure |
+| Project bar | Main menu, project name, save state, layout and shortcut access, Export | Open, save, export via menu and shortcuts |
+| Library | Horizontal main-tool categories, an inner vertical category list, content area | Import. Local files first. |
+| Player | Sequence or source preview, safe areas, overlay handles, quality and aspect selection | Play and pause, time entry, frame step |
+| Inspector | Contextual fields, keyframe diamonds, reset, animation and effects | Show the selected object's editable properties |
+| Timeline toolbar | Select, undo and redo, split and edit tools, snapping, magnet, linkage, zoom, visible modes | Mode names and current state |
+| Timeline | Ruler, playhead, named track headers, clips, waveforms, keyframes | Keyboard clip navigator. Time-based editing. |
+| Status and jobs | Proxy, model, and export status. Recoverable errors. Cancel. | Open job details. **Never hide a failure.** |
 
-### Proposed initial pane geometry
+### Initial pane geometry (proposed)
 
-- Compare the first fidelity prototype at the chosen reference capture size, then test 1366×768 and 1280×720 logical workspaces. Screenshot pixels do not establish logical units.
-- Match the reference's compact title/application bar; determine logical height through a real GTK prototype rather than treating the earlier 44px proposal as observed fact.
-- In primary screenshot S03, library/Player/inspector visually occupy approximately 34%/35%/29% of full width, with gutters. Use these as a reference comparison, not universal fixed ratios; user resizing and other screenshots differ.
-- Keep timeline height resizable. Primary S03 devotes roughly the lower third to it; other captures show larger timelines. Establish usable minimums through the actual interface and scaling checks.
-- Player consumes remaining width; protect 360 logical pixels before collapsing secondary panes.
-- At narrower widths collapse the library browser first; preserve a labeled open-library button. Collapse the inspector to a focusable drawer next. Keep at most one secondary drawer open in focus mode.
-- At 1024×768 show player/timeline plus selected drawer; do not compress all four panes into unreadable columns.
-- At high text scaling use available content width, not physical screen resolution, to choose focus mode.
-- Below a usable editing width offer maximize/focus mode, while menus and save/export remain operable. Never trap an unsaved project behind minimum-window-size rules.
-- Save layout per workspace, not per project file; portable projects do not carry another monitor's coordinates. Provide Reset workspace.
+- **Capture size:** compare the first fidelity prototype at the chosen reference capture size. Then test logical workspaces at **1366×768** and **1280×720**. Screenshot pixels do not establish logical units.
+- **Title bar:** match the reference's compact bar. Find the logical height with a real GTK prototype. The earlier 44 px figure is **not** observed fact.
+- **Reference ratios** (screenshot S03, approximate, with gutters): library 34%, player 35%, inspector 29% of full width. Use as a comparison only. Not fixed ratios. Users resize, and other screenshots differ.
+- **Timeline height:** resizable. S03 gives roughly the lower third. Other captures show taller timelines. Set minimums through the real UI and scaling checks.
+- **Player:** takes the remaining width. Protect **360 logical px** before collapsing secondary panes.
+
+**Collapse order as width shrinks:**
+
+1. Collapse the library browser first. Keep a labeled open-library button.
+2. Collapse the inspector into a focusable drawer.
+3. In focus mode, keep at most one secondary drawer open.
+
+**Other widths:**
+
+- At **1024×768**: show player and timeline, plus the selected drawer. **Don't** squeeze all four panes into unreadable columns.
+- At high text scale: pick focus mode from available content width, not screen resolution.
+- Below a usable editing width: offer maximize or focus mode. Menus and save or export stay operable. **Never** trap an unsaved project behind minimum-window-size rules.
+
+**Layout memory:** save layout per workspace, not per project file. Portable projects must not carry another monitor's coordinates. Provide **Reset workspace**.
 
 ## 2. Original design tokens
 
-Define tokens in `apps/lce-desktop/resources/tokens.css`, consumed by component styles. GTK CSS is not browser CSS: use supported GTK constructs and generated named colors, not assume arbitrary web layout APIs.
+- Define tokens in `apps/lce-desktop/resources/tokens.css`. Component styles consume them.
+- GTK CSS is **not** browser CSS. Use supported GTK constructs and generated named colors. Don't assume arbitrary web layout APIs.
 
 | Token family | Initial proposal | Purpose |
 |---|---|---|
 | Spacing | 4, 8, 12, 16, 24 logical px | Dense, consistent grouping |
-| Typography | system sans; 12 metadata, 14 controls, 16 section labels | Scale with system settings; tabular time digits |
-| Surfaces | canvas, panel, raised, hover, selected | Separate regions without decorative gradients |
-| Text | primary, secondary, disabled, on-accent | Measured contrast; disabled must still be understandable |
-| Semantic | accent, focus, warning, error, success | Error/selection also use labels/shapes |
-| Borders | divider, interactive, focus | Visible focus independent of selection |
-| Motion | none, short feedback | Respect reduced motion; playback is content, not decoration |
-| Tracks | video, audio, captions, effects | Labels/icons remain when colors are indistinguishable |
+| Typography | System sans. 12 metadata, 14 controls, 16 section labels. | Scales with system settings. Tabular time digits. |
+| Surfaces | Canvas, panel, raised, hover, selected | Separate regions. **No** decorative gradients. |
+| Text | Primary, secondary, disabled, on-accent | Measured contrast. Disabled text must still be understandable. |
+| Semantic | Accent, focus, warning, error, success | Errors and selection also use labels or shapes. |
+| Borders | Divider, interactive, focus | Focus stays visible, independent of selection. |
+| Motion | None, short feedback | Respect reduced motion. Playback is content, not decoration. |
+| Tracks | Video, audio, captions, effects | Labels and icons stay when colors look alike. |
 
-Dark workspace is initial default; system/light/high-contrast themes are supported. Do not hard-code a copied brand cyan. Text targets 4.5:1 normal contrast; critical control/focus boundaries target 3:1. These are design goals assessed with native desktop tooling, not an automatic claim of full WCAG web conformance.
+**Theme and contrast:**
 
-Small trim handles may have enlarged invisible hit regions, but adjacent handles must remain distinguishable. Numeric trim/move controls provide an alternative when zoom makes a clip too small to drag safely.
+- Dark workspace is the default. System, light, and high-contrast themes are supported.
+- **Don't** hard-code a copied brand cyan.
+- Text: 4.5:1 contrast. Critical control and focus boundaries: 3:1.
+- These are design goals, checked with native desktop tools. They are **not** an automatic claim of full WCAG web conformance.
 
-## 3. Shared component contracts
+**Trim handles:** small handles may have larger invisible hit areas. Adjacent handles must stay distinguishable. When zoom makes a clip too small to drag safely, numeric trim and move controls are the alternative.
 
-- **ActionButton:** command ID, label, icon, shortcut, enabled state and reason. Icon-only actions have accessible names and tooltips; tooltips are not the only explanation of a blocked operation.
-- **ParameterField:** value/unit/range, mixed-selection state, reset, keyframe state, validation, commit/cancel. Invalid input stays editable and never silently clamps without explanation.
-- **TimeField:** display frame time or decimal seconds; accept explicit timebase; parsing reports invalid frames and unsupported drop-frame labels.
-- **AssetTile:** name, thumbnail, duration/type, local/proxy/model status, license detail; selection is separate from insertion.
-- **ClipView:** clip ID, name, track, start/end, selected/locked/missing/proxy status; renders only visible content; accessible representation is not a screenshot.
-- **JobRow:** stage, measurable progress or indeterminate indicator, cancel/retry, output details, failure cause. Never fabricate remaining time before a meaningful estimate exists.
-- **Modal:** reserve for irreversible external operations, overwrite authorization, and explicit settings that require a decision. Ordinary editing remains in panels/popovers.
+## 3. Shared components
 
-Every component supports empty, loading, ready, selected, disabled, error, focus, hover, long-label, and high-contrast states where applicable. Focus returns to the invoking command after a drawer/dialog closes.
+- **ActionButton:** command ID, label, icon, shortcut, enabled state, and the reason when disabled. Icon-only actions need accessible names and tooltips. Tooltips are **not** the only explanation of a blocked action.
+- **ParameterField:** value, unit, range, mixed-selection state, reset, keyframe state, validation, commit and cancel. Invalid input stays editable. **Never** clamp silently without an explanation.
+- **TimeField:** shows frame time or decimal seconds. Accepts an explicit timebase. Reports invalid frames and unsupported drop-frame labels.
+- **AssetTile:** name, thumbnail, duration and type, local/proxy/model status, license detail. Selecting is separate from inserting.
+- **ClipView:** clip ID, name, track, start and end, selected, locked, missing, and proxy status. Renders only visible content. The accessible representation is **not** a screenshot.
+- **JobRow:** stage, measurable progress or an indeterminate indicator, cancel or retry, output details, failure cause. **Never** invent remaining time before a meaningful estimate exists.
+- **Modal:** only for irreversible external operations, overwrite authorization, and settings that need a decision. Ordinary editing stays in panels and popovers.
 
-## 4. Selection, focus, and editing transactions
+**State coverage:** every component supports empty, loading, ready, selected, disabled, error, focus, hover, long label, and high contrast, where they apply.
 
-Selection is project editing state; keyboard focus is widget state. Moving focus to an inspector does not deselect its clip. Track locks prevent every mutation path, including shortcuts, scripts, inspector fields, and multi-selection commands.
+**Focus:** returns to the invoking command after a drawer or dialog closes.
 
-1. Pointer down records the pre-edit snapshot and candidate gesture.
-2. Movement beyond a small logical-pixel threshold enters a draft gesture; display ghost positions and affected clips.
-3. Draft updates are coalesced at display cadence; they do not each append undo history or journal records.
-4. Pointer release validates the final edit and commits one transaction.
-5. Escape cancels the draft and restores the exact pre-edit state.
-6. Loss of pointer capture cancels safely; it does not commit an accidental far-away drop.
-7. A rejected edit explains the blocking locked clip, collision, duration, or missing source without partial changes.
+## 4. Selection, focus, and edit transactions
 
-Click selects one clip. Ctrl-click toggles membership; Shift-click extends a track-order range. Marquee selection uses intersection, with an explicit additive modifier. Multi-selection inspector shows common editable properties and a mixed value when they differ. Numeric changes set the chosen value on all eligible selected objects as one undo transaction; unsupported objects are enumerated before applying a partial subset.
+- **Selection** is project editing state. **Focus** is widget state.
+- Moving focus to the inspector does **not** deselect the clip.
+- Track locks block every mutation path: shortcuts, scripts, inspector fields, and multi-selection commands.
 
-## 5. Timeline modes: three separate systems
+**Drag lifecycle:**
+
+1. Pointer down: record the pre-edit snapshot and the candidate gesture.
+2. Move past a small logical-px threshold: enter a draft gesture. Show ghost positions and affected clips.
+3. Draft updates coalesce at display cadence. They do **not** add undo history or journal records.
+4. Pointer release: validate the final edit. Commit **one** transaction.
+5. Escape: cancel the draft. Restore the exact pre-edit state.
+6. Losing pointer capture cancels safely. **No** accidental far-away drop.
+7. A rejected edit explains why: locked clip, collision, duration, or missing source. **No** partial changes.
+
+**Selection gestures:**
+
+- Click: select one clip.
+- Ctrl-click: toggle membership.
+- Shift-click: extend a range in track order.
+- Marquee: uses intersection. Additive needs an explicit modifier.
+- Multi-select inspector: shows common editable properties. Shows a mixed value when they differ.
+- Numeric change: sets the value on all eligible selected objects as **one** undo transaction. Unsupported objects are listed **before** any partial apply.
+
+## 5. Timeline: three separate systems
 
 ### Snap
 
-Proposed default on. Candidate targets: playhead, eligible clip edges, sequence markers, in/out points; frame grid is the final quantization constraint, not an independent mystery mode. Captions and keyframes snap within their appropriate editing lanes.
-
-Threshold: initial six logical pixels, converted to time at current zoom. Resolve nearest target first; ties prefer playhead, then explicit markers, then clip boundaries. Show a guide and target label. Use hysteresis to prevent flickering between close targets. Snapping moves the dragged edge or whole clip; it does not independently stretch a moved clip. Provide a visible temporary-disable modifier and remapping.
+- **Default:** on (proposed).
+- **Targets:** playhead, eligible clip edges, sequence markers, in and out points.
+- **Frame grid:** the final quantization constraint. Not an independent mode.
+- **Captions and keyframes** snap within their own editing lanes.
+- **Threshold:** initial 6 logical px, converted to time at the current zoom.
+- **Nearest wins.** Ties: playhead first, then explicit markers, then clip boundaries.
+- Show a guide and a target label. Use hysteresis so close targets don't flicker.
+- Snapping moves the dragged edge or the whole clip. It never stretches a moved clip on its own.
+- Provide a visible temporary-disable modifier, and let users remap it.
 
 ### Main-track magnet
 
-Proposed default on in the familiar profile, with a visible indicator and preference. Exactly one video track is designated main. An insertion at a boundary pushes downstream main-track clips; insertion inside a main clip first splits that clip at the insertion point. Trim/deletion closes or opens time on the main track.
+- **Default:** on in the familiar profile. Show a visible indicator. Add a preference.
+- **Main track:** exactly one video track is designated main.
+- **Insert at a boundary:** pushes downstream main-track clips.
+- **Insert inside a main clip:** splits that clip at the insertion point first.
+- **Trim or delete on main:** closes or opens time.
+- **Other tracks** move only through explicit link or anchor rules, or an explicit all-tracks ripple command.
+- An independent music bed never shrinks by surprise.
+- If an operation would violate a locked member of an affected link group: reject the transaction and name the blocker.
+- Users can turn magnet **off** for intentional gaps.
 
-Other tracks move only through explicit link/anchor rules or an explicit all-tracks ripple command. An independent music bed does not mysteriously shorten. If the operation would violate a locked member of an affected link group, reject the transaction and identify the blocker. The user can turn magnet off for intentional gaps.
+### Links and anchors
 
-### Linked selection and follow anchors
+Keep three relationships separate:
 
-Do not conflate three relationships:
+- **AV pair:** video and its extracted or associated audio share source timing. Moving keeps alignment. Slip and trim update both, unless explicitly detached.
+- **Selection group:** selecting one selects the group when Linked selection is on. This is **not** a source-time relationship.
+- **Follow anchor:** a caption, B-roll, or overlay records an anchor clip and a timeline offset. A main-track move carries it. It does **not** inherit the anchor's scale, color, or duration automatically.
 
-- **AV pair:** video and extracted/associated source audio share source timing; moving keeps alignment. Slip/trim updates both unless explicitly detached.
-- **Selection group:** selecting one selects the group when Linked selection is on; it is not a source-time relationship.
-- **Follow anchor:** caption/B-roll/overlay records an anchor clip and timeline offset; a main-track move carries it. It does not automatically inherit the anchor's scale, color, or duration.
+**Rules:**
 
-Disabling Linked selection changes selection expansion, not the stored links. Unlink changes the model and is undoable. Show link/anchor badges and explain dependencies in the move preview. Ripple across an anchor interval must preserve offsets or ask for an explicit detach decision; never invent a new anchor silently.
+- Turning off Linked selection changes selection expansion, **not** the stored links.
+- Unlink changes the model and is undoable.
+- Show link and anchor badges. Explain dependencies in the move preview.
+- Ripple across an anchor interval must keep offsets, or ask for an explicit detach decision. **Never** invent a new anchor silently.
 
 ## 6. Operations and edge rules
 
-| Action | Contract | Failure/edge behavior |
+| Action | Contract | Failure or edge behavior |
 |---|---|---|
-| Move | Preserve duration and source map; track change explicit | Reject incompatible/locked destination |
-| Trim head/tail | Change source window and sequence duration coherently | Cannot exceed available source except explicit still/freeze policy |
-| Split | Selected eligible clips at interior playhead; preserve animation evaluation | Exact endpoint is a no-op with explanation; no zero-length child |
-| Delete | Remove selected items, honoring visible magnet policy | Undo restores IDs, timing, links, and effects |
-| Ripple delete | Remove interval and shift participating material | Locked-crossing edit rejected atomically |
-| Roll | Move adjacent shared boundary without sequence duration change | Source handles required on both sides |
-| Slip | Move source interval without moving clip in timeline | Show source in/out previews and exact bounds |
-| Slide | Move selected clip while adjusting immediate neighbors | Reject if either neighbor lacks handles |
-| Duplicate | New IDs, same parameters, explicit placement | Links copied within duplicate set, never pointing accidentally to originals |
-| Paste attributes | User chooses transform/color/audio/effects/animation families | Units/time domains validated; one undo operation |
-| Split compound | Split parent mapping; child sequence remains editable | Never flatten without explicit render command |
+| Move | Keeps duration and source map. Track change is explicit. | Reject an incompatible or locked destination. |
+| Trim head or tail | Changes the source window and sequence duration together. | Can't exceed available source, except an explicit still or freeze policy. |
+| Split | Splits eligible selected clips at the interior playhead. Keeps animation evaluation. | Exact endpoint is a no-op, with an explanation. No zero-length child. |
+| Delete | Removes selected items. Honors the magnet policy. | Undo restores IDs, timing, links, and effects. |
+| Ripple delete | Removes the interval and shifts participating material. | A locked crossing rejects the edit atomically. |
+| Roll | Moves the shared boundary. Sequence duration unchanged. | Needs source handles on both sides. |
+| Slip | Moves the source interval. The clip stays put on the timeline. | Show source in and out previews and exact bounds. |
+| Slide | Moves the selected clip and adjusts its immediate neighbors. | Reject if either neighbor lacks handles. |
+| Duplicate | New IDs, same parameters, explicit placement. | Links copy within the duplicate set. **Never** point at the originals by accident. |
+| Paste attributes | User picks transform, color, audio, effects, or animation families. | Validate units and time domains. One undo operation. |
+| Split compound | Splits the parent mapping. The child sequence stays editable. | Never flatten without an explicit render command. |
 
-Collision policy with magnet off: an insertion drop on an occupied area offers an explicit Insert/Overwrite action with a preview; it must not silently replace existing content. A simple move on a nonoverlap editorial track rejects collisions unless overwrite mode is selected. Compositing overlap is represented through separate layers/tracks, not ambiguous same-lane ordering.
+**Collisions with magnet off:**
 
-Every drag action has Move to time, Trim by frames, Set source in/out, Move to track, or equivalent keyboard-accessible command.
+- An insert drop on an occupied area offers an explicit **Insert** or **Overwrite** action, with a preview. **Never** replace content silently.
+- A simple move on a non-overlapping editorial track rejects collisions unless overwrite mode is on.
+- Compositing overlap uses separate layers or tracks. **No** ambiguous same-lane ordering.
+
+**Keyboard parity:** every drag action has a keyboard command. Examples: Move to time, Trim by frames, Set source in and out, Move to track.
 
 ## 7. Player and inspector
 
-Player may show Source or Sequence; its mode is visibly named. Clicking bin preview does not silently replace sequence playback during an edit. Playhead and time display share one transport state. Scrubbing mutes audio by default until a separate audio-scrub option is qualified.
+**Player:**
 
-- Transform handles use sequence display coordinates and account for letterboxing, pixel aspect ratio, rotation metadata, and UI scale.
-- Guides/safe areas are overlays, not burned into output.
-- Video inspector: Basic/Transform, Mask, Speed, Tracking/Stabilization; Audio and Adjustment groups as applicable.
-- Audio inspector: gain, pan, fades, automation, processing; separate loudness analysis from playback gain.
-- Text/caption inspector: editable content, typography, timing, style, animation, language/speaker.
-- No selection: sequence properties and project summary, never stale clip values.
-- Unsupported/missing effect: keep its stored configuration visible with a repair/remove action; block export if silently omitting it would change output.
-- Changing a numeric field while playing is one committed edit at field completion; live preview is a draft state.
+- Shows **Source** or **Sequence**. The active mode is named visibly.
+- Clicking a bin preview does **not** replace sequence playback during an edit.
+- Playhead and time display share one transport state.
+- Scrubbing mutes audio by default, until a separate audio-scrub option is qualified.
+- Transform handles use sequence display coordinates. They account for letterboxing, pixel aspect ratio, rotation metadata, and UI scale.
+- Guides and safe areas are overlays. **Never** burned into the output.
+
+**Inspectors:**
+
+- **Video:** Basic or Transform, Mask, Speed, Tracking or Stabilization. Audio and Adjustment groups as applicable.
+- **Audio:** gain, pan, fades, automation, processing. Keep loudness analysis separate from playback gain.
+- **Text and caption:** editable content, typography, timing, style, animation, language, speaker.
+- **No selection:** sequence properties and a project summary. **Never** stale clip values.
+- **Unsupported or missing effect:** keep its stored configuration visible, with a repair or remove action. Block export if silently dropping it would change the output.
+- **Numeric field while playing:** one committed edit when the field is completed. Live preview is a draft state.
 
 ## 8. Keyframes and speed curves
 
-A diamond beside an animatable property shows: not animated, animated but no key here, key at current time. Accessible label includes property, action, and time. Buttons move to previous/next key. Default interpolation is linear; hold and cubic easing are explicit.
+**Diamond states** beside an animatable property:
 
-Adding the first key preserves the preexisting value outside the animated region. Splitting must preserve evaluation on both halves: insert evaluated boundary values and split interpolation segments, rather than dropping keys on one side. Keys belong to a declared time domain; see architecture.
+- Not animated.
+- Animated, but no key at this time.
+- Key at the current time.
 
-Curve editor supports dragging and numeric time/value/tangent editing. Speed ramps display output duration, source range, and audio policy before commit. Zero speed is represented as a freeze segment, not division by zero. Reverse is an explicit mode/segment, not a curve crossing zero unnoticed.
+The accessible label includes the property, the action, and the time. Buttons jump to the previous and next key.
+
+**Interpolation:** linear by default. Hold and cubic easing are explicit.
+
+**First key:** preserves the existing value outside the animated region.
+
+**Split:** keeps evaluation on both halves. Insert evaluated boundary values and split the interpolation segments. **Don't** drop keys on one side. Keys belong to a declared time domain (see [architecture.md](architecture.md)).
+
+**Curve editor:**
+
+- Drag, or type numeric time, value, and tangent.
+- Speed ramps show the output duration, source range, and audio policy **before** commit.
+- Zero speed is a **freeze segment**, not a division by zero.
+- Reverse is an explicit mode or segment. Never a curve crossing zero unnoticed.
 
 ## 9. Captions and transcript editing
 
-Caption list and timeline refer to the same caption objects. Double-click opens text editing. Enter adds a newline in a multiline editor; Ctrl+Enter commits; Escape first cancels IME preedit according to toolkit behavior, then a subsequent cancellation can close the editor. Global editing shortcuts never intercept composing text.
+- The caption list and the timeline refer to the **same** caption objects.
+- Double-click opens text editing.
+- **Enter** adds a newline in the multiline editor. **Ctrl+Enter** commits.
+- **Escape** first cancels IME preedit, per toolkit behavior. A second Escape can close the editor.
+- Global editing shortcuts **never** intercept composing text.
 
-Captions support manual and generated provenance, speaker, language, start/end, word timing, and style reference. Confidence is advisory, not permission to discard speech. Warn about unreadable durations/line lengths, but do not impose a guessed CapCut minimum duration as a hard file-format rule.
+**Caption data:**
 
-Split at an interior time distributes words by timing; if no word timing exists, ask for text split position or keep the text selected for correction. Do not duplicate the full sentence into both blocks silently. Apply style to all is explicit and undoable; per-word highlight timing survives text corrections when unambiguous, otherwise mark it for review.
+- Manual and generated provenance, speaker, language, start and end, word timing, style reference.
+- Confidence is advisory. It is **not** permission to discard speech.
+- Warn about unreadable durations and line lengths. Don't impose a guessed CapCut minimum duration as a hard file-format rule.
 
-Transcript deletions propose time ranges; user reviews waveform/video previews and link/ripple effects before applying. Filler-word and silence detection never automatically remove clips merely because a model is confident.
+**Splitting a caption:**
 
-## 10. Shortcut baseline
+- At an interior time, split words by their timing.
+- No word timing → ask for a text split position, or keep the text selected for correction.
+- **Never** copy the full sentence into both blocks silently.
 
-All shortcuts are visible in menus and searchable in Preferences. Proposed Linux mapping uses Ctrl; this is not a macOS port specification.
+**Style:** "Apply style to all" is explicit and undoable.
 
-| Command | Linux mapping | Evidence/status |
+**Per-word highlight timing:** survives text corrections when unambiguous. Otherwise mark it for review.
+
+**Transcript deletions:** propose time ranges. The user reviews the waveform and video previews, plus link and ripple effects, before applying.
+
+**Filler and silence detection:** **never** remove clips automatically just because a model is confident.
+
+## 10. Shortcuts
+
+- Every shortcut appears in menus and is searchable in Preferences.
+- Proposed Linux mapping uses Ctrl. This is **not** a macOS port spec.
+
+| Command | Linux mapping | Evidence or status |
 |---|---|---|
-| Split selected at playhead | Ctrl+B | Official desktop subtitle documentation; exact selection behavior still observed-build gate |
-| Play/pause | Space | Official PC resource claim; respect text focus |
-| Frame back/forward | Left/Right | Official PC resource claim; only timeline/player context |
-| Set range in/out | I / O | Official export help |
-| Mark export range | Shift+X | Official export help; precise initial range selection must be qualified |
-| Undo/redo | Ctrl+Z / Ctrl+Shift+Z | Proposed conventional mapping, not certified CapCut table |
-| Save/import/export | Ctrl+S / Ctrl+I / Ctrl+E | Proposed |
-| Delete selection | Delete | Proposed; visible magnet policy applies |
-| Zoom timeline | Ctrl+wheel and visible +/- | Proposed; conflict checks and alternative buttons |
-| Toggle keyframe editor | Configurable, initially unassigned | Alt+K appears in official resource but may conflict with desktop/window manager |
+| Split selected at playhead | Ctrl+B | Official desktop subtitle docs. Exact selection behavior still needs an observed-build gate. |
+| Play and pause | Space | Official PC resource claim. Respect text focus. |
+| Frame back and forward | Left, Right | Official PC resource claim. Timeline and player context only. |
+| Set range in and out | I, O | Official export help |
+| Mark export range | Shift+X | Official export help. Precise initial range selection must be qualified. |
+| Undo and redo | Ctrl+Z, Ctrl+Shift+Z | Proposed conventional mapping. Not a certified CapCut table. |
+| Save, import, export | Ctrl+S, Ctrl+I, Ctrl+E | Proposed |
+| Delete selection | Delete | Proposed. The visible magnet policy applies. |
+| Zoom timeline | Ctrl+wheel, visible + and − | Proposed. Check conflicts. Provide alternative buttons. |
+| Toggle keyframe editor | Configurable. Unassigned at first. | Alt+K appears in an official resource but may conflict with the desktop or window manager. |
 
-Shortcut settings detect duplicates within overlapping contexts, let users reset one mapping, export/import a versioned profile, and report unavailable platform combinations. Do not add undocumented aliases that consume text input. Do not label a complete profile “verified CapCut-compatible” before current-build observation.
+**Shortcut settings:**
 
-## 11. Save, export, and recovery surfaces
+- Detect duplicates within overlapping contexts.
+- Let users reset one mapping.
+- Export and import a versioned profile.
+- Report platform combinations that aren't available.
 
-Save project, Export media, Export captions, Collect project, and Share are different commands.
+**Don't:** add undocumented aliases that eat text input. Don't label a profile "verified CapCut-compatible" before observing the current build.
 
-- Save state reads Saved / Saving / Unsaved / Save failed with a specific reason. Do not show Saved before durable write succeeds.
-- Missing media uses an explicit offline placeholder in preview with relink controls. Final export blocks rather than rendering that placeholder unnoticed.
-- Export dialog shows sequence/range, resolution, rational frame rate, container/codec, audio, color, destination, overwrite policy, and estimated size only when meaningful.
-- Queue entry freezes a project revision. Later edits do not mutate an already queued export.
-- Render writes a temporary sibling output and publishes it after validation. Cancellation removes that job's temporary files, not an earlier successful export.
-- Failure names asset/effect/stage where possible and preserves editable project state. Retry starts a clean job; arbitrary mid-codec resume is not promised.
-- On recovery, show recovered revision/time and original saved revision; offer separate recovered copy before replacing saved state.
+## 11. Save, export, and recovery
 
-## 12. Accessibility and localization acceptance
+**Four separate commands:** Save project, Export media, Export captions, Collect project, Share.
 
-GTK native controls expose roles, names, values, focus and actions through AT-SPI. Custom timeline exposes an accessible clip list/tree with name, track, start/end, selection, lock, and editing actions. Virtualization cannot make selected clips inaccessible when scrolled away.
+**Save state:** Saved, Saving, Unsaved, or Save failed, with a specific reason. **Never** show Saved before the durable write succeeds.
 
-- Complete W01 and W09 from the product spec with keyboard and Orca.
-- Focus stays visible in dark/light/high-contrast modes and at 200% text scale.
-- Do not announce each playback frame; provide on-demand current time and throttled status.
-- Translate UI strings through gettext; use plural rules and translator context.
-- Test long German labels, Arabic/Hebrew RTL UI, Japanese/Chinese IME, combining marks, and mixed-direction captions.
-- Timeline time still advances left-to-right in RTL shell as an explicit media-workspace convention; labels and text editors retain correct bidi behavior.
-- Use locale-aware number presentation with unambiguous time/frame entry and a documented decimal separator policy.
-- UI animation respects reduced-motion preferences; disabling decoration must not disable actual video playback.
+**Missing media:**
 
-## 13. Current-reference capture protocol
+- Shows an explicit offline placeholder in preview, with relink controls.
+- Final export **blocks**. It never renders the placeholder unnoticed.
 
-Before finalizing familiarity claims, record a legally obtained CapCut Desktop build: version, OS, locale, keyboard layout, account tier and relevant enabled flags. Exercise W01–W06 and record actions/outcomes, not extracted program resources. Keep reference evidence outside shipped application assets.
+**Export dialog shows:** sequence and range, resolution, rational frame rate, container and codec, audio, color, destination, overwrite policy, and estimated size (only when it is meaningful).
 
-Maintain `docs/parity/desktop-reference.csv` with feature ID, source/build, action, observed result, LCE decision, intentional difference, and regression scenario. Changes in CapCut do not automatically force an unstable UI redesign; preserve user preferences and update the documented compatibility target.
+**Queue:**
+
+- An entry freezes a project revision. Later edits never change a queued export.
+- Render writes a temp sibling file, then publishes it after validation.
+- Cancel removes **that job's** temp files. Never an earlier successful export.
+
+**Failure:**
+
+- Names the asset, effect, or stage where possible.
+- Keeps the project editable.
+- Retry starts a clean job. **No** promise of mid-codec resume.
+
+**Recovery:** show the recovered revision and time, and the original saved revision. Offer a separate recovered copy **before** replacing the saved state.
+
+## 12. Accessibility and localization
+
+**Accessibility:**
+
+- GTK native controls expose roles, names, values, focus, and actions through AT-SPI.
+- The custom timeline exposes an accessible clip list or tree: name, track, start and end, selection, lock, and editing actions.
+- Virtualization must not make selected clips inaccessible once they scroll away.
+- Complete W01 and W09 from the [product spec](product-spec.md) with keyboard and Orca.
+- Focus stays visible in dark, light, and high-contrast modes, and at 200% text scale.
+- **Don't** announce every playback frame. Provide on-demand current time and throttled status.
+
+**Localization:**
+
+- Translate strings through gettext. Use plural rules and translator context.
+- Test long German labels, Arabic and Hebrew RTL UI, Japanese and Chinese IME, combining marks, and mixed-direction captions.
+- **Timeline** time still runs left to right in an RTL shell. This is an explicit media-workspace convention. Labels and text editors keep correct bidi behavior.
+- Use locale-aware number formatting. Time and frame entry must be unambiguous. Document the decimal separator policy.
+
+**Motion:** UI animation respects reduced-motion settings. Turning off decoration must **not** disable video playback.
+
+## 13. Reference capture protocol
+
+Before any familiarity claim:
+
+1. Record a legally obtained CapCut Desktop build: version, OS, locale, keyboard layout, account tier, relevant enabled flags.
+2. Run W01–W06. Record actions and outcomes. **Don't** extract program resources.
+3. Keep reference evidence **outside** shipped app assets.
+4. Maintain `docs/parity/desktop-reference.csv` with these columns: feature ID, source and build, action, observed result, LCE decision, intentional difference, regression scenario.
+
+**CapCut changes** do not automatically force a UI redesign. Keep user preferences. Update the documented compatibility target instead.

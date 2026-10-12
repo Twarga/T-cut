@@ -4,6 +4,15 @@ Research date: 2026-10-12. All 28 images below were opened and visually inspecte
 
 Use these as research references, not shipped application icons, content or marketing artwork. Red boxes/arrows are tutorial annotations, not app controls. Screenshot dimensions are image pixels, not measured logical desktop units.
 
+## At a glance
+
+- **28 screenshots** (S01–S28), each opened and inspected.
+- **Research only.** Not app icons, content, or marketing art.
+- **Red boxes and arrows** are tutorial annotations, not app controls.
+- **Dimensions** are image pixels, not logical desktop units.
+- **Version:** only S28 states one (8.11). Do not apply it to other shots.
+- **Five cohorts (A–E)** below. Do not merge them.
+
 ## Direct visual references
 
 | ID | Screen and direct image | Image dimensions | Source page | Observation |

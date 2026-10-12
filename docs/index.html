@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>T-cut — the CapCut-familiar video editor for Linux</title>
-<meta name="description" content="T-cut is a free and open-source video editor for Linux, designed to feel familiar to CapCut Desktop users. Planning is complete; engine qualification is next. Nothing to download yet.">
+<title>T-cut: a familiar video editor for Linux, planned</title>
+<meta name="description" content="T-cut is a free, open-source video editor planned for Linux, with a workflow familiar to CapCut Desktop users. Planning is complete. Nothing to download yet.">
 <link rel="canonical" href="https://twarga.github.io/T-cut/">
 <meta name="theme-color" content="#0b0c10">
 <meta name="color-scheme" content="dark light">
@@ -12,14 +12,14 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="T-cut">
 <meta property="og:url" content="https://twarga.github.io/T-cut/">
-<meta property="og:title" content="T-cut — the CapCut-familiar video editor for Linux">
-<meta property="og:description" content="Free, open source and offline. No account, no watermark. Planning complete; engine qualification next.">
+<meta property="og:title" content="T-cut: a familiar video editor for Linux, planned">
+<meta property="og:description" content="Free, open source, and planned to run offline with no account. Planning is complete; the editor is not built yet.">
 <meta property="og:image" content="https://twarga.github.io/T-cut/assets/brand/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="T-cut — the CapCut-familiar video editor for Linux">
-<meta name="twitter:description" content="Free, open source and offline. No account, no watermark. Planning complete; engine qualification next.">
+<meta name="twitter:title" content="T-cut: a familiar video editor for Linux, planned">
+<meta name="twitter:description" content="Free, open source, and planned to run offline with no account. Planning is complete; the editor is not built yet.">
 <meta name="twitter:image" content="https://twarga.github.io/T-cut/assets/brand/og-image.png">
 
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
@@ -82,17 +82,17 @@
 
 <main id="main" tabindex="-1">
 
-  <!-- Hero -->
+  <!-- Hero: centered, one focal point, two actions -->
   <section class="hero">
     <div class="container hero-inner">
       <div class="hero-copy">
         <p class="chip"><span class="chip-dot" aria-hidden="true"></span> Coming soon · Free and open source</p>
 
-        <h1>A familiar <span class="hero-emphasis">video editor.</span><br>Now planned for Linux.</h1>
+        <h1>A familiar video editor, <span class="hero-emphasis">planned for Linux.</span></h1>
 
         <p class="hero-lede">
-          Know CapCut? The Home screen, timeline and tools should feel familiar.
-          We’re building T-cut in Rust, with local projects and no subscription.
+          T-cut is a free, open-source editor built around the workflow CapCut Desktop users already know.
+          It is not a clone of CapCut's interface. It is planned to run offline, with no account and no subscription.
         </p>
 
         <div class="cluster hero-actions">
@@ -121,70 +121,83 @@
     </div>
   </section>
 
-  <!-- Honest status -->
+  <!-- Status -->
   <section class="section" id="status">
     <div class="container">
       <div class="status-callout">
         <svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg>
         <div>
-          <h2>There is nothing to download yet</h2>
+          <h2>Nothing to download yet</h2>
           <p>
-            The plans, branding and website are ready. <strong>The video editor is not built yet.</strong>
-            Phase 0 comes next: test playback and export before building the app.
+            Planning and branding are finished. <strong>The editor is not built yet.</strong>
+            The next step is Phase 0: test playback and export before building the app.
           </p>
           <p>
-            Follow development on <a href="https://github.com/Twarga/T-cut">GitHub</a> or
-            <a href="#roadmap">see what each release will include</a>.
+            Follow progress on <a href="https://github.com/Twarga/T-cut">GitHub</a> or
+            <a href="#roadmap">read what each phase includes</a>.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- What v0.1 gives you -->
-  <section class="section" id="v01">
+  <!-- Features: numbered groups, not identical cards -->
+  <section class="section" id="features">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Version 0.1</span>
-        <h2>What the first usable release gives you</h2>
+        <h2>What the first usable release includes</h2>
         <p>
-          Fewer tools than CapCut, arranged the way you already expect. Everything listed here has to
-          work for real before the release counts — no placeholder buttons.
+          Fewer tools than CapCut. Every item below has to work end to end before v0.1 ships.
+          No placeholder buttons.
         </p>
       </div>
 
-      <ul class="card-grid">
-        <li class="feature-card">
-          <span class="slice" aria-hidden="true"></span>
-          <h3>Home and projects</h3>
-          <p>A project dashboard with cards. Create, open, rename, duplicate, and move to trash with a working restore.</p>
+      <ol class="feature-groups">
+        <li class="feature-group">
+          <span class="feature-group-num">01</span>
+          <h3>Projects and import</h3>
+          <div class="feature-group-body">
+            <ul class="phase-list">
+              <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Home screen with project cards: create, open, rename, duplicate, move to trash and restore.</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Import local video, audio and images, with rotation and duration read correctly.</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Unsupported files are reported with the reason. Nothing fails silently.</li>
+            </ul>
+          </div>
         </li>
-        <li class="feature-card">
-          <span class="slice" aria-hidden="true"></span>
-          <h3>Import your clips</h3>
-          <p>Local video, audio and images with correct rotation and duration. Unsupported files say so clearly instead of failing silently.</p>
-        </li>
-        <li class="feature-card">
-          <span class="slice" aria-hidden="true"></span>
+        <li class="feature-group">
+          <span class="feature-group-num">02</span>
           <h3>Timeline editing</h3>
-          <p>Multiple tracks. Trim, split, move, duplicate and delete, with undo and redo that restore the real state.</p>
+          <div class="feature-group-body">
+            <ul class="phase-list">
+              <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Multiple tracks. Trim, split, move, duplicate and delete clips.</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Undo and redo restore the exact previous project state.</li>
+            </ul>
+          </div>
         </li>
-        <li class="feature-card">
-          <span class="slice" aria-hidden="true"></span>
-          <h3>Titles and text</h3>
-          <p>Static titles with font, size, color and alignment. Correct shaping for Arabic, CJK and emoji from the start.</p>
+        <li class="feature-group">
+          <span class="feature-group-num">03</span>
+          <h3>Titles and audio</h3>
+          <div class="feature-group-body">
+            <ul class="phase-list">
+              <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Static titles with font, size, color and alignment.</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Arabic, CJK and emoji shaped correctly from the first release.</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Music volume with fade in and fade out, mixed into the exported file.</li>
+            </ul>
+          </div>
         </li>
-        <li class="feature-card">
-          <span class="slice" aria-hidden="true"></span>
-          <h3>Music and audio</h3>
-          <p>Volume, fade in and fade out, mixed correctly in the exported file. Sample-accurate, not approximated.</p>
+        <li class="feature-group">
+          <span class="feature-group-num">04</span>
+          <h3>Export and your files</h3>
+          <div class="feature-group-body">
+            <ul class="phase-list">
+              <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Export a finished video with the audio mix included.</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Project folders with readable JSON, autosave and crash recovery.</li>
+              <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Relink moved media without losing edits.</li>
+            </ul>
+          </div>
         </li>
-        <li class="feature-card">
-          <span class="slice" aria-hidden="true"></span>
-          <h3>Your files stay yours</h3>
-          <p>Open project folders with readable JSON. Autosave, crash recovery and relinking moved media without losing edits.</p>
-        </li>
-      </ul>
+      </ol>
     </div>
   </section>
 
@@ -212,7 +225,7 @@
 
         <div class="phase-panels">
           <div class="phase-panel" id="panel-p0" data-phase-panel>
-            <h3 data-phase-heading>Phase 0 — Engine test</h3>
+            <h3 data-phase-heading>Phase 0: Engine test</h3>
             <p class="cluster phase-meta"><span class="badge">No public release</span></p>
             <p class="lede">Nothing to use yet. This phase decides whether the foundation is sound.</p>
             <ul class="phase-list">
@@ -230,7 +243,7 @@
           </div>
 
           <div class="phase-panel" id="panel-p1" data-phase-panel>
-            <h3 data-phase-heading>Phase 1 — Basic editor</h3>
+            <h3 data-phase-heading>Phase 1: Basic editor</h3>
             <p class="cluster phase-meta"><span class="badge badge-release">v0.1</span><span class="badge">First usable release</span></p>
             <p class="lede">Make and export a simple video, using a layout you already recognize.</p>
             <ul class="phase-list">
@@ -246,7 +259,7 @@
           </div>
 
           <div class="phase-panel" id="panel-p2" data-phase-panel>
-            <h3 data-phase-heading>Phase 2 — Smooth editing</h3>
+            <h3 data-phase-heading>Phase 2: Smooth editing</h3>
             <p class="cluster phase-meta"><span class="badge badge-release">v0.2</span></p>
             <p class="lede">Editing stops feeling clumsy, and you can subtitle a video by hand.</p>
             <ul class="phase-list">
@@ -257,7 +270,7 @@
           </div>
 
           <div class="phase-panel" id="panel-p3" data-phase-panel>
-            <h3 data-phase-heading>Phase 3 — Creator tools</h3>
+            <h3 data-phase-heading>Phase 3: Creator tools</h3>
             <p class="cluster phase-meta"><span class="badge badge-release">v0.3</span></p>
             <p class="lede">The creative jump: animation, composition and color.</p>
             <ul class="phase-list">
@@ -269,7 +282,7 @@
           </div>
 
           <div class="phase-panel" id="panel-p4" data-phase-panel>
-            <h3 data-phase-heading>Phase 4 — Local AI</h3>
+            <h3 data-phase-heading>Phase 4: Local AI</h3>
             <p class="cluster phase-meta"><span class="badge badge-release">v0.4</span><span class="badge">Optional</span></p>
             <p class="lede">Assistance that runs on your own machine, suggests rather than overwrites, and is always optional.</p>
             <ul class="phase-list">
@@ -279,15 +292,15 @@
               <li><svg class="icon" aria-hidden="true"><use href="#i-dot"></use></svg> Text to speech, dubbing and upscaling.</li>
             </ul>
             <p class="note">
-              <strong>Honest warning:</strong> each of these needs a model whose license actually
-              permits redistribution and commercial use. Where those rights cannot be established, the
-              feature ships as unavailable with the reason stated — not faked, and not quietly
+              <strong>Honest warning:</strong> each of these needs a model whose license permits
+              redistribution and commercial use. Where those rights cannot be established, the feature
+              ships as unavailable with the reason stated. It is not faked, and it is not quietly
               replaced by a cloud service.
             </p>
           </div>
 
           <div class="phase-panel" id="panel-p5" data-phase-panel>
-            <h3 data-phase-heading>Phase 5 — Stable</h3>
+            <h3 data-phase-heading>Phase 5: Stable</h3>
             <p class="cluster phase-meta"><span class="badge badge-release">v1.0</span></p>
             <p class="lede">No new features. Make the existing ones trustworthy.</p>
             <ul class="phase-list">
@@ -369,7 +382,7 @@
         </table>
       </div>
 
-      <h3 class="eyebrow" style="margin-top: var(--space-12)">Deliberately rejected</h3>
+      <h3 class="eyebrow rejected-head">Deliberately rejected</h3>
       <ul class="rejected">
         <li><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg><span><strong>A web-based desktop UI.</strong> We chose GTK for Linux integration and a direct native media path.</span></li>
         <li><svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg><span><strong>Rewriting codecs in Rust.</strong> Years of work to re-solve something already solved well.</span></li>
@@ -379,16 +392,15 @@
     </div>
   </section>
 
-  <!-- Evidence policy -->
+  <!-- Evidence -->
   <section class="section" id="honest">
     <div class="container">
       <div class="section-head">
         <span class="eyebrow">Evidence policy</span>
-        <h2>Honest by default</h2>
+        <h2>Every claim is labeled</h2>
         <p>
-          Every claim in the planning documents carries a label, so a reader can tell a measurement
-          from an intention. There are no user testimonials or download counts on this page because
-          there are no users and nothing to download.
+          A reader can tell a measurement from an intention. This page has no testimonials and no
+          download counts, because there are no users and nothing to download yet.
         </p>
       </div>
 
@@ -400,31 +412,12 @@
         <div class="evidence-item"><dt>Gate</dt><dd>Evidence still required before the claim may be made.</dd></div>
       </dl>
 
-      <p class="note" style="margin-top: var(--space-8)">
-        The interface research studied <strong>28 public screenshots</strong> spanning several CapCut
-        versions. They are kept separate by version rather than merged into one claim of exactness,
-        and <strong>no CapCut application was ever run</strong>. Before T-cut advertises a verified
-        compatibility profile, behavior has to be recorded against a single pinned CapCut Desktop
-        build.
+      <p class="note evidence-note">
+        The interface research studied <strong>28 public screenshots</strong> from several CapCut
+        versions. They are kept separate by version rather than merged into one claim of exactness.
+        <strong>No CapCut application was run.</strong> Before T-cut claims a verified compatibility
+        profile, behavior has to be recorded against one pinned CapCut Desktop build.
       </p>
-    </div>
-  </section>
-
-  <!-- Real numbers -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Where the planning landed</span>
-        <h2>By the numbers</h2>
-      </div>
-      <dl class="facts">
-        <div><dt>40</dt><dd>Feature families, each mapped to an owning task</dd></div>
-        <div><dt>28</dt><dd>Public screenshots studied</dd></div>
-        <div><dt>24</dt><dd>Screen states specified</dd></div>
-        <div><dt>14</dt><dd>Interaction acceptance scenarios</dd></div>
-        <div><dt>12</dt><dd>Engine qualification fixtures</dd></div>
-        <div><dt>0</dt><dd>Accounts required for planned local editing</dd></div>
-      </dl>
     </div>
   </section>
 
@@ -433,10 +426,10 @@
     <div class="container container-narrow">
       <div class="cta">
         <span class="slice" aria-hidden="true"></span>
-        <h2>Read the plan before the code exists</h2>
+        <h2>Review the plan before the code exists</h2>
         <p>
           The most useful contribution right now is review. If a requirement, dependency or evidence
-          gate looks wrong, saying so today is worth more than a patch later.
+          gate looks wrong, say so today. Fixing it in a patch later costs more.
         </p>
         <div class="cluster">
           <a class="btn btn-primary" href="https://github.com/Twarga/T-cut/blob/main/docs/plan/release-roadmap.md">Read the roadmap</a>

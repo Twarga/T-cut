@@ -1,81 +1,124 @@
 # t-cut Product Specification
 
-Status: finalized planning baseline, 2026-10-12. Version boundaries and MVP acceptance: [release-roadmap.md](release-roadmap.md). No application implementation is claimed.
-Public product name chosen by the user: **t-cut**. Earlier **LCE** / `lce-*` names are internal identifiers in the implementation plan. Naming does not itself establish trademark clearance.
+> **Status:** planning baseline, 2026-10-12. No application is built yet.
+> **Name:** public name **t-cut**. Earlier `LCE` / `lce-*` names are internal identifiers in the [implementation plan](implementation.md). Naming does not establish trademark clearance.
+> **Versions and MVP acceptance:** [release-roadmap.md](release-roadmap.md).
 
-## 1. User request and outcome
+## At a glance
 
-Build a free, open-source, Rust-led Linux alternative to CapCut. Existing CapCut users should recognize the editing workspace and complete ordinary tasks without learning a different editing model. The product must have its own identity, artwork, icons, templates, and content licenses. The eventual scope includes editing, compositing, audio, captions, AI, templates, export, project compatibility research, and optional ecosystem services.
+- **What:** a free, open-source, Rust-led video editor for Linux.
+- **Who:** creators moving from CapCut Desktop (Windows/macOS) to Linux. Also educators, offline creators, and contributors.
+- **Core promise:** import, edit, caption, save safely, and export, with no account, ads, watermark, subscription, or feature unlocks.
+- **Familiarity bar:** the MVP follows the CapCut Desktop layout and navigation. A generic four-pane editor is not enough.
+- **Not claimed:** identical CapCut behavior, a parity percentage, or any release date.
 
-Primary user: a creator moving from CapCut Desktop on Windows/macOS to Linux, editing short-form social videos, tutorials, interviews, and longer YouTube projects. Secondary users: educators, privacy-conscious offline creators, and contributors extending the application.
+## 1. Users and outcome
 
-User outcome: import personal footage, arrange and polish a timeline, caption it, save it safely, and export a reliable result using recognizable controls, without mandatory registration, advertisements, watermarking, subscriptions, or feature unlocks.
+**Primary user:** a creator on Linux editing short-form social videos, tutorials, interviews, and longer YouTube projects.
 
-**2026-10-12 interface clarification:** the MVP must closely follow the complete CapCut Desktop application layout and navigation, including Home/project cards, creating/opening projects, editor states, settings, relinking and export. A generic four-pane editor alone is insufficient. The [screenshot-backed study](../research/research.md) and [fidelity contract](../research/fidelity-contract.md) define the reference and acceptance. Preserve source/model/security constraints; unverified details remain explicitly proposed rather than claimed identical.
+**Secondary users:**
 
-## 2. Global Constraints
+- Educators.
+- Privacy-conscious offline creators.
+- Contributors extending the app.
 
-These exact rules apply to every implementation plan in this package.
+**Outcome:** import personal footage, arrange and polish a timeline, add captions, save safely, and export a reliable result using recognizable controls.
 
-- Core editing is free of charge, open source, offline-capable, account-free, advertisement-free, and watermark-free.
-- Original application code is planned as GPL-3.0-or-later; this is a recommendation for project adoption, not a license change to existing repositories.
-- Rust owns project state and edit semantics; audited native libraries and isolated model workers are allowed.
-- Linux x86_64 is the initial release target; Wayland and X11 are both supported. Linux aarch64 follows only after the same qualification gates pass.
-- The application has independent branding, icons, artwork, and redistributable assets. No CapCut resource extraction or copied proprietary code is allowed.
-- Familiarity means recognizable layout, terminology, command placement, and behavior; pixel identity and legal clearance are not asserted.
-- No feature is declared complete from a menu entry, source-line count, screenshot, mock result, or unexercised test.
-- Preview and export use the same versioned edit/effect semantics; unsupported operations must fail visibly, never silently disappear.
-- Original media is never modified by editing. Save/export operations never overwrite unrelated files without explicit user authorization.
-- No media leaves the device without an explicit destination and consent. AI failure never silently switches to a cloud provider.
-- Official bundled model packs require documented redistribution and commercial-use rights; zero price is not a substitute for a compatible license.
-- A GPL program can be sold by downstream redistributors. This project's gratis policy is not a restriction added to the GPL.
-- No deadline, complete CapCut parity percentage, or universal real-time 4K claim is promised before qualification.
+**Interface clarification (2026-10-12):**
 
-## 3. Evidence levels
+- The MVP must closely follow the complete CapCut Desktop layout: Home and project cards, creating and opening projects, editor states, settings, relinking, and export.
+- The reference is the [screenshot-backed study](../research/research.md). The acceptance rules are the [fidelity contract](../research/fidelity-contract.md).
+- Unverified details stay marked as proposed. They are not claimed identical.
 
-Use these labels in issue reports and parity records:
+## 2. Global constraints
 
-- **D (documented):** the cited upstream documentation states the capability or behavior.
-- **V (visual):** inspected public screenshot; record source, dimensions and cohort. This is not an executed application observation.
-- **O (observed):** an identified application build was exercised; record OS, build, date, inputs, and output.
-- **P (proposed):** our own product or engineering decision.
-- **G (gate):** evidence or qualification needed before a release claim.
+These rules apply to every plan in this package.
 
-Official marketing establishes a capability claim, not measured quality. CapCut desktop, mobile, and web are separate references. A how-to article about another editor does not establish a CapCut feature. See [sources](sources.md).
+**Product and license**
 
-The screenshot-backed research covers 28 public images, separated by reference cohort and application state. It establishes layout evidence, not proof of a single current application's behavior. Use the fidelity contract for Home, project management, contextual inspectors and dialogs. Exact defaults, gestures and undocumented menus require a pinned CapCut Desktop build before claiming verified compatibility.
+- [ ] Core editing is free, open source, offline-capable, account-free, ad-free, and watermark-free.
+- [ ] Original code is planned as GPL-3.0-or-later. This is a recommendation, not a license change to existing repos.
+- [ ] A GPL program can be sold by downstream redistributors. The gratis policy is not a restriction added to the GPL.
+
+**Engineering**
+
+- [ ] Rust owns project state and edit semantics. Audited native libraries and isolated model workers are allowed.
+- [ ] Target: Linux x86_64, with Wayland and X11 both supported. Linux aarch64 follows only after the same gates pass.
+- [ ] Preview and export use the same versioned edit and effect semantics.
+- [ ] Unsupported operations fail visibly. They never silently disappear.
+
+**Assets and data**
+
+- [ ] The app has its own branding, icons, artwork, and redistributable assets.
+- [ ] No CapCut resource extraction or copied proprietary code.
+- [ ] Original media is never modified by editing.
+- [ ] Save and export never overwrite unrelated files without explicit user authorization.
+- [ ] Official bundled model packs need documented redistribution and commercial-use rights. Zero price is not a substitute for a compatible license.
+
+**Privacy and AI**
+
+- [ ] No media leaves the device without an explicit destination and consent.
+- [ ] AI failure never silently switches to a cloud provider.
+
+**Claims**
+
+- [ ] "Familiar" means recognizable layout, terminology, command placement, and behavior. Pixel identity and legal clearance are not asserted.
+- [ ] No feature is "complete" from a menu entry, source-line count, screenshot, mock result, or unexercised test.
+- [ ] No deadline, complete CapCut parity percentage, or universal real-time 4K claim before qualification.
+
+## 3. Evidence labels
+
+Use these labels in issues and parity records.
+
+| Label | Meaning | Evidence needed |
+|---|---|---|
+| **D** documented | Cited upstream docs state the behavior. | The citation. |
+| **V** visual | Inspected public screenshot. | Source, dimensions, cohort. Not an executed observation. |
+| **O** observed | An identified app build was exercised. | OS, build, date, inputs, output. |
+| **P** proposed | Our own product or engineering decision. | The decision record. |
+| **G** gate | Evidence or qualification still needed. | The gate's test. |
+
+**Read these carefully:**
+
+- Official marketing establishes a capability claim, not measured quality.
+- CapCut desktop, mobile, and web are separate references.
+- A how-to article about another editor does not establish a CapCut feature. See [sources](sources.md).
+- The research covers 28 public images, split by cohort and app state. It is layout evidence, not proof of one app's behavior.
+- Exact defaults, gestures, and undocumented menus need a pinned CapCut Desktop build before any compatibility claim.
 
 ## 4. Product boundaries
 
 ### Required local product
 
-- Local projects and assets; no user account required.
+- Local projects and assets. No account.
 - Timeline editing, playback, recording, compositing, typography, color, audio, captions, and export.
 - Original reusable effects, templates, transitions, and title styles.
-- Optional downloadable local model packs with honest hardware and language coverage.
-- User-visible diagnostics, recovery, keyboard remapping, accessibility, and localized UI.
+- Optional downloadable local model packs, with honest hardware and language coverage.
+- Visible diagnostics, recovery, keyboard remapping, accessibility, and localized UI.
 - Open project format and documented editorial interchange.
 
-### Full-scope optional subsystems, not silently omitted
+### Full-scope optional subsystems
+
+Tracked as requirements, never silently dropped. Each has its own runtime, license, infrastructure, and acceptance gate. The local product must work when they are absent.
 
 - Cloud sync, team review, collaboration, and authorized social publishing.
-- Script-to-video, generative video/image workflows, advanced inpainting, consent-based voice cloning and avatars.
-- CapCut draft import for versions and constructs that can be lawfully and reliably interpreted.
-- Photo/cover composition associated with videos; not an unrelated Photoshop replacement.
+- Script-to-video, generative video and image workflows, advanced inpainting, consent-based voice cloning, and avatars.
+- CapCut draft import, for versions and constructs that can be lawfully and reliably read.
+- Photo and cover composition tied to videos. Not a Photoshop replacement.
 
-These remain tracked requirements. They have separate runtime, licensing, infrastructure, and acceptance gates. The local product must remain usable when they are absent or unavailable. A stable local-editor release is not marketed as whole-ecosystem parity.
+A stable local-editor release is not marketed as full-platform parity.
 
 ### Deliberate non-goals
 
-- Redistributing CapCut's asset catalog, voices, templates, music, fonts, proprietary models, branding, or executable resources.
-- Bypassing subscriptions, account controls, encryption protections, or provider API restrictions.
-- Rewriting all codecs, GUI libraries, inference runtimes, or operating-system APIs in Rust.
-- Shipping a browser, Android, or iOS application in the initial Linux program. Equivalent creator capabilities can be implemented on Linux without cloning mobile navigation.
+- Redistributing CapCut's asset catalog, voices, templates, music, fonts, proprietary models, branding, or executables.
+- Bypassing subscriptions, account controls, encryption, or provider API restrictions.
+- Rewriting every codec, GUI library, inference runtime, or OS API in Rust.
+- A browser, Android, or iOS app in the initial Linux program. Creator capabilities can exist on Linux without cloning mobile navigation.
 - Promising identical generative outputs, undocumented service behavior, or social-platform approval.
 
-## 5. Feature registry and implementation ownership
+## 5. Feature registry
 
-Each row is a deliverable family, not one checkbox meaning all edge cases work. Tasks are defined in [implementation](implementation.md). States start **planned**. A release records sub-capabilities and exceptions individually.
+Each row is a deliverable family, not one checkbox for every edge case. Tasks are defined in [implementation](implementation.md). States start **planned**. A release records sub-capabilities and exceptions one by one.
 
 | ID | Required capability and explicit scope | Owner task | Evidence/limit |
 |---|---|---|---|
@@ -114,7 +157,7 @@ Each row is a deliverable family, not one checkbox meaning all edge cases work. 
 | F33 | Optional sync, backup, shared asset/library state | T34 | Own service, revisions, conflict resolution |
 | F34 | Team review, comments, access control, collaboration | T35 | Review and simultaneous edit are distinct |
 | F35 | Authorized social publishing and export presets | T36 | APIs/approval outside our control |
-| F36 | CapCut-familiar Home, create/open/manage projects, editor layout, inspector, settings, toolbar, keyboard profile and contextual actions | T04,T09,T37 | D/V/O/P separated; complete local application journey begins in MVP |
+| F36 | CapCut-familiar Home, create/open/manage projects, editor layout, inspector, settings, toolbar, keyboard profile and contextual actions | T04,T09,T37 | D/V/O/P separated; the local application workflow begins in MVP |
 | F37 | Accessibility, UI scaling, high contrast, reduced motion, localization, keyboard-only workflows | T37 | Native AT-SPI/Orca verification |
 | F38 | Privacy, safe imports, untrusted templates/models, provenance, no forced telemetry | T38 | Threat model and permissions |
 | F39 | Linux packaging, GPU matrix, reproducible artifacts, notices and source availability | T39 | Flatpak first; audited release |
@@ -122,50 +165,60 @@ Each row is a deliverable family, not one checkbox meaning all edge cases work. 
 
 ## 6. Reference workflows
 
-Every workflow has a prepared corpus project and a screen recording or annotated execution trace. The same timeline can be exercised headlessly where appropriate; interaction behavior still needs the actual GUI.
+Each workflow has a prepared corpus project and a screen recording or annotated trace. A headless run can cover the timeline. Interaction still needs the real GUI.
 
-1. **W01 quick vertical edit:** import three phone clips; trim; reorder; set 9:16; add a transition and music; export H.264/AAC when that profile is available.
-2. **W02 captions:** transcribe an interview; correct a name; split a caption; change style for all captions; highlight words; export video and SRT separately.
-3. **W03 motion:** add a title; keyframe position/opacity; edit easing; attach it to a track; verify exported motion.
-4. **W04 speed:** freeze a frame; ramp speed down/up; retain speech pitch for constant-speed segments; inspect variable-speed audio transitions.
-5. **W05 compositing:** layer a cutout over video; correct mask edges; add chroma-key footage and a LUT; compare preview/export.
-6. **W06 podcast:** two cameras and separate microphone; synchronize; alternate angles; remove reviewed pauses; duck music; export without end drift.
-7. **W07 resilience:** save; move sources; reopen and relink; terminate during an edit/save; recover without changing originals.
-8. **W08 offline:** disable network; open project, edit, run already-installed caption model, export; no account or service prompt blocks work.
-9. **W09 accessible edit:** perform W01 using keyboard and Orca; select clips by named accessible items and exact time fields rather than pointer-only dragging.
-10. **W10 template:** replace footage/text slots in an original template; keep timing constraints; export and report license provenance.
-11. **W11 collaboration:** change the same project offline on two devices; sync and resolve branch conflict without overwriting either version.
-12. **W12 generative insert:** request an optional local generation; cancel and retry; inspect provenance; insert accepted result as ordinary editable media.
+| ID | Workflow | Checks |
+|---|---|---|
+| W01 | Quick vertical edit | Import three phone clips, trim, reorder, set 9:16, add a transition and music, export H.264/AAC when that profile exists. |
+| W02 | Captions | Transcribe an interview, fix a name, split a caption, restyle all captions, highlight words, export video and SRT separately. |
+| W03 | Motion | Add a title, keyframe position and opacity, edit easing, attach to a track, verify exported motion. |
+| W04 | Speed | Freeze a frame, ramp speed down and up, keep speech pitch on constant-speed parts, inspect variable-speed audio transitions. |
+| W05 | Compositing | Layer a cutout over video, correct mask edges, add chroma-key footage and a LUT, compare preview and export. |
+| W06 | Podcast | Two cameras and a separate mic. Sync, alternate angles, remove reviewed pauses, duck music, export with no end drift. |
+| W07 | Resilience | Save, move sources, reopen and relink, kill the app during an edit or save, recover without changing originals. |
+| W08 | Offline | Network off. Open, edit, run an installed caption model, export. No account or service prompt blocks work. |
+| W09 | Accessible edit | Do W01 with keyboard and Orca. Select clips by named items and exact time fields, not pointer-only drags. |
+| W10 | Template | Replace footage and text slots in an original template. Keep timing rules. Export and report license provenance. |
+| W11 | Collaboration | Edit one project offline on two devices. Sync and resolve a branch conflict without overwriting either version. |
+| W12 | Generative insert | Request an optional local generation. Cancel and retry. Inspect provenance. Insert the accepted result as normal editable media. |
 
-## 7. Familiarity acceptance, not a marketing slogan
+## 7. Familiarity acceptance
 
-P: recruit at least five people who have used CapCut Desktop regularly, including one keyboard-heavy creator. Use their own baseline completion on a pinned CapCut build and the same prepared media on LCE. This is a directional usability sample, not a statistically representative market claim.
+This is a directional usability check, not a market claim.
 
-- At least four of five finish W01 and W02 without a tutorial or moderator navigation hints.
-- Target median completion time no more than 1.25x each participant's baseline after a short environment check, excluding model-download/transcription time.
-- Record wrong-control selections, mode errors, unexpected timeline movement, and recovery assistance.
-- A familiar-looking layout with different drag, split, selection, or undo semantics fails the gate.
-- Conflicts with accessibility and Linux window-manager shortcuts are documented and remappable, not concealed.
-- Explain unavoidable differences in a searchable migration page, not an obligatory onboarding tour.
+- [ ] Recruit at least five people who use CapCut Desktop regularly, including one keyboard-heavy creator.
+- [ ] Each participant does the task on a pinned CapCut build for a baseline, then on t-cut, with the same prepared media.
+- [ ] At least 4 of 5 finish W01 and W02 with no tutorial or moderator hints.
+- [ ] Median completion time is at most 1.25x each participant's baseline. Exclude the environment check and model-download or transcription time.
+- [ ] Record wrong-control picks, mode errors, unexpected timeline movement, and recovery help.
+- [ ] A familiar-looking layout with different drag, split, selection, or undo rules **fails** the gate.
+- [ ] Conflicts with accessibility or Linux window-manager shortcuts are documented and remappable. Not hidden.
+- [ ] Unavoidable differences go in a searchable migration page, not a forced onboarding tour.
 
 ## 8. Release claims
 
-Separate **capability**, **quality**, **performance**, **interoperability**, and **ecosystem** parity. A single percentage obscures more than it explains.
+Track five kinds of parity separately: **capability**, **quality**, **performance**, **interoperability**, and **services**. One percentage hides more than it shows.
 
-- Research build: only qualified capabilities enabled; not a production recommendation.
-- v0.1 local alpha: the release roadmap's MVP scenario, W07 and offline core editing pass; full W01/W08 are not required before transitions/installed caption models ship.
-- v0.2 everyday alpha: full timeline modes and static editing/manual captions pass.
-- v0.3 creator beta and v0.4 AI beta: exercise W01–W10 where their required capabilities are shipped; record each excluded workflow and the later owning feature rather than calling a subset a full pass.
-- v1.0 stable local editor: supported local workflows, corpus/hardware and package/migration gates pass; no release-blocking data-loss, security, timing or rights defects. Post-1.0 ecosystem releases qualify W11/W12 and external prerequisites independently.
+| Release | Claim allowed |
+|---|---|
+| Research build | Only qualified capabilities enabled. Not a production recommendation. |
+| v0.1 local alpha | The roadmap MVP scenario, W07, and offline core editing pass. Full W01 and W08 are not required before transitions and installed caption models ship. |
+| v0.2 everyday alpha | Full timeline modes and static editing with manual captions pass. |
+| v0.3 creator beta, v0.4 AI beta | Exercise W01–W10 where the required capabilities ship. Record each excluded workflow and the feature that will own it. Never call a subset a full pass. |
+| v1.0 stable local editor | Supported local workflows, corpus and hardware gates, and package and migration gates pass. No release-blocking data-loss, security, timing, or rights defects. |
+| Post-1.0 service releases | W11 and W12, and their external prerequisites, qualify independently. |
 
-No phase permanently drops a requested family. A blocked family remains visible with its prerequisite and owner. Optional provider-specific features may remain unavailable without credentials or legal rights; the equivalent local workflow, where feasible, is tracked independently.
+**Rules**
 
-## 9. Initial non-decisions with mandatory resolution gates
+- No phase drops a requested family. A blocked family stays visible, with its prerequisite and owner.
+- Provider-specific features can stay unavailable without credentials or legal rights. Track the equivalent local workflow separately, where feasible.
 
-These are not permission to invent missing facts:
+## 9. Open decisions with gates
 
-- Public name/domain/app ID: maintainer trademark/domain review before distributing signed releases; source may use `lce` meanwhile.
-- Exact CapCut reference build and defaults: capture legally obtained application behavior before advertising a compatibility profile as verified.
-- GES difficult-path fitness: reverse, ramped audio, nesting, color, render endpoints, and zero-copy must pass T01.
-- GPU/model performance: benchmark the selected checkpoints on actual reference hardware; README throughput is not our product benchmark.
-- Social API approvals and managed-service funding: external dependencies; never required by local editing.
+These are **not** permission to invent facts.
+
+- **Public name, domain, app ID:** maintainer trademark and domain review before signed releases. Source may use `lce` meanwhile.
+- **Exact CapCut reference build and defaults:** capture legally obtained app behavior before calling any profile "verified."
+- **GES hard paths:** reverse, ramped audio, nesting, color, render endpoints, and zero-copy must pass T01.
+- **GPU and model performance:** benchmark chosen checkpoints on real reference hardware. A README throughput number is not our benchmark.
+- **Social API approvals and managed-service funding:** external dependencies. Never required for local editing.

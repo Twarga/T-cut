@@ -2,6 +2,13 @@
 
 Source: [CapCut’s public landing page](https://www.capcut.com/). This is website research, not a CapCut Desktop compatibility test.
 
+## At a glance
+
+- **Reference:** CapCut's public landing page, read and checked at 1440 × 900.
+- **Adopted:** the information hierarchy only.
+- **Not adopted:** logo, palette, code, media, copy, testimonials, numbers.
+- **Scope:** website research. Not a desktop compatibility test.
+
 ## Evidence
 
 The page was read as HTML/text and opened in Chromium at 1440 × 900. The top and a lower tools section were visually inspected. Content can change by locale, account and rollout; these observations do not certify an immutable current design.

@@ -1,4 +1,4 @@
-/* T-cut design tokens — single source of truth.
+/* T-cut design tokens: single source of truth.
  * Layer 1 primitives (raw palette) -> Layer 2 semantic roles -> consumed by components.
  * Never consume a primitive directly in a component; use the semantic role.
  * Default HTML theme is dark; the site respects an OS or explicit theme choice.
@@ -6,7 +6,7 @@
 
 /* ---------- Layer 1: primitives ---------- */
 :root {
-  /* Violet — brand and primary action.
+  /* Violet: brand and primary action.
    * Measured against #ffffff labels and the #0b0c10 dark base:
    *   400 #9270ff  text on dark 5.57 OK  | white label 3.51 NOT a button bg
    *   500 #7553ff  white label  4.73 OK  | text on dark 4.13 NOT body text
@@ -24,7 +24,7 @@
   --violet-800: #4228a8;
   --violet-900: #2e1c75;
 
-  /* Lime — the signature "cut" accent: playhead, focus, markers */
+  /* Lime, the signature "cut" accent: playhead, focus, markers */
   --lime-200: #eefdc4;
   --lime-300: #e2fb97;
   --lime-400: #d4f86b;
@@ -33,7 +33,7 @@
   --lime-700: #8cb31f;
   --lime-800: #627f14; /* light-theme accent: 4.60 on white */
 
-  /* Ink — cool neutral ramp */
+  /* Ink, cool neutral ramp */
   --ink-0:   #ffffff;
   --ink-25:  #f7f8fc;
   --ink-50:  #f1f3f9;
@@ -50,7 +50,7 @@
   --ink-950: #0b0c10;
   --ink-980: #07080b;
 
-  /* Status hues — deliberately distinct in hue from brand violet and lime */
+  /* Status hues, deliberately distinct in hue from brand violet and lime */
   --blue-400:  #4da3ff;
   --blue-600:  #1d6fd4;
   --green-400: #34d399;

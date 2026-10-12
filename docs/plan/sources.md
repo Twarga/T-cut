@@ -1,5 +1,11 @@
 # Research Sources and Claim Boundaries
 
+## At a glance
+
+- Sources prove where a claim comes from. They do not prove every claim was tested.
+- Labels: **D** documented, **O** observed locally, **P** our proposal, **G** still needs qualification.
+- Nothing here is a dependency to copy into the product.
+
 Research consolidated for the 2026-10-11 planning baseline. Links below are evidence sources, not dependencies to be copied into the product. Some were read during the earlier research in this conversation; the starter crate manifests, GTK sink contract, GES ownership documentation, and selected UI evidence were checked again while preparing this plan. Dynamic `latest` documentation is not a substitute for the versions pinned during implementation.
 
 **D:** source documents a statement. **O:** local execution/visual observation. **P:** our proposal. **G:** qualification remains required. A source link establishes provenance, not that every marketing claim was independently tested.
@@ -20,7 +26,7 @@ Research consolidated for the 2026-10-11 planning baseline. Links below are evid
 | [Recognize subtitles](https://www.capcut.com/help/how-to-recognise-subtitles) | D: platform-specific caption generation and editing | Cloud/local processing and quality not generalized |
 | [Import subtitles](https://www.capcut.com/help/how-to-import-subtitles) | D: desktop SRT/TXT, web/mobile differences | Formats/style fidelity depend on platform/version |
 | [Auto captions](https://www.capcut.com/help/auto-captions-in-capcut) | D: human correction needed for recognition errors | No universal accuracy guarantee |
-| [Template export](https://www.capcut.com/help/use-and-export-templates-in-capcut) | D: mobile template ecosystem differs from desktop | Do not promise identical community catalog on Linux |
+| [Template export](https://www.capcut.com/help/use-and-export-templates-in-capcut) | D: mobile template catalog differs from desktop | Do not promise identical community catalog on Linux |
 | [Project import behavior](https://www.capcut.com/help/import-a-previous-project-into-the-current-project) | D: limitations importing editable projects into others | Does not define a public supported interchange format |
 | [Export troubleshooting](https://www.capcut.com/help/export-video-on-capcut) | D: desktop/web hardware/resource/network distinctions | Not a benchmark for our engine |
 | [AI desktop capabilities](https://www.capcut.com/tools/desktop-ai-power) | D: script assembly, cutout, captions, reframe, retouch claims | Capability advertising, not implementations or measured parity |
@@ -42,7 +48,7 @@ One official promotional screenshot was visually inspected while planning: [scri
 | [DMA-BUF design](https://gstreamer.freedesktop.org/documentation/additional/design/dmabuf.html) | D: format/modifier/memory negotiation requirements | Hardware integration must be measured |
 | [MLT framework](https://www.mltframework.org/docs/framework/) | D: producer/consumer/filter/transition architecture | Candidate fallback, not proven Rust integration |
 | [MLT repository](https://github.com/mltframework/mlt) | D: existing open media engine and licensing source | Actual module/build obligations vary |
-| [Kdenlive](https://github.com/KDE/kdenlive) | D: established GPL editor, MLT ecosystem reference | Not Rust application; reuse is not automatic product fit |
+| [Kdenlive](https://github.com/KDE/kdenlive) | D: established GPL editor, MLT project reference | Not Rust application; reuse is not automatic product fit |
 | [Pitivi](https://gitlab.gnome.org/GNOME/pitivi) | D: existing GTK/GES editor reference | Does not prove every requested CapCut-like path |
 | [wgpu](https://github.com/gfx-rs/wgpu) | D: graphics abstraction | Does not supply codecs/audio/timeline automatically |
 | [OpenTimelineIO architecture](https://opentimelineio.readthedocs.io/en/stable/tutorials/architecture.html) | D: editorial interchange model | Not a renderer or complete proprietary-effect translator |

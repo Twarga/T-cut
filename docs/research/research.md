@@ -1,360 +1,525 @@
-# t-cut: Detailed CapCut Desktop Interface Research
+# t-cut: CapCut Desktop Interface Research
 
-Research date: **2026-10-12**. User-selected product name: **t-cut**.
+Research date: **2026-10-12**. Product name chosen by the user: **t-cut**.
+
+## At a glance
+
+- **Goal:** the whole app should feel close to CapCut Desktop for existing users. That means Home, opening projects, the editor, settings, and export. A generic four-pane editor is not enough.
+- **Evidence:** 28 public screenshots, plus official help and dated third-party guides.
+- **Limit:** no CapCut executable was run. Screenshots show captured states only.
+- **Result:** the earlier plan missed Home, the two-level tool navigation, and the export layout. This study fixes those.
+- **Next:** the [fidelity contract](fidelity-contract.md) turns findings into t-cut requirements and acceptance checks.
 
 ## 1. What this study establishes
 
-The user wants the whole application to look and operate closely enough to CapCut Desktop that its existing users recognize Home, project opening, the editor, settings and export. A generic four-pane video editor does not satisfy that requirement.
+The user wants the whole application to look and operate close enough to CapCut Desktop that its users recognize Home, project opening, the editor, settings, and export.
 
-This study directly inspected **28 public screenshots** and used official help/tutorials plus dated third-party desktop references to examine less visible behavior. Each screenshot has a direct source, image dimensions and fetched-byte fingerprint in the [screenshot index](screenshot-index.md) and [machine-readable manifest](reference-manifest.json). The [fidelity contract](fidelity-contract.md) converts findings into t-cut requirements and acceptance scenarios.
+**Method:**
 
-**Limit:** no CapCut executable was installed or exercised. Screenshots establish appearance in captured states, not hover timing, drag physics, all menu contents or the behavior of the latest release. Some tutorial behavior is documented but not independently reproduced. This report does not call that runtime testing.
+- Directly inspected **28 public screenshots**.
+- Read official help and tutorials, plus dated third-party desktop references, for less visible behavior.
+- Each screenshot has a source, image dimensions, and a fetched-byte fingerprint in the [screenshot index](screenshot-index.md) and the [machine-readable manifest](reference-manifest.json).
 
-### Evidence notation
+**Limits:**
 
-- **V:** directly visible in an inspected screenshot.
-- **D:** explicitly described in a cited page/tutorial, not exercised here.
-- **[INFERENCE]:** interpretation that the images alone cannot prove.
-- **P:** proposed t-cut behavior/design decision.
-- **U:** unresolved evidence gap.
+- Screenshots show appearance in captured states only. They do not show hover timing, drag physics, every menu item, or the latest release.
+- Some tutorial behavior is documented but not reproduced.
+- This report does **not** count as runtime testing.
 
-Screenshot references such as S03 refer to the index. Labels quoted from screenshots are evidence, not a recommendation to copy all product wording, premium markers or content assets.
+### Evidence labels
+
+| Label | Meaning |
+|---|---|
+| **V** | Directly visible in an inspected screenshot |
+| **D** | Described in a cited page or tutorial. Not exercised here. |
+| **[INFERENCE]** | Interpretation the images alone cannot prove |
+| **P** | Proposed t-cut behavior or design decision |
+| **U** | Unresolved evidence gap |
+
+Screenshot references such as **S03** point to the index. Labels from screenshots are evidence, not a list of wording, premium markers, or assets to copy.
 
 ### Chosen reference family
 
-Use the dark desktop editor from [CapCut's PC/Mac walkthrough](https://www.capcut.com/resource/how-to-use-capcut-on-pc) as the provisional structural baseline. It supplies a coherent sequence of Home, empty editor, clip selection, captions, music, AI-media and export images. The page displays Oct 10, 2026, but does not supply the app build behind each image. Call it **cohort A**, not “CapCut version X.”
+- **Structural baseline:** the dark desktop editor in [CapCut's PC and Mac walkthrough](https://www.capcut.com/resource/how-to-use-capcut-on-pc).
+- It shows a coherent sequence: Home, empty editor, clip selection, captions, music, AI media, and export.
+- The page is dated Oct 10, 2026. It does not name the app build behind each image.
+- Call this **cohort A**, not "CapCut version X".
 
-Supplemental screenshots provide color, audio, speed, menus and settings. Keep their provenance separate. Only S28 visibly states **Current version 8.11**; it does not prove that S01–S27 came from that version. [CapCut's own help](https://www.capcut.com/help/capcut-ui-update-changes) says updates can move or reorganize controls.
+**Version evidence:**
 
-## 2. Findings that correct the previous plan
+- Only **S28** visibly states **Current version 8.11**. That does not prove S01–S27 came from that version.
+- [CapCut's help](https://www.capcut.com/help/capcut-ui-update-changes) says updates can move or reorganize controls.
+- Supplemental screenshots cover color, audio, speed, menus, and settings. Track their provenance separately.
+
+## 2. Findings that correct the earlier plan
 
 | Earlier simplification | Actual reference evidence | Required correction |
 |---|---|---|
-| Start directly in a four-pane editor | S01 shows a distinct Home/project dashboard | Home and project lifecycle belong in the MVP |
-| Generic left tool rail | S02–S06 show horizontal icon-and-label tool categories above the left workspace, plus an inner vertical category list | Implement two levels of navigation, not one vertical toolbar |
-| Narrow library beside oversized preview | S03's library and Player occupy similar widths | Match the reference's density/proportions before imposing generic defaults |
-| Undo/redo in the title bar | S03 shows undo/redo at the left of the timeline toolbar | Put editing history controls in their familiar location |
-| One generic Inspector tab set | S02 Details, S03 Video, S05 Text and S06 audio controls differ | Build an object-aware inspector state system |
-| Left tool tab determines right settings | S03 Filters left with Video right; S04 Transitions left with AI stylize right | Library browsing and selected-object inspector are independent |
-| Export as a list of fields | S07 is a large centered two-column modal | Preserve preview/settings/footer structure |
-| All CapCut screenshots can be combined | S11, S13–S14, S22–S28 expose different cohorts/workspaces | Track variants; do not create an invented hybrid |
+| Start directly in a four-pane editor | S01 shows a distinct Home and project dashboard | Home and project lifecycle belong in the MVP |
+| Generic left tool rail | S02–S06 show horizontal icon-and-label categories above the left workspace, plus an inner vertical category list | Build two levels of navigation, not one vertical toolbar |
+| Narrow library beside an oversized preview | S03's library and Player occupy similar widths | Match the reference's density and proportions before generic defaults |
+| Undo and redo in the title bar | S03 shows undo and redo at the left of the timeline toolbar | Put editing history controls where users expect them |
+| One generic inspector tab set | S02 Details, S03 Video, S05 Text, and S06 Audio all differ | Build an object-aware inspector state system |
+| Left tool tab sets the right settings | S03: Filters left, Video right. S04: Transitions left, AI stylize right. | Library browsing and the selected-object inspector are independent |
+| Export as a list of fields | S07 is a large centered two-column modal | Keep the preview, settings, and footer structure |
+| All CapCut screenshots can be combined | S11, S13–S14, and S22–S28 show different cohorts or workspaces | Track variants. Do not invent a hybrid. |
 
-The earlier `ui-layout.svg` remains a generic historical concept, not the visual fidelity target. Its three top-level column widths, title-bar controls and lack of Home are insufficient for this clarified request.
+**Historical file:** `ui-layout.svg` is a generic concept. It is **not** the visual target. Its three column widths, title-bar controls, and missing Home are not enough for this request.
 
 ## 3. Home and project dashboard
 
-Primary visual evidence: S01. Supplemental card actions: S24–S25. Official lifecycle documentation: [delete projects](https://www.capcut.com/help/delete-history-task), [open/modify history projects](https://www.capcut.com/help/modify-history-task).
+**Evidence:** primary S01. Card actions: S24–S25. Lifecycle docs: [delete projects](https://www.capcut.com/help/delete-history-task) and [open or modify history projects](https://www.capcut.com/help/modify-history-task).
 
 ### 3.1 Overall structure
 
-**V:** Home uses a dark background with three main horizontal zones:
+**V:** Home has a dark background and three horizontal zones:
 
-1. A narrow left navigation/account column.
-2. A broad central creation/projects area.
-3. A promotional card area in the upper right, present in S01 but not identical in every Home capture.
+1. A narrow left navigation and account column.
+2. A broad central area for creating and listing projects.
+3. A promo card area at the upper right. It appears in S01 but not in every Home capture.
 
-The left column contains the brand near its top, an account/profile card, a membership promotion, then the Video editing section. S01 visibly lists Home, Templates and Spaces, with AI design below a divider. A promotional tile sits near the lower left.
+**Left column (S01):** brand near the top, account card, membership promo, Video editing section. Visible links: Home, Templates, and Spaces. AI design sits below a divider. A promo tile is near the bottom.
 
-The main area begins with a very large **Create project** tile. Under it are creation shortcuts: AI video maker, Script to video and Record screen in S01. A **More tools** row follows, with smaller icon cards and labels. **Projects** appears lower down, with project thumbnails arranged horizontally in a grid.
+**Main area (S01):**
 
-**V:** the Projects header's right side includes a search control, view-mode control/dropdown, Trash and Project sync. Cards show a preview thumbnail, project name and a compact metadata line with a size-like value and duration. The size-like label has abbreviated units; the screenshot alone does not establish whether it measures project metadata, all media, or something else.
+- A very large **Create project** tile.
+- Shortcuts below it: AI video maker, Script to video, Record screen.
+- A **More tools** row with smaller icon cards.
+- **Projects** lower down, with thumbnails in a horizontal grid.
 
-### 3.2 Important layout details
+**Projects header (V):** search, view-mode control, Trash, and Project sync. Cards show a thumbnail, a name, and a compact metadata line with a size-like value and a duration. The size label uses abbreviated units. The screenshot does not show what it measures.
 
-- The Create project action is a broad tile, not a small toolbar button.
-- The project grid is below creation tools, not a left-side file tree.
-- Card metadata sits below thumbnails rather than appearing as a large overlay on top of the image.
-- Project controls align with the Projects heading, not with the global window controls.
-- Home settings/version affordances live toward the upper-right chrome; S28 explicitly shows a Settings tooltip.
-- The dashboard's hierarchy survives the absence of a logged-in account. Official help discusses local projects created while logged out; it does not make sign-in necessary to understand local editing.
+### 3.2 Layout details
+
+- Create project is a broad tile, not a small toolbar button.
+- The project grid sits below the creation tools. There is no left file tree.
+- Card metadata sits below the thumbnail, not over the image.
+- Project controls align with the Projects heading, not the window controls.
+- Settings and version affordances sit at the upper right. S28 shows a Settings tooltip.
+- The hierarchy still works without a logged-in account. Official help covers local projects created while logged out.
 
 ### 3.3 Project actions and opening
 
-**V, S24:** a project-card context menu has Rename, Duplicate and Delete; Delete displays a Backspace hint in that screenshot. The menu is small, dark, rounded and anchored near the card. Do not infer additional menu items from this capture.
+**V, S24 (card context menu):** Rename, Duplicate, Delete. Delete shows a Backspace hint. The menu is small, dark, rounded, and anchored to the card. Do not infer other items from this capture.
 
-**D:** official history help describes selecting a project/history item to continue editing. Desktop tutorials describe opening a recent project from Home and returning through Menu > Back to homepage. Exact single-click versus double-click and focus behavior remain U for the selected current reference build.
+**D (opening):** official help says to select a project or history item to keep editing. Tutorials say to open a recent project from Home and return with Menu, then Back to homepage. Single-click versus double-click and focus behavior are **U** for the reference build.
 
-**V, S25:** Delete leads to a centered confirmation over a dimmed Home background, titled **Move to Trash?** with OK and Cancel. Its message says items will be deleted after 30 days. This is a captured policy statement, not a universal retention guarantee or an instruction for t-cut to auto-delete work.
+**V, S25 (Delete):** a centered confirmation over a dimmed Home. Title: **Move to Trash?** Buttons: OK and Cancel. Message: items are deleted after 30 days. This is a captured policy statement. It is not a general retention promise, and t-cut should not auto-delete work.
 
-**P for t-cut:** preserve recognizable Home geometry, project cards and those management actions. Local projects do not need an account. Rename changes display name; Duplicate creates a distinct editable project identity; Move to Trash does not delete external source media. Use an explicit t-cut retention policy rather than copying the screenshot's promise. A Trash/Restore view is required, but its exact CapCut visual treatment is U.
+**P for t-cut:**
 
-### 3.4 Free/open-source adaptation
+- Keep the Home layout, project cards, and management actions.
+- Local projects need no account.
+- **Rename** changes the display name.
+- **Duplicate** creates a separate editable project identity.
+- **Move to Trash** does not delete external source media.
+- Use an explicit t-cut retention policy. Do not copy the 30-day promise.
+- A Trash and Restore view is required. Its CapCut visual treatment is **U**.
 
-t-cut should not show fake Join Pro buttons, unsupported AI cards, copied promotions, or a cloud capacity indicator backed by no service. Preserve the primary navigation and project-management structure; remove monetization surfaces and defer unimplemented feature cards. Document that intentional difference. Do not replace the Home screen with an unrelated minimal file chooser merely because some optional tools are missing.
+### 3.4 Free and open-source adaptation
+
+- No fake Join Pro buttons, unsupported AI cards, copied promos, or cloud capacity meter with no service behind it.
+- Keep primary navigation and project management.
+- Remove monetization. Defer unbuilt feature cards.
+- Record this as an intentional difference.
+- Do not replace Home with a minimal file chooser just because some tools are missing.
 
 ## 4. Creating a project and entering the editor
 
-**D:** the official PC walkthrough says launch CapCut, select Create project, then Import. It does not describe a compulsory multi-step setup wizard before entering the editor.
+- **D:** the official PC walkthrough says to launch CapCut, select Create project, then Import. It describes no mandatory setup wizard.
+- **V, S02 and S09:** the new editor has a project name, an empty Player, an Import drop target, project Details, and an empty timeline.
+- **S09 caveat:** it is empty, even though the nearby article talks about uploading. Do **not** list it as a successful import.
 
-**V, S02/S09:** the new editor state already has a project name, an empty Player, a media Import drop target, project Details and an empty timeline. S09 is still empty despite surrounding article wording about uploading; it must not be cataloged as a successfully imported-media state.
+**P for t-cut:**
 
-**P for t-cut:** Create project immediately opens a valid local project in this familiar empty-editor state. Name and sequence settings remain editable through the title/project Details flow. An Open project command supplements recent cards for portable local files, using the Linux file chooser. It is a t-cut requirement, not a claim that the reference has an identically located Open project button.
+- Create project opens a valid local project in the empty editor right away.
+- Name and sequence settings stay editable through the title and Details flow.
+- Add an **Open project** command for portable local files, using the Linux file chooser. This supplements recent cards. It is a t-cut requirement, not a claim that the reference places it the same way.
 
-Mandatory states to design independently: no recent projects, opening in progress, missing project file, incompatible project version, locked project, read-only project and opening failure. None can be replaced with a permanently spinning loader.
+**States to design (none may be a permanent spinner):**
 
-## 5. Editor frame and proportional geometry
+- No recent projects
+- Opening in progress
+- Missing project file
+- Incompatible project version
+- Locked project
+- Read-only project
+- Opening failure
 
-### 5.1 Title/application bar
+## 5. Editor frame and proportions
 
-**V, S03:** left-to-right groups are brand, Menu dropdown, autosave status/time, centered project title, layout/shortcut-like controls, Pro, Share, Export and OS window controls. The bright Export action has the strongest action emphasis. Exact meanings of every unlabeled top-right glyph remain U without tooltips; S23 proves a layout menu for its own cohort.
+### 5.1 Title and application bar
 
-**V:** ordinary undo/redo icons are above the timeline, not in this bar. The title can change between screenshots without changing the workspace structure. The autosave timestamp is a status, not the project's duration.
+**V, S03 (left to right):** brand, Menu dropdown, autosave status and time, centered project title, layout or shortcut-like controls, Pro, Share, Export, OS window controls. Export has the strongest action emphasis.
 
-**P:** t-cut preserves Menu, save state, title, layout/shortcut access and Export grouping. It omits Pro and uses no compulsory Share service. Linux titlebar/window controls follow the toolkit/window-manager contract without pretending to be a Windows-native window.
+- Meanings of unlabeled top-right icons are **U** without tooltips. S23 shows a layout menu for its own cohort.
+- Undo and redo are **not** in this bar. They sit above the timeline.
+- The title changes between screenshots. The workspace structure does not.
+- The autosave timestamp is a status. It is not the project's duration.
 
-### 5.2 Three upper work regions and lower timeline
+**P:** keep Menu, save state, title, layout and shortcut access, and the Export grouping. Drop Pro. No required Share service. Linux window controls follow the toolkit and window manager.
 
-The three upper regions are library, Player and contextual properties. Narrow gutters separate them. The timeline spans almost the whole width underneath. Its toolbar is a distinct horizontal band above the ruler/track body.
+### 5.2 Three upper regions and the timeline
 
-The table below contains **visual estimates from S03**, not pixel-perfect measurements or GTK constants. Source image size was independently decoded as 1919×1079; no OS scaling or original logical dimensions are known.
+- Upper regions: library, Player, contextual properties. Narrow gutters separate them.
+- The timeline spans nearly the full width underneath.
+- The timeline toolbar is a separate band above the ruler and track body.
 
-| Area | Approximate proportion of the full screenshot | Interpretation |
+**Visual estimates from S03.** These are not pixel measurements or GTK constants. The source image decodes to **1919×1079**. OS scaling and logical size are unknown.
+
+| Area | Share of full screenshot | Meaning |
 |---|---|---|
-| Library including its category list | About 34% of width | Much larger than a thin navigation rail |
-| Player pane | About 35% of width | Similar width to library in this capture |
-| Inspector | About 29% of width | Large enough for sliders, numeric fields and keyframe controls |
-| Title/application bar | About 5% of height | Compact window-level chrome |
-| Upper editing region | About 63% of height | Library/player/inspector share the same general vertical extent |
-| Timeline, including its toolbar | About 31% of height | Editing area, not a tiny decorative strip |
-| Home left navigation in S01 | About 15% of width | Separate dashboard geometry; not editor geometry |
+| Library, including its category list | ~34% of width | Much wider than a thin rail |
+| Player | ~35% of width | Similar to the library |
+| Inspector | ~29% of width | Fits sliders, numeric fields, and keyframe controls |
+| Title and application bar | ~5% of height | Compact window chrome |
+| Upper editing region | ~63% of height | Library, Player, and inspector share this height |
+| Timeline, including toolbar | ~31% of height | A real editing area, not a thin strip |
+| Home left navigation (S01) | ~15% of width | Dashboard geometry, not editor geometry |
 
-Gutters account for the remainder. S10 and S21 visibly give more height to the timeline; S15 has a narrower inspector and more visible top categories. These are evidence of layout variation, not a basis for one immutable width formula.
+Gutters make up the rest. S10 and S21 give the timeline more height. S15 has a narrower inspector and more visible top categories. These show layout variation. They are not a basis for one fixed width formula.
 
-**P:** initial fidelity work should compare at the same captured window size and then establish resizing constraints. A single 300px library default from the earlier plan must not override this reference. Preserve panel order and control density at laptop sizes, while accessibility scaling can require intentional adaptations.
+**P:** compare at the same captured window size first, then set resize limits. The 300 px library default from the earlier plan must not override this reference. Keep panel order and control density at laptop sizes. Accessibility scaling may need deliberate changes.
 
 ## 6. Library and tool navigation
 
-### 6.1 Horizontal top categories
+### 6.1 Top categories
 
-**V, S02–S10:** visible order begins **Media, Audio, Text, Stickers, Effects, Transitions, Captions, Filters**, followed by an overflow arrow. Icons sit above short labels. The selected category uses accent color on icon/label. This row occupies the top of the library region, not the full application width.
+**V, S02–S10:** the visible order starts with **Media, Audio, Text, Stickers, Effects, Transitions, Captions, Filters**, then an overflow arrow. Icons sit above short labels. The selected category uses the accent color. The row sits at the top of the library, not across the full app.
 
-**V, S15/S21:** a wider/denser visible category row also includes Adjustment, Templates and AI avatar. Do not assume S03 lacks those features just because its row overflows. Conversely, do not claim every screenshot contains the same visible order.
+**V, S15 and S21:** a denser row also shows Adjustment, Templates, and AI avatar. S03 overflowing does **not** mean those features are missing. The visible order is not the same in every screenshot.
 
 ### 6.2 Inner vertical categories
 
-The second navigation level changes with the top category:
+The second level changes with the top category:
 
-| Selected category | Visible examples | Main content form |
+| Top category | Visible examples | Main content |
 |---|---|---|
-| Media | Import, Media, Subprojects, Yours, AI media, Spaces, Library, Dreamina | Import drop target, media grid or AI form |
-| Filters | Favorites, Filters, Featured, NEW, Hits, Life, Photo Booth, Landscape and more | Search field plus thumbnail grid |
-| Transitions | Favorites, Transitions, Trending, NEW, Hits, Overlay, Light, Movement, Blur, Basic, Mask, Slide | Search field plus thumbnail grid |
-| Audio | Import, Yours, AI music, Music and genre/category items, Sound effects | Search field plus music rows |
-| Text | Add text, AI packaging, Yours, Text effects, Text template, Auto captions, Local captions in S10 | Default text tile or relevant collection |
-| Captions | Auto captions, Templates, AI packaging, Auto lyrics, Add captions, AI emojis in S05 | Caption-generation form |
+| Media | Import, Media, Subprojects, Yours, AI media, Spaces, Library, Dreamina | Import drop target, media grid, or AI form |
+| Filters | Favorites, Filters, Featured, NEW, Hits, Life, Photo Booth, Landscape, more | Search field and thumbnail grid |
+| Transitions | Favorites, Transitions, Trending, NEW, Hits, Overlay, Light, Movement, Blur, Basic, Mask, Slide | Search field and thumbnail grid |
+| Audio | Import, Yours, AI music, Music with genre or category items, Sound effects | Search field and music rows |
+| Text | Add text, AI packaging, Yours, Text effects, Text template, Auto captions, Local captions (S10) | Default text tile or a collection |
+| Captions | Auto captions, Templates, AI packaging, Auto lyrics, Add captions, AI emojis (S05) | Caption-generation form |
 
-Catalog category names and proprietary assets are version/content-dependent. t-cut should preserve this navigation pattern and high-value familiar terms, not copy a provider's live catalog or imply access to it.
+Category names and proprietary assets change with version and content. t-cut should keep the navigation pattern and the high-value familiar terms. It must not copy a provider's catalog or imply access to it.
 
 ### 6.3 Media and catalog cards
 
-**V, S15/S21:** loaded media can show a compact Import/Record/search row, a thumbnail with duration and an Added badge, filename beneath, and a separate generation tile. The preview image in the bin is not necessarily the selected timeline frame.
+**V, S15 and S21 (loaded media):** a compact Import, Record, and search row. Thumbnails with duration and an Added badge. Filename below. A separate generation tile. The bin preview is not always the selected timeline frame.
 
-**V, S03/S04:** filters/transitions use repeated thumbnail cards in a grid, title underneath, premium-like badges near an upper corner and download glyphs near a lower corner. **V, S06:** music instead uses horizontal rows with cover art, track title, artist/duration, favorite and download/add actions.
+**V, S03 and S04 (filters and transitions):** repeated thumbnail cards in a grid. Title below. Premium-style badges near one corner. Download icons near another.
 
-**P:** implement separate MediaGrid, PresetGrid and AudioList views sharing selection/focus/download states. Do not force audio into the same square-card layout as filters. Download buttons need a real local asset pack and state, not a decorative cloud icon.
+**V, S06 (music):** horizontal rows with cover art, title, artist and duration, favorite, and download or add actions.
+
+**P:** build separate MediaGrid, PresetGrid, and AudioList views that share selection, focus, and download states. Do not force audio into square cards. Download buttons need a real local asset pack and real state. A decorative cloud icon is not enough.
 
 ## 7. Player and canvas
 
-**V:** the Player pane has a heading/header, dark letterbox area, fitted image and a transport strip at its bottom. The current time is accent-colored; total duration is secondary. A play triangle sits near the center, with Full, fit/framing, Ratio and fullscreen-like controls toward the right in cohort A.
+**V:** the Player has a header, a dark letterbox area, a fitted image, and a transport strip at the bottom.
 
-Selected visual objects display a white rectangular boundary with handles, plus a circular rotation control below. S05/S10 show a selected text box; S03 shows selected video bounds. These are distinct selection overlays over the rendered image.
+- Current time: accent color. Total duration: secondary.
+- A play triangle near the center.
+- On the right, in cohort A: Full, fit or framing, Ratio, and a fullscreen-like control.
 
-**V, S12:** portrait media occupies a narrow central rectangle with black surrounding canvas inside the Player. This does not prove whether the project is portrait or the media has a portrait transform; project/canvas aspect and source bounds must remain separate concepts.
+**Selection overlays:**
 
-**P:** t-cut preserves the transport hierarchy, time placement, selected-object handles and ratio access. Overlay guides never burn into export. Dragging a handle and changing a numeric inspector field must edit the same transform. User text entry must not be intercepted by timeline playback/split shortcuts.
+- A selected object shows a white rectangular boundary with handles, plus a circular rotate control below.
+- S05 and S10 show a selected text box. S03 shows selected video bounds.
+- These overlays sit on top of the rendered image.
 
-**U:** the exact Full control menu, zoom options, double-click player behavior, scrubbing audio policy and fullscreen shortcut are not established by these pictures.
+**V, S12 (portrait media):** a narrow central rectangle with black around it, inside the Player. This does not show whether the project is portrait or the media has a portrait transform. Keep project canvas aspect and source bounds as separate concepts.
+
+**P:**
+
+- Keep the transport hierarchy, time placement, selection handles, and ratio access.
+- Overlay guides never burn into the export.
+- Dragging a handle and typing in an inspector field edit the same transform.
+- Text entry must not trigger playback or split shortcuts.
+
+**U:** the full Full menu, zoom options, double-click behavior, scrub audio policy, and fullscreen shortcut.
 
 ## 8. Contextual right panel
 
 ### 8.1 Nothing selected: Details
 
-**V, S02:** heading **Details**; rows **Name**, **Path**, **Aspect ratio**, **Resolution**, **Frame rate**, **Imported media**, **Proxy**, **Arrange layers**. Captured values include Original, Adapted, 30.00fps, Stay in original location, Turned off and Turned on. A **Modify** button sits at the lower right.
+**V, S02:** heading **Details**. Rows: **Name, Path, Aspect ratio, Resolution, Frame rate, Imported media, Proxy, Arrange layers**. Sample values: Original, Adapted, 30.00fps, Stay in original location, Turned off, Turned on. A **Modify** button sits at the lower right.
 
-These values are the sample project's state, not immutable defaults. The path is Windows-specific and must not be copied into Linux UI. S11 uses alternate wording, including Saved/Ratio/Import material/Free layer.
+- These values belong to the sample project. They are not defaults to copy.
+- The path is Windows-specific. Do not copy it to Linux.
+- S11 uses different wording: Saved, Ratio, Import material, Free layer.
 
-**D:** [Primal Video's desktop guide](https://primalvideo.com/guides/capcut-for-pc-mac-tutorial/) describes Modify for name, media-copy policy, aspect, resolution and frame rate. It identifies its written material as an AI-assisted video summary; use it as secondary behavior evidence, not pixel truth.
+**D:** [Primal Video's desktop guide](https://primalvideo.com/guides/capcut-for-pc-mac-tutorial/) describes Modify: name, media-copy policy, aspect, resolution, frame rate. That guide says its text is an AI-assisted summary. Use it as secondary evidence, not as pixel truth.
 
 ### 8.2 Video selected
 
-**V, S03:** main tabs **Video, Speed, Animation, Adjust, AI stylize**. Within Video: **Basic, Remove BG, Mask, Retouch**. Other media/clip types can expose Audio as another top-level tab, as S21 demonstrates.
+**V, S03:** main tabs **Video, Speed, Animation, Adjust, AI stylize**. Under Video: **Basic, Remove BG, Mask, Retouch**. Other clip types can add an Audio tab (S21).
 
-Basic includes an expandable Transform group. Visible rows: Scale slider/value, Uniform scale toggle, Position X/Y fields, Rotate numeric field and dial, alignment controls, and a collapsible Blend group. Reset and keyframe/navigation controls sit to the right of groups/rows. S15 visibly shows the **Add keyframe** tooltip at the transform controls.
+**Basic (S03):**
 
-**V, S08:** scrolled Basic content includes Auto reframe, aspect ratio, image stabilization, camera moving speed and Apply, followed by other feature rows. The inspector scrolls independently; not all controls fit in the first viewport.
+- An expandable Transform group.
+- Scale slider and value. Uniform scale toggle.
+- Position X and Y fields.
+- Rotate field and dial.
+- Alignment controls.
+- A collapsible Blend group.
+- Reset and keyframe controls to the right of rows.
+- S15 shows the **Add keyframe** tooltip at the transform controls.
 
-**P:** keep primary tabs/subtabs stable for a selected object. Do not put every property into one giant unstructured form. Preserve expansion/scroll context where appropriate; avoid jumping to the top while the user adjusts a field.
+**V, S08 (scrolled Basic):** Auto reframe, aspect ratio, image stabilization, camera moving speed, Apply, then more rows. The inspector scrolls on its own. Not every control fits the first view.
+
+**P:**
+
+- Keep the primary tabs and subtabs stable for a selected object.
+- Do not put every property in one long unstructured form.
+- Keep scroll position when the user adjusts a field. Don't jump to the top.
 
 ### 8.3 Text and captions selected
 
-**V, S05:** tabs include Text, Animation, Tracking, Text to speech; an overflow control follows. Text has Basic, Bubble and Effects. Visible content: editable text area, AI writer row, Font selector, Font size slider/value, style buttons, case buttons, Color and Save as preset.
+**V, S05:** tabs: Text, Animation, Tracking, Text to speech, then an overflow menu. Text has Basic, Bubble, Effects.
 
-The left pane can show Auto captions while the right pane edits a selected text object. A category click is not evidence that a different timeline object was selected.
+Visible content: editable text area, AI writer row, Font selector, Font size, style buttons, case buttons, Color, Save as preset.
 
-**P:** share typography controls between text and captions but preserve caption timing/language/speaker and batch-edit state. A multiline field must support IME and normal text shortcuts. The exact placement of a full caption list, Find/Replace and batch editing in the current cohort remains U; a 2023 official desktop masterclass documents those workflows but is not current screenshot proof.
+The left pane can show Auto captions while the right pane edits a selected text object. A category click does **not** prove a different timeline object was selected.
+
+**P:** share typography controls between text and captions. Keep caption timing, language, speaker, and batch-edit state. Multiline fields must support IME and normal text shortcuts.
+
+**U:** where the full caption list, Find and Replace, and batch editing sit in the current cohort. A 2023 official desktop masterclass documents them, but it is not current screenshot proof.
 
 ### 8.4 Audio selected
 
-**V, S06/S16:** audio-only selection exposes **Basic, Voice changer, Speed**. Basic has Volume, Fade in and Fade out sliders with numeric values/units and diamond controls. Lower sections include normalization, voice enhancement, translation, noise reduction, isolation and channel controls in S16.
+**V, S06 and S16:** audio-only selection shows **Basic, Voice changer, Speed**.
 
-**V, S06:** Voice changer has **Voice filters, Voice characters, Speech to song**; filter tiles appear in a grid with Original, selected outline, availability/download indications, followed by Pitch and Timbre sliders.
+- **Basic:** Volume, Fade in, Fade out. Sliders with numeric values, units, and diamond controls.
+- **Lower sections:** normalization, voice enhancement, translation, noise reduction, isolation, channel controls (S16).
 
-Different screenshots say Normalize loudness versus Loudness normalization, Reduce noise versus Noise reduction, and Isolate voice versus Vocal isolation. Treat these as variants, not duplicate controls that all belong in one panel.
+**V, S06 (Voice changer):** **Voice filters, Voice characters, Speech to song**. Filter tiles in a grid: Original, selected outline, availability or download marks. Then Pitch and Timbre sliders.
+
+Labels differ by screenshot: "Normalize loudness" vs "Loudness normalization", "Reduce noise" vs "Noise reduction", "Isolate voice" vs "Vocal isolation". Treat these as variants. Do not put them in one panel as duplicates.
 
 ### 8.5 Speed
 
-**V, S21:** top-level Speed, subtabs **Standard, Curve, Velocity effects**. Standard shows speed slider with **1.41x**, a duration change **22.4s → 15.9s**, Change audio pitch, Smooth slow-mo and Reset. The selected clip has a speed badge.
+**V, S21:** top-level Speed. Subtabs: **Standard, Curve, Velocity effects**.
 
-**D:** [official desktop speed guide](https://www.capcut.com/resource/how-to-speed-up-a-video) distinguishes uniform Standard speed from Curve ramps. Its mobile section uses **Normal**. Do not silently import a mobile/web Normal label as proof of desktop naming.
+- Standard: speed slider showing **1.41x**, a duration change from **22.4s to 15.9s**, Change audio pitch, Smooth slow-mo, Reset.
+- The selected clip has a speed badge.
 
-**U:** full current native Curve editor, all curve-point actions and preset ordering are not established by a raw cohort-A screenshot. Also distinguish speed curves from property keyframe easing; they change different things.
+**D:** [official speed guide](https://www.capcut.com/resource/how-to-speed-up-a-video) separates uniform Standard speed from Curve ramps. Its mobile section says **Normal**. Do not use the mobile label as proof of desktop naming.
+
+**U:** the full native Curve editor, all curve-point actions, and preset order.
+
+Keep speed curves separate from property keyframe easing. They change different things.
 
 ### 8.6 Color
 
-**V, S17–S20:** top-level **Adjust**, subtabs **Basic, HSL, Curves, Color wheel, Mask**. Save as preset and Apply to all sit near the footer.
+**V, S17–S20:** top-level **Adjust**. Subtabs: **Basic, HSL, Curves, Color wheel, Mask**. Save as preset and Apply to all sit near the footer.
 
-- **Basic:** Color group with Temp, Tint, Saturation; a Lightness section heading followed by Exposure and Contrast. Do not mistake the Lightness heading for a proven slider.
-- **HSL:** color-range circles, eyedropper, Hue/Saturation/Brightness sliders, numeric fields and diamond controls.
-- **Curves:** All and Luma controls, reset/eyedropper, graph with diagonal line and endpoint handles. This is a tonal curve, not a speed curve.
-- **Color wheel:** Primary dropdown, Intensity, visible Shadows/Middle grey wheels with channel values; lower Tint/Offset headings partly visible. Do not invent everything below the crop.
+- **Basic:** Color group with Temp, Tint, Saturation. A Lightness heading, then Exposure and Contrast. The Lightness heading is **not** a proven slider.
+- **HSL:** color-range circles, eyedropper, Hue, Saturation, and Brightness sliders, numeric fields, and diamond controls.
+- **Curves:** All and Luma controls, reset and eyedropper, a graph with a diagonal line and endpoint handles. This is a **tonal** curve, not a speed curve.
+- **Color wheel:** Primary dropdown, Intensity, Shadows and Middle grey wheels with channel values. Tint and Offset headings are partly visible. Do not invent what sits below the crop.
 
-Source: [official color-grading walkthrough](https://www.capcut.com/resource/capcut-color-grading). t-cut should separate the three meanings of “curve”: color mapping, property animation easing, and playback speed.
+Source: [official color grading walkthrough](https://www.capcut.com/resource/capcut-color-grading).
 
-## 9. Timeline in detail
+t-cut must keep three meanings of "curve" apart: color mapping, property animation easing, and playback speed.
+
+## 9. Timeline
 
 ### 9.1 Structure
 
-**V:** horizontal toolbar, ruler, track headers on the left, clips in lanes, vertical playhead and bottom horizontal scrollbar. Text/overlay clips appear above main video; separate music appears below in the inspected projects. Video contains repeated thumbnails; audio has a waveform; text clips show text labels. Selected clips have a bright outline.
+**V:**
 
-A **Cover** control appears beside the start of the main visual track in multiple captures. It is not a general track-name field. The main track does not necessarily occupy the first/top lane.
+- Horizontal toolbar, ruler, track headers at the left, clips in lanes, a vertical playhead, a bottom scrollbar.
+- Text and overlay clips sit above the main video. Separate music sits below, in the inspected projects.
+- Video clips show repeated thumbnails. Audio shows a waveform. Text clips show their label.
+- Selected clips have a bright outline.
 
-The playhead has a small top handle and a thin line across track lanes. Ruler tick spacing changes with timeline zoom; the screenshot cannot prove zoom-step increments or frame quantization.
+**Cover control:** appears beside the start of the main visual track in several captures. It is **not** a general track-name field. The main track is not always the top lane.
+
+**Playhead:** a small top handle and a thin line across the lanes. Ruler spacing changes with zoom. The screenshot cannot show zoom steps or frame quantization.
 
 ### 9.2 Toolbar grouping
 
-Left: selection-mode control/dropdown, undo/redo, cut/trim-related controls, delete and additional clip tools depending on selected content.
+- **Left:** selection-mode control, undo and redo, cut and trim controls, delete, and clip tools that depend on what is selected.
+- **Right:** a microphone or record control, a group of toggle icons, more view controls, a fit control, minus, a slider, and plus.
 
-Right: microphone/recording affordance, a group of toggle icons, additional view controls, fit-like control, minus, slider and plus. Exact tooltip names must be captured for the selected build rather than guessed from silhouettes.
+Tooltip names must be captured from the selected build. Do not guess them from icon shapes.
 
-**D:** dated desktop tutorials distinguish Main track magnet, Auto snapping and Linkage. Official PC prose confirms magnet/snapping concepts but not every default. The 2024 tutorial descriptions say magnet closes gaps on the main track; snapping aligns nearby edges; linkage makes attached upper elements follow main content. This does not resolve every case involving locked tracks, detached audio or retiming.
+**D (magnet, snapping, linkage):** dated tutorials describe three controls. Official PC docs confirm the snapping and magnet concepts, but not every default.
+
+- **Main track magnet:** closes gaps on the main track.
+- **Auto snapping:** aligns nearby edges.
+- **Linkage:** attached upper elements follow the main content.
+
+These descriptions do **not** settle locked tracks, detached audio, or retiming.
 
 ### 9.3 Context menus and compounds
 
-**V, S22, dated TourBox cohort:** Copy, Cut, disabled attribute operations, Delete with Backspace, Deactivate clip, Group, Ungroup, Show keyframe animation, Create compound clip with Alt+G, Undo compound clip, Pre-process, Sync video to sound, Range submenu and Link to media. Enabled/disabled state depends on this particular selection.
+**V, S22 (dated TourBox cohort):** Copy, Cut, disabled attribute operations, Delete (Backspace), Deactivate clip, Group, Ungroup, Show keyframe animation, Create compound clip (Alt+G), Undo compound clip, Pre-process, Sync video to sound, Range submenu, Link to media. Enabled and disabled states depend on the selection.
 
-[D, TourBox](https://www.tourboxtech.com/en/news/capcut-what-is-a-compound-clip.html) describes grouping clips into a compound and undoing the compound. Supplemental desktop tutorials describe double-clicking to enter its internal timeline and an arrow to return. Current breadcrumb appearance remains U.
+**D:** [TourBox note](https://www.tourboxtech.com/en/news/capcut-what-is-a-compound-clip.html) describes grouping clips into a compound, and undoing it. Desktop tutorials say double-click enters its internal timeline, and an arrow returns. The current breadcrumb look is **U**.
 
-**P:** keep contextual actions and visible shortcut hints. A selection group and a compound are different entities; do not make two labels invoke the same operation. Hide or clearly explain unavailable actions rather than permitting no-op commands. Exact menu order for a current reference needs observation.
+**P:**
+
+- Keep contextual actions and visible shortcut hints.
+- A selection group and a compound are different things. Don't map two labels to one operation.
+- Hide unavailable actions, or explain them. No no-op commands.
+- The exact menu order needs an observed reference.
 
 ### 9.4 Layout presets
 
-**V, S23:** a top-right layout menu contains Default layout, Transcript-based editing, Media first, Player first, Adjustment first and Timeline first. Default is checked; Timeline first is highlighted in that dated capture.
+**V, S23:** the top-right layout menu lists: Default layout, Transcript-based editing, Media first, Player first, Adjustment first, Timeline first. Default is checked. Timeline first is highlighted.
 
-This proves those labels in that source cohort, not all modern variants. t-cut MVP needs a resizable default layout and reset. Additional presets can follow; preserving user pane sizes must not require a paid feature.
+This proves those labels for that cohort only. It does not prove current variants.
 
-## 10. Export and post-export
+**t-cut MVP:** a resizable default layout and a reset. More presets can come later. Keeping user pane sizes must not require a paid feature.
 
-**V, S07:** dimmed editor behind a centered dark modal. Title Export near upper left. Left column contains output preview and Edit cover affordance. Right column begins Name and Export to with folder button, then enabled Video section and rows Resolution, Bit rate, Codec, Format, Frame rate, Optical flow and Color space. Settings area scrolls. Footer left shows duration/estimated size; footer right has Export and Cancel.
+## 10. Export
 
-The captured values **8K, HEVC, mp4, 30fps, Rec.709 SDR** are selected options in an example. They are neither defaults to copy nor proof that t-cut supports them. The article's red outlines/arrows are annotations.
+**V, S07:** the editor is dimmed behind a centered dark modal.
 
-**P:** reproduce the dialog hierarchy and familiar order while showing only qualified export choices. Keep project save separate from rendering. Show progress, cancellation, success/open-folder and actionable failure states. **U:** exact current CapCut progress, completion/share, overwrite and failed-export dialog layouts were not established by this screenshot collection.
+- Title **Export** at the upper left.
+- **Left column:** output preview and an Edit cover control.
+- **Right column:** Name and Export to (with a folder button). Then the enabled Video section: Resolution, Bit rate, Codec, Format, Frame rate, Optical flow, Color space. The settings area scrolls.
+- **Footer:** duration and estimated size at left. Export and Cancel at right.
 
-## 11. Global settings, project settings and shortcuts
+**Example values:** 8K, HEVC, mp4, 30fps, Rec.709 SDR. These are one example's selections. They are not defaults to copy, and they do not prove t-cut supports them. The red outlines and arrows in the article are annotations.
 
-These are three separate surfaces. Do not merge them because all contain form fields.
+**P:**
 
-### Global Settings
+- Reproduce the dialog hierarchy and the familiar order.
+- Show only export choices that t-cut qualifies.
+- Keep project save separate from rendering.
+- Show progress, cancel, success with open-folder, and actionable failure.
 
-**V, S26:** Settings title; tabs **Draft, Edit, Performance, General**. General selected. Language list with current selection mark; Notification section; Software update options; beginning of Right-click menu section; bottom Save/Cancel. A tall content region and clipped lower content indicate more than the initial visible controls.
+**U:** the current CapCut progress, completion or share, overwrite, and failed-export layouts. This screenshot set does not show them.
 
-[D, official language help](https://www.capcut.com/help/how-to-switch-languages-in-capcut): Settings > General > Language, select language, restart if prompted. The language choice is device-specific.
+## 11. Settings, project settings, and shortcuts
 
-A [Feb-2024 Windows settings tutorial](https://it-future-technology.tistory.com/9), investigated by the research agent, shows **Project/Edit/Performance/Language**, Korean text and Windows paths. It documents project/download/cache locations; stepping/image duration/loudness/frame rate/timecode; hardware encoding/decoding; GPU interface; proxies and output device. Its older tab names must not overwrite S26's official General-tab reference.
+Three separate surfaces. Don't merge them just because they all have form fields.
 
-**P:** t-cut can use the newer four-tab grouping, familiar layout and local settings scope, while documenting Linux differences. Flatpak updates belong to the package manager; do not draw an Automatic updates toggle that cannot control the installed package. Cache cleanup never deletes original media or required generated assets.
+### 11.1 Global Settings
 
-### Project Modify
+**V, S26:** Settings title. Tabs: **Draft, Edit, Performance, General**. General is selected. It shows a language list with the current choice marked, a Notification section, Software update options, the start of the Right-click menu section, and Save and Cancel at the bottom. A tall content area with clipped content means more controls sit below.
 
-**V:** entry button in Details (S02). **D:** project name, aspect/resolution/rate, media-copy policy and proxy choices in desktop tutorials. **U:** a readable complete current native Modify dialog was not found. Do not publish a fabricated screenshot-equivalent layout for it.
+**D, official language help:** Settings, then General, then Language. Pick a language. Restart if asked. The choice is per device.
 
-P: specify required fields and safe behavior now; keep exact tab order/geometry gated on a better reference. Current project settings must not silently become defaults for every future project.
+**Older tutorial (Feb 2024, Windows):** shows Project, Edit, Performance, Language tabs, Korean text, and Windows paths. It documents project, download, and cache locations. Stepping, image duration, loudness, frame rate, and timecode. Hardware encoding and decoding. GPU interface. Proxies and output device. Its old tab names must **not** replace S26's General-tab reference.
 
-### Shortcuts
+**P:**
 
-**D:** desktop tutorials describe Menu > Help > Shortcuts or a top-right shortcut control, presets, grouped commands, editable bindings and Save. Official desktop subtitle help confirms Ctrl+B/Cmd+B for its scope. Historical S22 proves several bindings for that context.
+- Use the newer four-tab grouping, the familiar layout, and a local settings scope. Document Linux differences.
+- Flatpak updates belong to the package manager. Don't draw an automatic-updates toggle that can't control the installed package.
+- Cache cleanup never deletes original media or required generated assets.
 
-**U:** the complete current shortcut dialog, preset ordering, conflict presentation, all default mappings and tooltips. A low-resolution thumbnail is not sufficient evidence. t-cut must still provide remapping and conflict detection; mark its exact layout P until directly observed.
+### 11.2 Project Modify
+
+- **V:** entry button in Details (S02).
+- **D:** project name, aspect, resolution, rate, media-copy policy, and proxy choices.
+- **U:** a readable full current native Modify dialog was not found.
+- Do not publish a fake screenshot-equivalent layout for it.
+
+**P:** specify the required fields and safe behavior now. Keep the exact tab order and geometry gated on a better reference. A current project's settings must not silently become defaults for future projects.
+
+### 11.3 Shortcuts
+
+**D:** tutorials describe Menu, then Help, then Shortcuts, or a top-right shortcut control. They mention presets, grouped commands, editable bindings, and Save. Official subtitle help confirms Ctrl+B and Cmd+B for its scope. S22 shows several bindings for that context.
+
+**U:** the complete current shortcut dialog, preset order, conflict display, all default mappings, and tooltips. A low-resolution thumbnail is not enough.
+
+t-cut must still provide remapping and conflict detection. Mark its exact layout **P** until someone observes the real one.
 
 ## 12. Missing media and recovery
 
-**V, S27:** dialog titled **Link media**, explanatory sentence, table columns Name/Last path/Duration, linked count **0/1 media linked**, **Link media when selecting a folder** checkbox, Link media and Cancel buttons. [The Windows missing-media guide](https://www.downloadsource.net/how-to-fix-media-lost-in-capcut-pc-project-media-not-found/n/23192/) documents restoring moved/renamed source links and the difference between missing footage and missing project data.
+**V, S27 (Link media dialog):**
 
-The research agent also inspected that guide's editor failure screenshot: red Media lost bin item, Media Not Found preview and missing strip in the timeline. That supports an error-state family, not permission to erase the clip and re-import without preserving edits.
+- Title: **Link media**. Explanatory sentence.
+- Table columns: Name, Last path, Duration.
+- Linked count: **0/1 media linked**.
+- Checkbox: **Link media when selecting a folder**.
+- Buttons: Link media, Cancel.
 
-**P:** t-cut needs a file identity-aware relink list and an honest missing-media state. Keep edits/positions while locating replacements. Cancel returns to the project with missing status; it does not abandon the project or silently export red placeholders.
+**Guide (Windows):** [missing-media guide](https://www.downloadsource.net/how-to-fix-media-lost-in-capcut-pc-project-media-not-found/n/23192/). Documents restoring moved or renamed source links. Separates missing footage from missing project data.
 
-**U:** no readable current crash-recovery prompt, previous-version recovery dialog or complete Trash/Restore screen was established. t-cut's reliability features remain required, but their detailed presentation is a proposed design, not a claim of exact CapCut replication.
+**Failure screenshot (in that guide):** a red "Media lost" bin item, a "Media Not Found" preview, and a missing strip in the timeline. This supports an error-state family. It does **not** permit deleting the clip and re-importing it without keeping the edits.
+
+**P:**
+
+- Build a file-identity-aware relink list and an honest missing-media state.
+- Keep edits and positions while the user finds replacements.
+- Cancel returns to the project with a missing status. It does **not** abandon the project or silently export red placeholders.
+
+**U:** no readable crash-recovery prompt, no previous-version recovery dialog, and no complete Trash and Restore screen was found. t-cut's reliability features are required. Their detailed look is a proposed design, not a copy.
 
 ## 13. Separate AI workspaces
 
-**V, S12:** AI media creation can live inside the dark editor's left Media hierarchy; it has prompt, model, duration and ratio controls. The timeline/player/inspector remain present.
+- **V, S12:** AI media creation lives inside the dark editor's left Media section. It has prompt, model, duration, and ratio controls. Timeline, Player, and inspector stay visible.
+- **V, S13–S14:** the AI video maker is a separate **light** workspace with its own header. The landing page has creation cards and a right-side form. The storyboard has a vertical rail (Script, Scenes, Elements, Music), a scene list, a preview, and Edit more and Export near the top.
 
-**V, S13–S14:** AI video maker is a separate light workspace with its own window header. Its landing has creation cards and a right-side form. Its storyboard has a Script/Scenes/Elements/Music vertical rail, scene/script list and preview, with Edit more and Export near the top.
-
-Do not merge this light storyboard into the MVP timeline editor or call it a main-editor theme variant. It is a distinct task flow. The screenshots do not establish whether all internals are native or embedded web content.
+**Rule:** do not merge the light storyboard into the MVP timeline editor. Do not call it a theme variant of the main editor. It is a separate task flow. The screenshots do not show whether its internals are native or embedded web content.
 
 ## 14. Visual language and density
 
-### Direct observations
+### 14.1 Observed
 
-- Predominantly dark neutral editor panels with slightly lighter headers/fields and narrow gutters.
-- Accent color on selected tool labels, some toggles and primary actions.
-- Compact icon-plus-label library tabs; most timeline controls are icon-based.
-- Repeated inspector anatomy: section label, optional enable checkbox/disclosure, reset, parameter row, numeric value/stepper, keyframe controls.
-- Rounded input/card/section corners, thin selected borders and restrained panel separation.
-- Secondary text is dimmer; asset thumbnails and preview carry most color/content.
-- Premium/availability/download marks coexist with controls in CapCut; t-cut must reinterpret capability/download states without copying monetization.
+- Mostly dark neutral panels, with slightly lighter headers and fields. Narrow gutters.
+- Accent color on selected tool labels, some toggles, and primary actions.
+- Compact icon-and-label library tabs. Most timeline controls are icons.
+- Repeated inspector pattern: section label, optional checkbox or disclosure, reset, parameter row, numeric value or stepper, keyframe controls.
+- Rounded input, card, and section corners. Thin selected borders. Restrained separators.
+- Dimmer secondary text. Thumbnails and the preview carry most of the color.
+- CapCut mixes premium, availability, and download marks with controls. t-cut must reinterpret capability and download states without copying monetization.
 
-### Not measurable from this collection alone
+### 14.2 Not measurable from these images
 
-Exact font family, UI font size, logical pixel dimensions, corner-radius tokens, OS scaling, default panel split ratios, animation durations and hover delays. Screenshot image pixels are not CSS/GTK logical units. Do not invent precise hex values or 1px specifications from a scaled/compressed image.
+- Exact font family and UI font size.
+- Logical pixel sizes, corner-radius tokens, OS scaling.
+- Default panel split ratios, animation durations, hover delays.
 
-### t-cut decision
+Image pixels are **not** CSS or GTK logical units. Do not invent hex values or 1px specs from a scaled, compressed image.
 
-P: match region hierarchy, density, grouping, control locations and state transitions closely; use independently authored icons/content and a maintainable native style system. No legal clearance is asserted by changing the logo. If accessibility scaling demands a difference, document it and retain the same conceptual navigation rather than making controls unusably small.
+### 14.3 t-cut decision
+
+**P:** match region hierarchy, density, grouping, control locations, and state changes closely. Use original icons and content, and a maintainable native style system. Changing the logo does not by itself clear legal risk. If accessibility scaling requires a difference, document it and keep the same navigation concept. Don't make controls unusably small.
 
 ## 15. Reference gaps and how to close them
 
-| Gap | Evidence obtained | Needed before claiming exactness |
+| Gap | Evidence we have | Needed before claiming exactness |
 |---|---|---|
-| Cohort-A app build | Coherent official screenshots, no version label | About/version capture from the same session as reference screens |
-| Full Menu | Closed Menu shown; several routes tutorial-documented | Expanded menu and each relevant submenu at readable resolution |
-| Project Modify modal | Details/Modify visible; fields described | Full modal capture including both/all tabs and validation states |
-| Shortcut editor | Routes/preset editing described | Readable dialog, conflict state and active default profile |
-| Trash and Restore | Delete menu/confirmation visible; restoration documented | Trash empty/populated, selection, restore and permanent-delete states |
-| Native speed Curve | Standard and Curve tab visible | Curve presets, custom graph, controls and their tooltips |
-| Clip/text animation | Tabs visible, historical behavior described | Current object-specific In/Out/Combo or Loop panels |
-| Drag/snap/link exactness | Static icons plus dated descriptions | Recorded gesture scenarios with starting/ending clip positions |
-| Export progress/failure | Export setup modal visible | Active/cancelled/failed/completed/overwrite states |
-| Crash recovery | Reliability need clear; no readable direct UI | Real recovery prompt or explicitly original t-cut design |
+| Cohort A build | Coherent official screenshots, no version label | About or version capture from the same session |
+| Full Menu | Closed Menu shown. Several routes described in tutorials. | Expanded menu and each relevant submenu, readable |
+| Project Modify modal | Details and Modify visible. Fields described. | Full modal capture with all tabs and validation states |
+| Shortcut editor | Routes and preset editing described | Readable dialog, conflict state, active default profile |
+| Trash and Restore | Delete menu and confirmation visible. Restore described. | Empty and populated Trash, selection, restore, permanent-delete states |
+| Native speed Curve | Standard and Curve tabs visible | Curve presets, custom graph, controls, tooltips |
+| Clip and text animation | Tabs visible. Historical behavior described. | Current In, Out, Combo, or Loop panels per object |
+| Drag, snap, link exactness | Static icons plus dated descriptions | Recorded gesture scenarios with start and end clip positions |
+| Export progress and failure | Export setup modal visible | Active, cancelled, failed, completed, overwrite states |
+| Crash recovery | Reliability need is clear. No readable UI. | A real recovery prompt, or an explicit original t-cut design |
 
-No need to stop all work while these gaps remain: Home, empty editor, library, primary inspector states and export structure are well enough documented to create a grounded design specification. Do not fill the gaps with invented claims.
+**Not blocking:** Home, the empty editor, the library, primary inspector states, and the export structure are documented well enough for a grounded design spec. Don't fill the gaps with invented claims.
 
 ## 16. Plain-language conclusion
 
-CapCut familiarity comes from more than four panels. Users expect a particular Home screen, two levels of tool navigation, project Details before selection, different controls after selection, a recognizable timeline toolbar, and a two-column export window.
+CapCut's familiarity comes from more than four panels. Users expect:
 
-For t-cut, the MVP must include that complete application journey. It can contain fewer tools, but it must not require users to learn a different route for creating, opening, editing, saving and exporting a project. The implementation acceptance rules are in [fidelity-contract.md](fidelity-contract.md).
+- A particular Home screen.
+- Two levels of tool navigation.
+- Project Details before a selection.
+- Different controls after a selection.
+- A recognizable timeline toolbar.
+- A two-column export window.
+
+**For t-cut:** the MVP must include the complete application workflow. It can have fewer tools. It must **not** make users learn a different route for creating, opening, editing, saving, and exporting a project. Implementation acceptance rules: [fidelity-contract.md](fidelity-contract.md).
 
 ## 17. Research-package validation
 
-Validated on 2026-10-12 after integrating the UI addendum into the existing plan:
+Validated on **2026-10-12**, after the UI addendum was added to the plan:
 
-- 11 Markdown files checked; all 42 local Markdown links resolve and code fences balance.
-- 28 screenshot manifest records have unique IDs/URLs, positive decoded dimensions, SHA-256 fingerprints, source pages and evidence labels.
-- Screenshot IDs mentioned in the three research documents resolve to manifest entries.
-- The fidelity contract contains 24 unique screen-state rows and 14 unique acceptance scenarios.
+- 11 Markdown files checked. All 42 local Markdown links resolve. Code fences balance.
+- 28 screenshot manifest records. Unique IDs and URLs. Positive decoded dimensions. SHA-256 fingerprints. Source pages. Evidence labels.
+- Screenshot IDs in the three research documents resolve to manifest entries.
+- The fidelity contract has 24 unique screen-state rows and 14 unique acceptance scenarios.
 - All 40 feature-family IDs and all 40 ordered implementation-task headings remain present.
 
-This validates the research package and its references, not an implemented editor. Public screenshot inspection and image decoding were performed; no CapCut executable, new t-cut application build or interactive t-cut acceptance scenario was run.
+**Scope:** this validates the research package and its references. It does **not** validate an implemented editor. Public screenshots were inspected and images decoded. No CapCut executable was run, no new t-cut build was made, and no interactive t-cut acceptance scenario was run.
