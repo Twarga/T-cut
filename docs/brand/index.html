@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T-cut brand kit | Logos, themes and design system</title>
+<meta name="description" content="The original T-cut identity: the cut T, violet and lime, Ink and Paper themes, banners, icons and reusable design tokens.">
+<meta name="theme-color" content="#0b0c10">
+<meta name="color-scheme" content="dark light">
+<link rel="canonical" href="https://twarga.github.io/T-cut/brand/">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/site.css">
+<script>
+(function () { try {
+  var t = localStorage.getItem("tcut-theme");
+  if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", t);
+} catch (e) {} })();
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand-link" href="../" aria-label="T-cut home">
+      <img class="brand-logo-dark" src="../assets/brand/logo-lockup-dark.svg" width="122" height="32" alt="T-cut">
+      <img class="brand-logo-light" src="../assets/brand/logo-lockup-light.svg" width="122" height="32" alt="T-cut">
+    </a>
+    <nav class="site-nav" aria-label="Brand navigation"><ul>
+      <li><a href="../">Website</a></li>
+      <li><a href="https://github.com/Twarga/T-cut/blob/main/docs/brand/brand-guidelines.md">Brand guide</a></li>
+      <li><a href="https://github.com/Twarga/T-cut/blob/main/docs/brand/design-system.md">Design system</a></li>
+    </ul></nav>
+    <div class="header-actions">
+      <button type="button" class="theme-toggle" data-theme-toggle hidden aria-label="Switch to light theme" aria-pressed="false">
+        <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.7 2a9.1 9.1 0 1 0 9.3 11.9A7.6 7.6 0 0 1 12.7 2Z"/></svg>
+        <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M11 1h2v3h-2zM11 20h2v3h-2zM1 11h3v2H1zM20 11h3v2h-3zM4 3l3 3-1.5 1.5-3-3zM18 17l3 3-1.5 1.5-3-3zM3 20l3-3 1.5 1.5-3 3zM17 6l3-3 1.5 1.5-3 3z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<main id="main" tabindex="-1">
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Identity 1.0</span>
+        <h1>The <span class="hero-emphasis">cut T.</span><br>One identity. Two themes.</h1>
+        <p class="hero-lede">A violet T with a lime section cut from its right arm. Original artwork for an independent Linux editor.</p>
+      </div>
+      <div class="brand-example"><img src="../assets/brand/logo-mark.svg" width="160" height="160" alt="T-cut’s original mark: a violet T with a lime section separated from its right arm."></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Ink and Paper</span><h2>Roles that adapt to your theme</h2><p>Toggle the theme above. Action, focus and text colors change together. Artwork uses its own approved logo variants.</p></div>
+      <ul class="card-grid">
+        <li class="feature-card"><div class="brand-swatch brand-swatch-primary" aria-hidden="true"></div><h3>Primary action</h3><p>Violet anchors the main action. A white label stays readable in both themes.</p></li>
+        <li class="feature-card"><div class="brand-swatch brand-swatch-signature" aria-hidden="true"></div><h3>Signature accent</h3><p>Bright lime on Ink; a darker olive-lime on Paper for readable accents.</p></li>
+        <li class="feature-card"><div class="brand-swatch brand-swatch-surface" aria-hidden="true"></div><h3>Quiet surfaces</h3><p>Neutral backgrounds keep the content readable without competing for attention.</p></li>
+      </ul>
+      <div class="cluster brand-downloads"><a class="btn btn-primary" href="../assets/tokens.css" download>Download theme tokens</a><a class="btn btn-secondary" href="https://github.com/Twarga/T-cut/blob/main/docs/brand/brand-guidelines.md">Read color rules</a></div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Vector assets</span><h2>Use the approved originals</h2><p>Wordmarks use vector outlines. Keep their proportions, clear space and cut gap intact.</p></div>
+      <ul class="card-grid">
+        <li class="feature-card"><h3>Mark</h3><div class="brand-example"><img src="../assets/brand/logo-mark.svg" width="64" height="64" alt="T-cut mark"></div><a href="../assets/brand/logo-mark.svg" download>Download mark SVG</a></li>
+        <li class="feature-card"><h3>Wordmark</h3><div class="brand-example"><img class="brand-logo-dark" src="../assets/brand/logo-lockup-dark.svg" width="184" height="48" alt="T-cut dark-surface wordmark"><img class="brand-logo-light" src="../assets/brand/logo-lockup-light.svg" width="184" height="48" alt="T-cut light-surface wordmark"></div><a href="../assets/brand/logo-lockup-dark.svg" download>Dark-surface SVG</a><a href="../assets/brand/logo-lockup-light.svg" download>Light-surface SVG</a></li>
+        <li class="feature-card"><h3>App icon</h3><div class="brand-example"><img src="../assets/brand/icon.svg" width="80" height="80" alt="Rounded dark T-cut icon"></div><a href="../assets/brand/icon.svg" download>Download icon SVG</a><a href="../assets/brand/icon.png" download>Download icon PNG</a></li>
+      </ul>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="section-head"><span class="eyebrow">Repository and social</span><h2>Banners ready to use</h2><p>The editor sketch is a concept, not working software. Keep the coming-soon status accurate when reusing the artwork.</p></div>
+      <picture><source media="(prefers-color-scheme: light)" srcset="../assets/brand/banner-light.svg"><img src="../assets/brand/banner.svg" alt="T-cut banner with its name, Linux editor goal and planning status." width="1280" height="360"></picture>
+      <div class="cluster brand-downloads"><a class="btn btn-primary" href="../assets/brand/banner.png" download>Dark banner PNG</a><a class="btn btn-secondary" href="../assets/brand/banner-light.png" download>Light banner PNG</a><a class="btn btn-secondary" href="../assets/brand/og-image.png" download>Social card PNG</a></div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer"><div class="container footer-legal"><p>Original project material: GPL-3.0-or-later. Bundled fonts: SIL OFL-1.1. Keep the <a href="https://github.com/Twarga/T-cut/blob/main/THIRD_PARTY_NOTICES.md">font notices</a> with the pack.</p><p>T-cut is independent and not affiliated with CapCut or ByteDance. The editor is coming soon.</p></div></footer>
+<script src="../assets/site.js" defer></script>
+</body>
+</html>

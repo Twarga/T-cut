@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="T-cut mark">
+  <title>T-cut mark</title>
+  <desc>A bold letter T whose right arm is sliced off, the cut piece shown in lime.</desc>
+  <path fill="#7553ff" d="M5.00 5.00H20.70V13.00H5.00a2.5 2.5 0 0 1 -2.5 -2.5V7.50a2.5 2.5 0 0 1 2.5 -2.5Z"/>
+    <path fill="#c9f24d" d="M21.70 5.00H27.00a2.5 2.5 0 0 1 2.5 2.5V10.50a2.5 2.5 0 0 1 -2.5 2.5H21.70V5.00Z"/>
+    <path fill="#7553ff" d="M7.35 5.00H15.85V26.50a2.5 2.5 0 0 1 -2.5 2.5H9.85a2.5 2.5 0 0 1 -2.5 -2.5V5.00Z"/>
+</svg>

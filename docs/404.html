@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — T-cut</title>
+<base href="/T-cut/">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b0c10">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/site.css">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("tcut-theme");
+      if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<main class="container notfound">
+  <img src="assets/brand/logo-mark.svg" alt="" width="56" height="56">
+  <h1>Page not found</h1>
+  <p class="lede">That page does not exist. The project plan and research live in the repository.</p>
+  <div class="cluster">
+    <a class="btn btn-primary" href="./">Back to the start</a>
+    <a class="btn btn-secondary" href="https://github.com/Twarga/T-cut">View the repository</a>
+  </div>
+</main>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

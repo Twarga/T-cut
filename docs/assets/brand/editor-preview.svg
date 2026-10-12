@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 468 240" width="468" height="240" role="img" aria-label="Concept sketch of the planned T-cut editor layout">
+  <title>Concept sketch of the planned T-cut editor layout</title>
+  <desc>Abstract wireframe: title bar with export action, media library, player, properties panel, and a timeline with clips and a playhead. Not a screenshot of working software.</desc>
+  <g transform="translate(-740 -60)">
+  <path fill="#14161c" stroke="#232733" d="M754.00 60.00H1194.00a14 14 0 0 1 14 14V286.00a14 14 0 0 1 -14 14H754.00a14 14 0 0 1 -14 -14V74.00a14 14 0 0 1 14 -14Z"/>
+  <path fill="#1c1f27" d="M754.00 60.00H1194.00a14 14 0 0 1 14 14V86.00H740.00V74.00a14 14 0 0 1 14 -14Z"/>
+  <circle cx="757" cy="73" r="3" fill="#7d8599"/>
+  <circle cx="769" cy="73" r="3" fill="#7d8599"/>
+  <circle cx="781" cy="73" r="3" fill="#7d8599"/>
+  <path fill="#7553ff" d="M1157.00 66.00H1189.00a7 7 0 0 1 7 7V73.00a7 7 0 0 1 -7 7H1157.00a7 7 0 0 1 -7 -7V73.00a7 7 0 0 1 7 -7Z"/>
+  <path fill="#1c1f27" d="M764.00 98.00H860.00a8 8 0 0 1 8 8V202.00a8 8 0 0 1 -8 8H764.00a8 8 0 0 1 -8 -8V106.00a8 8 0 0 1 8 -8Z"/>
+  <path fill="#7d8599" opacity=".45" d="M770.00 108.00H806.00a4 4 0 0 1 4 4V130.00a4 4 0 0 1 -4 4H770.00a4 4 0 0 1 -4 -4V112.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#7d8599" opacity=".45" d="M822.00 108.00H858.00a4 4 0 0 1 4 4V130.00a4 4 0 0 1 -4 4H822.00a4 4 0 0 1 -4 -4V112.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#7d8599" opacity=".45" d="M770.00 142.00H806.00a4 4 0 0 1 4 4V164.00a4 4 0 0 1 -4 4H770.00a4 4 0 0 1 -4 -4V146.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#7d8599" opacity=".45" d="M822.00 142.00H858.00a4 4 0 0 1 4 4V164.00a4 4 0 0 1 -4 4H822.00a4 4 0 0 1 -4 -4V146.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#7d8599" opacity=".45" d="M770.00 176.00H806.00a4 4 0 0 1 4 4V198.00a4 4 0 0 1 -4 4H770.00a4 4 0 0 1 -4 -4V180.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#7d8599" opacity=".45" d="M822.00 176.00H858.00a4 4 0 0 1 4 4V198.00a4 4 0 0 1 -4 4H822.00a4 4 0 0 1 -4 -4V180.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#0b0c10" stroke="#232733" d="M886.00 98.00H1066.00a8 8 0 0 1 8 8V202.00a8 8 0 0 1 -8 8H886.00a8 8 0 0 1 -8 -8V106.00a8 8 0 0 1 8 -8Z"/>
+  <path d="M969 143l18 11-18 11z" fill="#c9f24d"/>
+  <path fill="#1c1f27" d="M1092.00 98.00H1184.00a8 8 0 0 1 8 8V202.00a8 8 0 0 1 -8 8H1092.00a8 8 0 0 1 -8 -8V106.00a8 8 0 0 1 8 -8Z"/>
+  <path fill="#7d8599" opacity=".5" d="M1097.00 110.00H1131.00a3 3 0 0 1 3 3V113.00a3 3 0 0 1 -3 3H1097.00a3 3 0 0 1 -3 -3V113.00a3 3 0 0 1 3 -3Z"/>
+  <path fill="#7d8599" opacity=".28" d="M1096.00 122.00H1180.00a2 2 0 0 1 2 2V124.00a2 2 0 0 1 -2 2H1096.00a2 2 0 0 1 -2 -2V124.00a2 2 0 0 1 2 -2Z"/>
+  <path fill="#7d8599" opacity=".5" d="M1097.00 136.00H1131.00a3 3 0 0 1 3 3V139.00a3 3 0 0 1 -3 3H1097.00a3 3 0 0 1 -3 -3V139.00a3 3 0 0 1 3 -3Z"/>
+  <path fill="#7d8599" opacity=".28" d="M1096.00 148.00H1180.00a2 2 0 0 1 2 2V150.00a2 2 0 0 1 -2 2H1096.00a2 2 0 0 1 -2 -2V150.00a2 2 0 0 1 2 -2Z"/>
+  <path fill="#7d8599" opacity=".5" d="M1097.00 162.00H1131.00a3 3 0 0 1 3 3V165.00a3 3 0 0 1 -3 3H1097.00a3 3 0 0 1 -3 -3V165.00a3 3 0 0 1 3 -3Z"/>
+  <path fill="#7d8599" opacity=".28" d="M1096.00 174.00H1180.00a2 2 0 0 1 2 2V176.00a2 2 0 0 1 -2 2H1096.00a2 2 0 0 1 -2 -2V176.00a2 2 0 0 1 2 -2Z"/>
+  <path fill="#7d8599" opacity=".5" d="M1097.00 188.00H1131.00a3 3 0 0 1 3 3V191.00a3 3 0 0 1 -3 3H1097.00a3 3 0 0 1 -3 -3V191.00a3 3 0 0 1 3 -3Z"/>
+  <path fill="#7d8599" opacity=".28" d="M1096.00 200.00H1180.00a2 2 0 0 1 2 2V202.00a2 2 0 0 1 -2 2H1096.00a2 2 0 0 1 -2 -2V202.00a2 2 0 0 1 2 -2Z"/>
+  <path fill="#7d8599" opacity=".4" d="M760.00 220.00H778.00a4 4 0 0 1 4 4V224.00a4 4 0 0 1 -4 4H760.00a4 4 0 0 1 -4 -4V224.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#7d8599" opacity=".4" d="M792.00 220.00H802.00a4 4 0 0 1 4 4V224.00a4 4 0 0 1 -4 4H792.00a4 4 0 0 1 -4 -4V224.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#7d8599" opacity=".4" d="M816.00 220.00H826.00a4 4 0 0 1 4 4V224.00a4 4 0 0 1 -4 4H816.00a4 4 0 0 1 -4 -4V224.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#7d8599" opacity=".4" d="M840.00 220.00H858.00a4 4 0 0 1 4 4V224.00a4 4 0 0 1 -4 4H840.00a4 4 0 0 1 -4 -4V224.00a4 4 0 0 1 4 -4Z"/>
+  <rect x="756" y="240" width="1.5" height="8" fill="#7d8599" opacity=".45"/>
+  <rect x="776" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="796" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="816" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="836" y="240" width="1.5" height="8" fill="#7d8599" opacity=".45"/>
+  <rect x="856" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="876" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="896" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="916" y="240" width="1.5" height="8" fill="#7d8599" opacity=".45"/>
+  <rect x="936" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="956" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="976" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="996" y="240" width="1.5" height="8" fill="#7d8599" opacity=".45"/>
+  <rect x="1016" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="1036" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="1056" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="1076" y="240" width="1.5" height="8" fill="#7d8599" opacity=".45"/>
+  <rect x="1096" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="1116" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="1136" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <rect x="1156" y="240" width="1.5" height="8" fill="#7d8599" opacity=".45"/>
+  <rect x="1176" y="240" width="1.5" height="5" fill="#7d8599" opacity=".45"/>
+  <path fill="#7553ff" d="M761.00 254.00H847.00a5 5 0 0 1 5 5V269.00a5 5 0 0 1 -5 5H761.00a5 5 0 0 1 -5 -5V259.00a5 5 0 0 1 5 -5Z"/>
+  <path fill="#7553ff" d="M863.00 254.00H927.00a5 5 0 0 1 5 5V269.00a5 5 0 0 1 -5 5H863.00a5 5 0 0 1 -5 -5V259.00a5 5 0 0 1 5 -5Z"/>
+  <path fill="#7553ff" d="M943.00 254.00H1059.00a5 5 0 0 1 5 5V269.00a5 5 0 0 1 -5 5H943.00a5 5 0 0 1 -5 -5V259.00a5 5 0 0 1 5 -5Z"/>
+  <path fill="#7553ff" d="M1075.00 254.00H1121.00a5 5 0 0 1 5 5V269.00a5 5 0 0 1 -5 5H1075.00a5 5 0 0 1 -5 -5V259.00a5 5 0 0 1 5 -5Z"/>
+  <path fill="#c9f24d" opacity=".38" d="M760.00 278.00H922.00a4 4 0 0 1 4 4V286.00a4 4 0 0 1 -4 4H760.00a4 4 0 0 1 -4 -4V282.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#c9f24d" opacity=".38" d="M938.00 278.00H1050.00a4 4 0 0 1 4 4V286.00a4 4 0 0 1 -4 4H938.00a4 4 0 0 1 -4 -4V282.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#c9f24d" opacity=".38" d="M1066.00 278.00H1122.00a4 4 0 0 1 4 4V286.00a4 4 0 0 1 -4 4H1066.00a4 4 0 0 1 -4 -4V282.00a4 4 0 0 1 4 -4Z"/>
+  <path fill="#c9f24d" d="M947.00 232.00H957.00a3 3 0 0 1 3 3V240.00a3 3 0 0 1 -3 3H947.00a3 3 0 0 1 -3 -3V235.00a3 3 0 0 1 3 -3Z"/>
+  <rect x="951" y="243" width="2" height="47" fill="#c9f24d"/>
+  </g>
+</svg>

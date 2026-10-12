@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="T-cut application icon">
+  <title>T-cut application icon</title>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#1e2230"/><stop offset="1" stop-color="#0b0c10"/></linearGradient></defs>
+  <rect width="512" height="512" rx="113" fill="url(#g)"/>
+  <rect x=".5" y=".5" width="511" height="511" rx="113" fill="none" stroke="#2e333f"/>
+  <g transform="translate(102.4 102.4) scale(9.6000)"><path fill="#7553ff" d="M5.00 5.00H20.70V13.00H5.00a2.5 2.5 0 0 1 -2.5 -2.5V7.50a2.5 2.5 0 0 1 2.5 -2.5Z"/>
+    <path fill="#c9f24d" d="M21.70 5.00H27.00a2.5 2.5 0 0 1 2.5 2.5V10.50a2.5 2.5 0 0 1 -2.5 2.5H21.70V5.00Z"/>
+    <path fill="#7553ff" d="M7.35 5.00H15.85V26.50a2.5 2.5 0 0 1 -2.5 2.5H9.85a2.5 2.5 0 0 1 -2.5 -2.5V5.00Z"/></g>
+</svg>
