@@ -16,11 +16,15 @@ The page was read as HTML/text and opened in Chromium at 1440 × 900. The top an
 | Observed pattern | T-cut implementation |
 |---|---|
 | Compact top navigation with logo left and two actions right | Original T-cut lockup, section links, theme toggle and GitHub action |
-| Large centered hero; accented phrase in the heading | Centered heading with violet accent and original coming-soon copy |
-| Short explanation, two main CTAs, reassurance underneath | Read the plan / View the repository; planned free/offline/account-free commitments |
-| Pale atmospheric shading around the light hero | Theme-aware violet wash; both Ink/dark and Paper/light |
-| Product/tool showcase below the hero | Original abstract editor illustration, visibly labeled as a concept |
-| Tools grouped into numbered sections and feature cards | Six MVP cards and a progressively enhanced 0–5 phase roadmap |
+| Large centered hero; accented phrase in the heading | Centered heading with a sunset-gradient accent and original coming-soon copy |
+| Short explanation, two main CTAs, reassurance underneath | Read the plan / View on GitHub; a status line saying nothing can be downloaded |
+| Pale atmospheric shading around the light hero | An original drawn golden-hour landscape (sky, cut-band sun, ridges, lake) tinted for Dusk/dark and Cream/light |
+| Product/tool showcase below the hero | Original editor concept drawn in HTML/CSS/SVG with drawn stand-in footage, visibly labeled as a concept |
+| Tools grouped into numbered sections | Numbered v0.1 accordion (native `details`) and a 0–5 phase roadmap with a sun arc |
+| Staggered template cards | The three planned canvas shapes (16:9, 9:16, 1:1) showing one drawn shot recomposed |
+| Tilted colorful testimonial cards | Tilted cards for four promises from the product spec; no quotes or invented people |
+| Download/rating statistics row | Four numbers that each link to the document they come from, including "0 builds to download" |
+| Floating bottom call-to-action bar | Floating status bar ("in planning, nothing to download") shown only between hero and closing band |
 | Partner logos, templates, testimonials and download/rating statistics | Omitted; no partnership/user/performance evidence exists for T-cut |
 | Signup/credit promotion appeared in the observed view | Omitted; no signup, email collection, credit balance or hosted service |
 | Repeated product-start actions | Useful repository/documentation/review links, not a fake app launch or download |

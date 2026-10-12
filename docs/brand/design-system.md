@@ -21,7 +21,7 @@ A pretty page is not evidence of a working renderer. Branding must not override 
 
 | Layer | Purpose | Example |
 |---|---|---|
-| Primitive | Raw palette and scales | `--violet-600` |
+| Primitive | Raw palette and scales | `--ember-500` |
 | Semantic | Role and state across components | `--action-primary-bg` |
 | Component | An exception needed by a real component | Add only after recurring evidence; no separate component-color layer is currently necessary |
 
@@ -49,11 +49,13 @@ The [brand guide](brand-guidelines.md#4-color-foundations) lists all primitive v
 | `--text-primary/secondary/muted/inverse/on-accent` | Readability by priority and background |
 | `--text-link`, `--text-link-hover` | Underlined inline navigation |
 | `--border-subtle/default/strong` | Boundaries; not sufficient alone to identify essential controls |
-| `--action-primary-bg/bg-hover/bg-press/fg` | Filled primary action |
+| `--action-primary-bg/bg-hover/bg-press/fg/image` | Filled primary action (sunset gradient, dark label) |
 | `--action-secondary-bg/bg-hover/fg/border` | Secondary action |
 | `--accent-signature`, `--focus-ring` | Brand motif and keyboard focus |
 | `--status-info/success/warning/error-fg/bg` | Status plus explicit text/icon |
 | `--selection-bg`, `--hero-wash` | Selected text and decorative hero shading |
+| `--grad-sunset`, `--grad-display` | Primary-button fill; gradient for large display type only |
+| `--sky-*`, `--land-*`, `--lake`, `--sun-*`, `--stars` | Theme tints for the drawn hero landscape |
 
 Color is not the sole selected/error signal. Tabs include a physical indicator and `aria-selected`; errors include explanatory text.
 
@@ -88,12 +90,12 @@ Website buttons/cards use md/lg radii. The native editor can use denser panel sp
 
 | Token | Dark | Light |
 |---|---|---|
-| shadow-sm | `0 1px 2px rgb(0 0 0 / 0.5)` | `0 1px 2px rgb(16 18 26 / 0.06)` |
-| shadow-md | `0 4px 16px -2px rgb(0 0 0 / 0.55)` | `0 6px 20px -4px rgb(16 18 26 / 0.1)` |
-| shadow-lg | `0 24px 64px -16px rgb(0 0 0 / 0.7)` | `0 28px 64px -20px rgb(16 18 26 / 0.18)` |
-| glow-brand | Violet outline mix 40%; soft shadow mix 45% | Violet outline mix 24%; soft shadow mix 28% |
+| shadow-sm | `0 1px 2px rgb(0 0 0 / 0.5)` | `0 1px 2px rgb(60 30 20 / 0.08)` |
+| shadow-md | `0 6px 20px -4px rgb(0 0 0 / 0.55)` | `0 8px 24px -6px rgb(60 30 20 / 0.14)` |
+| shadow-lg | `0 32px 80px -20px rgb(0 0 0 / 0.75)` | `0 32px 72px -22px rgb(74 29 69 / 0.32)` |
+| glow-brand | Ember outline mix 40%; soft shadow mix 50% | Ember-800 outline mix 24%; ember-500 soft shadow mix 34% |
 
-Exact glow offsets and palette mapping remain in `tokens.css`. Use glow on the closing CTA, not every card and not the logo itself.
+Exact glow offsets and palette mapping remain in `tokens.css`. Use glow on primary-button hover, not every card and not the logo itself.
 
 ### Motion and layers
 
@@ -104,7 +106,7 @@ Exact glow offsets and palette mapping remain in `tokens.css`. Use glow on the c
 | ease-in-out | `cubic-bezier(0.4, 0, 0.2, 1)` |
 | layer-base / raised / sticky / overlay | 0 / 10 / 100 / 1000 |
 
-Reduced motion changes all duration tokens to 1ms and disables smooth scroll. There is no autoplay, animated countdown, marquee, parallax or cursor follower. Focus/selection feedback must remain visible with motion disabled.
+Reduced motion changes all duration tokens to 1ms and disables smooth scroll. The home page has exactly three motions, all inside `prefers-reduced-motion: no-preference`: the hero sun rises once on load; the editor concept rises and its playhead travels to the selected title once; and, in browsers with scroll timelines, the sun sinks and the ridges drift a few pixels as the page scrolls (scroll-linked, stops when scrolling stops). There is no autoplay video, looping animation, countdown, marquee or cursor follower. Focus/selection feedback must remain visible with motion disabled.
 
 ### Layout
 
@@ -214,7 +216,7 @@ Title, content, action footer and error/help region. Use native dialog semantics
 
 **Use:** peer roadmap sections. **Do not use:** to hide unrelated navigation or essential status.
 
-HTML starts as working anchor links and six headed sections. JavaScript adds `tablist`, `tab`, `tabpanel`, roving tabindex, `aria-selected`, panel labels and orientation. Desktop vertical tabs use Up/Down; narrow horizontal tabs use Left/Right. Home/End jump; Enter/Space activate. One panel appears with JS; all remain readable without it. On desktop the tabs are a large type list and the selected one carries a lime bar; on narrow screens they are a horizontally scrolling row and the selected one is filled. Selection never relies on color alone. Avoid automatic rotation and hover selection.
+HTML starts as working anchor links and six headed sections. JavaScript adds `tablist`, `tab`, `tabpanel`, roving tabindex, `aria-selected`, panel labels and orientation. Desktop vertical tabs use Up/Down; narrow horizontal tabs use Left/Right. Home/End jump; Enter/Space activate. One panel appears with JS; all remain readable without it. On desktop the tabs are a large type list and the selected one carries a sunset bar; on narrow screens they are a horizontally scrolling row and the selected one is filled. A decorative sun arc above the panel moves to the selected phase (CSS `@property --p`, set by the script). Selection never relies on color alone. Avoid automatic rotation and hover selection.
 
 ### FeatureCard: brand page
 

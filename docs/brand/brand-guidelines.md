@@ -16,7 +16,7 @@ Start with the [design system](design-system.md). The [tokens](../assets/tokens.
 | Current status | Coming soon. Planning complete; engine qualification next |
 | Personality | Calm, precise, evidence-first |
 | Signature | A violet T with a lime section cut from its right arm |
-| Themes | Ink/dark and Paper/light |
+| Themes | Dusk/dark and Cream/light, in a golden-hour palette |
 
 Use **T-cut** in titles and prose. Keep the hyphen and lowercase “cut.” Avoid “TCut,” “T Cut,” “T-Cut” or a second public name. Repository URLs, local paths and the earlier internal `lce-*` crate identifiers need not follow prose capitalization. Those internal names do not create a second brand.
 
@@ -98,7 +98,25 @@ The standalone mark retains its approved artwork colors on both themes. The ligh
 
 `tokens.css` is authoritative. Components consume semantic roles, not these raw palette values.
 
-### Violet palette
+The **logo keeps violet and lime**. The **website uses the golden-hour palette**: dusk plum surfaces, warm cream surfaces, and a sunset accent family (ember, gold, rose). Violet, lime and ink stay as primitives for the logo artwork and the always-dark editor concept.
+
+### Golden-hour palette (website)
+
+| Primitive | Hex | Use |
+|---|---|---|
+| dusk-950 / 900 / 850 / 800 | `#0d0816` / `#160f22` / `#120b1d` / `#201733` | Dusk surfaces |
+| dusk-750 / 700 / 600 | `#2a1f40` / `#3a2d55` / `#54466f` | Dusk borders |
+| dusk-400 / 300 | `#a497b8` / `#d2c6de` | Muted and secondary text on Dusk |
+| cream-ink | `#fff8ee` | Primary text on Dusk |
+| cream-0 / 25 / 50 / 100 / 200 / 300 | `#ffffff` / `#fffaf3` / `#fbf2e4` / `#f3e5cf` / `#e6d2b3` / `#cfb48d` | Cream surfaces and borders |
+| plum-900 / 700 / 500 | `#1c1126` / `#4e3f5e` / `#6c5b7d` | Text on Cream |
+| ember-300 / 500 / 600 / 800 / 900 | `#ff8a5c` / `#ff6b3d` / `#f2702e` / `#a83a12` / `#7f2a0b` | Actions, links on Cream |
+| gold-300 / 400 | `#ffdc8f` / `#ffc552` | Links and focus on Dusk |
+| rose-400 / 700 | `#ff6f9a` / `#b02a52` | Signature accent |
+| magenta-700 | `#8a2d5c` | Dim accent |
+| grad-sunset | ember-500 → `#ff9147` → gold-400 | Primary buttons, accent rules |
+
+### Violet palette (logo artwork)
 
 | Primitive | Hex |
 |---|---|
@@ -113,7 +131,7 @@ The standalone mark retains its approved artwork colors on both themes. The ligh
 | violet-800 | `#4228a8` |
 | violet-900 | `#2e1c75` |
 
-### Lime palette
+### Lime palette (logo artwork)
 
 | Primitive | Hex |
 |---|---|
@@ -125,7 +143,7 @@ The standalone mark retains its approved artwork colors on both themes. The ligh
 | lime-700 | `#8cb31f` |
 | lime-800 | `#627f14` |
 
-### Ink palette
+### Ink palette (logo artwork and editor concept)
 
 | Primitive | Hex |
 |---|---|
@@ -156,33 +174,35 @@ The standalone mark retains its approved artwork colors on both themes. The ligh
 
 ### Theme roles
 
-| Semantic role | Ink / dark | Paper / light |
+| Semantic role | Dusk / dark | Cream / light |
 |---|---|---|
-| surface-base | ink-950 | ink-0 |
-| surface-sunken | ink-980 | ink-50 |
-| surface-raised | ink-900 | ink-0 |
-| surface-overlay | ink-800 | ink-25 |
-| surface-inset | `#10121a` | ink-50 |
-| text-primary | ink-50 | ink-900 |
-| text-secondary | ink-300 | ink-600 |
-| text-muted | ink-400 | ink-500 |
-| text-inverse | ink-950 | ink-0 |
-| text-link | violet-400 | violet-600 |
-| text-link-hover | violet-300 | violet-700 |
-| border-subtle / default / strong | ink-750 / 700 / 600 | ink-100 / 200 / 300 |
-| action-primary-bg / hover / press | violet-600 / 500 / 700 | violet-600 / 700 / 800 |
-| action-primary-fg | White | White |
+| surface-base | dusk-950 | cream-25 |
+| surface-sunken | dusk-980 `#07040c` | cream-100 |
+| surface-raised | dusk-900 | cream-0 |
+| surface-overlay | dusk-800 | cream-50 |
+| surface-inset | dusk-850 | cream-50 |
+| text-primary | cream-ink | plum-900 |
+| text-secondary | dusk-300 | plum-700 |
+| text-muted | dusk-400 | plum-500 |
+| text-inverse | dusk-950 | cream-25 |
+| text-link | gold-400 | ember-800 |
+| text-link-hover | gold-300 | ember-900 |
+| border-subtle / default / strong | dusk-750 / 700 / 600 | cream-100 / 200 / 300 |
+| action-primary-bg / hover / press | ember-500 / gold-400 / ember-600, drawn with grad-sunset | Same |
+| action-primary-fg | dusk-950 | plum-900 |
 | action-secondary-bg | Transparent | Transparent |
-| action-secondary-bg-hover | surface-overlay | ink-50 |
+| action-secondary-bg-hover | surface-overlay | cream-50 |
 | action-secondary-fg | text-primary | text-primary |
-| action-secondary-border | border-strong | ink-200 |
-| accent-signature | lime-500 | lime-800 |
-| accent-signature-dim | lime-700 | lime-700 |
-| focus-ring | lime-500 | violet-600 |
-| selection-bg | violet-500 at 45% | violet-100 |
-| hero-wash | violet-500 at 12% | violet-500 at 7% |
+| action-secondary-border | border-strong | cream-300 |
+| accent-signature | rose-400 | rose-700 |
+| accent-signature-dim | magenta-700 | rose-400 |
+| focus-ring | gold-400 | ember-800 |
+| selection-bg | rose-400 at 40% | `#ffd9c4` |
+| hero-wash | rose-400 at 14% | ember-500 at 10% |
+| grad-display (large text only) | rose-400 → ember-300 → gold-400 | rose-700 → ember-800 → `#8a4b00` |
+| sky-0…4, land-far/mid/near, lake, sun-core/edge | Dusk landscape tints | Cream landscape tints |
 
-Light-theme status foregrounds mix 85% of the corresponding 600 palette hue with 15% ink-950 for extra contrast. Status backgrounds retain a 12% mix of the 400 palette hue with transparency; test the foreground against the resulting surface, not just white. Version badge text uses `text-primary` over its shaded background; lime remains the border/selection accent. Shadows/glow values are specified in the source and the design-system guide.
+Light-theme status foregrounds mix 85% of the corresponding 600 palette hue with 15% ink-950 for extra contrast. Status backgrounds retain a 12% mix of the 400 palette hue with transparency; test the foreground against the resulting surface, not just white. Version badge text uses `text-primary` over its shaded background. Shadows/glow values are specified in the source and the design-system guide.
 
 The HTML fallback is dark. JavaScript respects the OS theme, and an explicit toggle overrides it. Future editor defaults are still product decisions; do not claim dark styling guarantees accurate color grading. Display/pipeline calibration requires separate engineering verification.
 
@@ -192,17 +212,24 @@ Ratios below are rounded to two decimals. They apply to these pairs, not arbitra
 
 | Pair | Contrast |
 |---|---|
-| White on violet-600 | 5.46:1 |
-| White on violet-500 | 4.73:1 |
-| White on violet-700 | 7.35:1 |
-| violet-400 on ink-950 | 5.57:1 |
-| violet-500 on ink-950 | 4.13:1: **not body text** |
-| lime-500 on ink-950 | 15.16:1 |
-| lime-800 on white | 4.60:1 |
+| dusk-950 on ember-500 (button label, darkest stop) | 6.98:1 |
+| dusk-950 on gold-400 | 12.56:1 |
+| cream-ink on dusk-950 | 18.73:1 |
+| dusk-300 on dusk-950 | 12.10:1 |
+| dusk-400 on dusk-950 | 7.24:1 |
+| gold-400 on dusk-950 | 12.56:1 |
+| rose-400 on dusk-950 | 7.52:1 |
+| plum-900 on cream-25 | 17.47:1 |
+| plum-700 on cream-25 | 9.21:1 |
+| plum-500 on cream-25 | 5.89:1 |
+| ember-800 on cream-25 | 6.17:1 |
+| rose-700 on cream-25 | 6.13:1 |
+| `#f6e9f1` on `#6e2153` (closing-band body text, mid band) | 8.90:1 |
+| `#fff8ee` on `#a8385a` (closing-band outline button, darkest point) | 5.89:1 |
 | green-600 on white | 4.64:1 |
 | amber-600 on white | 4.60:1 |
 
-Use `--text-link` for accent text and `--action-primary-*` for filled buttons. The decorative violet-500 logo is not a text/link color rule. Some border tokens provide surface separation but do not meet 3:1; a border cannot be the sole way to identify an essential control. Add a visible label, clear affordance and focus state.
+Use `--text-link` for accent text and `--action-primary-*` for filled buttons. Gradient text (`--grad-display`) is for large display type only. The decorative violet-500 logo is not a text/link color rule. Some border tokens provide surface separation but do not meet 3:1; a border cannot be the sole way to identify an essential control. Add a visible label, clear affordance and focus state.
 
 ## 5. Typography
 
@@ -232,9 +259,13 @@ Both bundled typefaces use **SIL OFL-1.1**. Ship [Inter’s license](../assets/f
 
 ## 6. The slice motif
 
-Use a short flat-edged accent rule to connect website sections and cards to the cut T. The implementation uses `.slice`: a lime rule with a violet left segment. Use it sparingly at section/card starts and selected-tab indicators.
+Use a short flat-edged accent rule to connect website sections and cards to the cut T. The implementation uses `.slice` (a rose rule with an ember left segment) and the `.kicker` rule (a short sunset gradient bar). Use them sparingly at section starts and selected-tab indicators.
 
 Do not put a cut through readable text, imply a broken control, add animated slicing, or recolor media previews with brand colors. Timeline/media colors must remain distinct from warning/error meanings in the eventual editor.
+
+### Illustration
+
+All website artwork is drawn in SVG in this repository: a golden-hour landscape whose sun carries three cut bands (the cut T, applied to a sun), and five stand-in "footage" scenes (sunset lake, sea cliff, night city, dunes, forest). No stock photos and no remote images: the site makes no third-party requests and every asset stays under the repository license. Stand-in footage uses natural scene colors, not interface tokens, and is always labeled as a concept.
 
 ## 7. Rights and product independence
 
@@ -246,4 +277,4 @@ T-cut is **not affiliated with CapCut or ByteDance**. The design uses original a
 
 One maintainer owns token/identity integration. Propose changes through issues or pull requests with a before/after image, intended user benefit and contrast/focus evidence. Update assets, this guide and the design system together. Do not add a new theme as a one-off stylesheet.
 
-Recorded decisions: original cut T; violet/lime identity; Ink/Paper themes; native/static coming-soon site; center-led hero; planned-versus-shipped labels; no countdown, email collection or fabricated testimonials. See the [landing-page study](../research/landing-page-study.md) for the reference and adaptations.
+Recorded decisions: original cut T in violet and lime; golden-hour website palette with Dusk/Cream themes; original drawn illustrations only; native/static coming-soon site; center-led hero; planned-versus-shipped labels; no countdown, email collection or fabricated testimonials. See the [landing-page study](../research/landing-page-study.md) for the reference and adaptations.

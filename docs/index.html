@@ -6,7 +6,7 @@
 <title>T-cut: a familiar video editor, coming to Linux</title>
 <meta name="description" content="T-cut is a free, open-source video editor planned for Linux, with a workflow familiar to CapCut Desktop users. Planning is complete. Nothing to download yet.">
 <link rel="canonical" href="https://twarga.github.io/T-cut/">
-<meta name="theme-color" content="#0b0c10">
+<meta name="theme-color" content="#0d0816">
 <meta name="color-scheme" content="dark light">
 
 <meta property="og:type" content="website">
@@ -39,12 +39,99 @@
 </head>
 <body class="home">
 
+<!-- Icons (solid fills only, so the sheet can stay display:none) -->
 <svg hidden aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-  <symbol id="i-check" viewBox="0 0 16 16"><path d="M6.2 11.3 3.5 8.6l1.1-1.1 1.6 1.6 5-5 1.1 1.1-6.1 6.1Z"/></symbol>
   <symbol id="i-x" viewBox="0 0 16 16"><path d="M12.1 4.9 9 8l3.1 3.1-1.1 1.1L8 9.1l-3.1 3.1-1.1-1.1L6.9 8 3.8 4.9 4.9 3.8 8 6.9l3.1-3.1 1.1 1.1Z"/></symbol>
   <symbol id="i-github" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.5 15.6c.4.1.5-.2.5-.4v-1.4c-2.2.5-2.7-1-2.7-1-.4-1-.9-1.2-.9-1.2-.7-.5 0-.5 0-.5.8.1 1.2.8 1.2.8.7 1.2 1.9.9 2.4.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.5 7.5 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.5 1.1.2 1.9.1 2.1.5.5.8 1.2.8 2.1 0 3.1-1.8 3.8-3.6 4 .3.3.5.8.5 1.6v2.2c0 .2.1.5.6.4A8 8 0 0 0 8 0Z"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12.7 2a9.1 9.1 0 1 0 9.3 11.9A7.6 7.6 0 0 1 12.7 2Z"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-13V1h0v3Zm0 19v-3h0v3ZM4 13H1v-2h3v2Zm19 0h-3v-2h3v2ZM5.6 7 3.5 4.9l1.4-1.4L7 5.6 5.6 7Zm13.5 13.5L17 18.4l1.4-1.4 2.1 2.1-1.4 1.4ZM17 5.6l2.1-2.1 1.4 1.4L18.4 7 17 5.6ZM3.5 19.1 5.6 17 7 18.4l-2.1 2.1-1.4-1.4Z"/></symbol>
+</svg>
+
+<!-- Drawn stand-in footage. Gradients do not render from a display:none sheet,
+     so this one is kept in the layout at zero size instead. -->
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g-ss-sky" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="150">
+      <stop offset="0" stop-color="#1d1240"/><stop offset=".38" stop-color="#5b2463"/><stop offset=".66" stop-color="#c8456a"/><stop offset=".85" stop-color="#ff8a55"/><stop offset="1" stop-color="#ffc070"/>
+    </linearGradient>
+    <radialGradient id="g-ss-sun"><stop offset="0" stop-color="#fff3c4"/><stop offset=".55" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff9a55"/></radialGradient>
+    <linearGradient id="g-ss-lake" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a1d48"/><stop offset="1" stop-color="#140a1c"/></linearGradient>
+
+    <linearGradient id="g-sea-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc6d8"/><stop offset=".65" stop-color="#f4d6bb"/><stop offset="1" stop-color="#ffbf92"/></linearGradient>
+    <linearGradient id="g-sea-water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a96b4"/><stop offset="1" stop-color="#163f5e"/></linearGradient>
+
+    <linearGradient id="g-city-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a0f2e"/><stop offset=".6" stop-color="#2b1a55"/><stop offset="1" stop-color="#7a3270"/></linearGradient>
+    <pattern id="p-win" width="9" height="11" patternUnits="userSpaceOnUse"><rect x="2" y="2" width="3" height="4" fill="#ffcf73"/></pattern>
+    <pattern id="p-win2" width="7" height="9" patternUnits="userSpaceOnUse" x="3"><rect x="1" y="1" width="2.5" height="3" fill="#ffe3a6"/></pattern>
+
+    <linearGradient id="g-dune-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd9a0"/><stop offset="1" stop-color="#fff0d2"/></linearGradient>
+
+    <linearGradient id="g-for-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe6da"/><stop offset="1" stop-color="#f5ecd2"/></linearGradient>
+  </defs>
+
+  <symbol id="sc-sunset" viewBox="0 0 320 180">
+    <rect width="320" height="180" fill="url(#g-ss-sky)"/>
+    <g fill="#fff" opacity=".75"><circle cx="30" cy="20" r=".9"/><circle cx="74" cy="34" r=".7"/><circle cx="120" cy="14" r="1"/><circle cx="160" cy="40" r=".6"/><circle cx="250" cy="22" r=".8"/><circle cx="292" cy="12" r=".7"/></g>
+    <circle cx="208" cy="116" r="38" fill="url(#g-ss-sun)"/>
+    <g fill="url(#g-ss-sky)"><rect x="160" y="121" width="100" height="2.2"/><rect x="160" y="128" width="100" height="3.2"/><rect x="160" y="136" width="100" height="4.4"/></g>
+    <path d="M0 122 L28 104 L52 116 L86 90 L118 112 L150 100 L176 118 L214 98 L246 114 L280 94 L320 112 V180 H0Z" fill="#7b2e63" opacity=".9"/>
+    <path d="M0 136 C40 118 70 132 104 124 S170 114 210 130 S280 120 320 130 V180 H0Z" fill="#4b1c4c"/>
+    <rect y="146" width="320" height="34" fill="url(#g-ss-lake)"/>
+    <g fill="#ffb36b" opacity=".8"><rect x="184" y="150" width="48" height="1.6" rx=".8"/><rect x="194" y="155" width="28" height="1.4" rx=".7"/><rect x="200" y="160" width="16" height="1.2" rx=".6"/><rect x="204" y="165" width="8" height="1" rx=".5"/></g>
+    <path d="M0 150 C30 140 64 142 100 154 V180 H0Z" fill="#1f0c26"/>
+    <g fill="#1f0c26"><path d="M14 150 L20 126 L26 150Z"/><path d="M30 148 L38 116 L46 148Z"/><path d="M50 150 L56 132 L62 150Z"/><path d="M66 152 L70 140 L74 152Z"/></g>
+    <path d="M246 158 C276 146 298 146 320 142 V180 H246Z" fill="#1f0c26"/>
+    <g fill="none" stroke="#2a0f2e" stroke-width="1.3" stroke-linecap="round"><path d="M96 58 q4 -4 8 0 q4 -4 8 0"/><path d="M120 46 q3 -3 6 0 q3 -3 6 0"/></g>
+  </symbol>
+
+  <symbol id="sc-sea" viewBox="0 0 320 180">
+    <rect width="320" height="110" fill="url(#g-sea-sky)"/>
+    <circle cx="96" cy="92" r="22" fill="#fff4dc"/>
+    <rect y="104" width="320" height="76" fill="url(#g-sea-water)"/>
+    <g fill="#fff3d9" opacity=".85"><rect x="78" y="110" width="36" height="1.6" rx=".8"/><rect x="84" y="116" width="24" height="1.4" rx=".7"/><rect x="90" y="122" width="12" height="1.2" rx=".6"/></g>
+    <g fill="none" stroke="#c4e8f0" stroke-linecap="round" opacity=".55"><path d="M0 136 q20 -5 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke-width="1.4"/><path d="M-20 154 q20 -6 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke-width="1.8"/></g>
+    <path d="M228 104 L248 70 L266 78 L290 48 L320 56 V180 H264 C252 150 240 128 228 104Z" fill="#2b393d"/>
+    <path d="M248 70 L266 78 L258 112Z M290 48 L320 56 L304 92Z" fill="#45595c"/>
+    <rect x="300" y="34" width="6" height="16" fill="#f3efe4"/><rect x="299" y="30" width="8" height="4" fill="#e0533d"/>
+    <g fill="none" stroke="#2b393d" stroke-width="1.3" stroke-linecap="round"><path d="M150 50 q4 -4 8 0 q4 -4 8 0"/><path d="M172 60 q3 -3 6 0 q3 -3 6 0"/></g>
+  </symbol>
+
+  <symbol id="sc-city" viewBox="0 0 320 180">
+    <rect width="320" height="180" fill="url(#g-city-sky)"/>
+    <g fill="#fff" opacity=".8"><circle cx="24" cy="18" r=".8"/><circle cx="70" cy="40" r=".6"/><circle cx="130" cy="16" r=".9"/><circle cx="190" cy="34" r=".7"/><circle cx="300" cy="60" r=".7"/></g>
+    <circle cx="252" cy="38" r="26" fill="#fff2cf" opacity=".12"/>
+    <circle cx="252" cy="38" r="13" fill="#fff2cf"/>
+    <g fill="#231a4a"><rect x="0" y="92" width="34" height="50"/><rect x="40" y="70" width="26" height="72"/><rect x="104" y="80" width="30" height="62"/><rect x="176" y="62" width="22" height="80"/><rect x="236" y="86" width="34" height="56"/><rect x="290" y="74" width="30" height="68"/></g>
+    <g fill="url(#p-win2)" opacity=".5"><rect x="40" y="70" width="26" height="72"/><rect x="176" y="62" width="22" height="80"/></g>
+    <g fill="#120d2a"><rect x="16" y="104" width="30" height="38"/><rect x="70" y="88" width="36" height="54"/><rect x="138" y="96" width="34" height="46"/><rect x="200" y="78" width="30" height="64"/><rect x="262" y="100" width="40" height="42"/></g>
+    <g fill="url(#p-win)" opacity=".85"><rect x="70" y="88" width="36" height="54"/><rect x="200" y="78" width="30" height="64"/><rect x="138" y="96" width="34" height="46"/></g>
+    <rect x="206" y="66" width="2" height="12" fill="#120d2a"/><circle cx="207" cy="65" r="1.6" fill="#ff5c6a"/>
+    <rect y="142" width="320" height="38" fill="#0b0920"/>
+    <g fill="#ffcf73" opacity=".45"><rect x="74" y="148" width="28" height="1.4"/><rect x="80" y="154" width="18" height="1.2"/><rect x="204" y="150" width="22" height="1.4"/><rect x="208" y="157" width="14" height="1.2"/><rect x="142" y="161" width="20" height="1.1"/></g>
+    <g fill="#fff2cf" opacity=".35"><rect x="240" y="150" width="24" height="1.4"/><rect x="246" y="156" width="12" height="1.2"/></g>
+  </symbol>
+
+  <symbol id="sc-dunes" viewBox="0 0 320 180">
+    <rect width="320" height="180" fill="url(#g-dune-sky)"/>
+    <circle cx="232" cy="60" r="24" fill="#fff9ec"/>
+    <path d="M0 112 C60 92 120 96 190 112 S290 100 320 96 V180 H0Z" fill="#f2b06a"/>
+    <path d="M0 132 C70 112 140 118 200 136 S290 122 320 118 V180 H0Z" fill="#e38c45"/>
+    <path d="M120 128 C160 120 190 124 200 136 L176 136 C160 130 140 128 120 128Z" fill="#c76a30" opacity=".6"/>
+    <path d="M0 156 C80 136 160 140 230 160 S300 150 320 146 V180 H0Z" fill="#c4632c"/>
+    <path d="M0 172 C90 160 200 162 320 170 V180 H0Z" fill="#a24a22"/>
+    <g fill="none" stroke="#8a3d1c" stroke-width="1.3" stroke-linecap="round"><path d="M80 52 q4 -4 8 0 q4 -4 8 0"/></g>
+  </symbol>
+
+  <symbol id="sc-forest" viewBox="0 0 320 180">
+    <rect width="320" height="180" fill="url(#g-for-sky)"/>
+    <path d="M0 96 L50 70 L96 88 L150 58 L210 86 L262 66 L320 84 V180 H0Z" fill="#a9c9b3"/>
+    <rect y="96" width="320" height="16" fill="#fff" opacity=".35"/>
+    <path fill="#5f8f71" d="M10 124 L22 92 L34 124Z M40 124 L54 86 L68 124Z M74 124 L84 100 L94 124Z M112 124 L126 88 L140 124Z M150 124 L160 98 L170 124Z M186 124 L200 84 L214 124Z M226 124 L238 96 L250 124Z M262 124 L278 86 L294 124Z M296 124 L308 100 L320 124Z"/>
+    <rect y="122" width="320" height="58" fill="#3e6b53"/>
+    <path fill="#25473a" d="M-6 160 L12 108 L30 160Z M28 160 L48 100 L68 160Z M74 160 L88 120 L102 160Z M210 160 L228 110 L246 160Z M248 160 L270 96 L292 160Z M290 160 L306 118 L322 160Z"/>
+    <path d="M0 160 C100 150 220 152 320 158 V180 H0Z" fill="#1a3529"/>
+    <path d="M120 180 C130 166 150 160 172 162 C186 164 196 172 200 180Z" fill="#e8d9a8" opacity=".45"/>
+  </symbol>
 </svg>
 
 <a class="skip-link" href="#main">Skip to content</a>
@@ -81,82 +168,127 @@
 
 <main id="main" tabindex="-1">
 
-  <!-- Hero: one big promise, two actions, availability right under them -->
+  <!-- Hero: a drawn golden-hour landscape. The editor concept rests on the lake. -->
   <section class="home-hero" aria-labelledby="hero-title">
-    <div class="container home-hero-copy">
-      <h1 id="hero-title">A familiar video editor, <span class="hero-accent">coming to Linux.</span></h1>
-      <p class="home-hero-lede">
-        Free and open source. Offline, with no account and no subscription.
-        Built around the workflow CapCut Desktop users already know, without copying its interface.
-      </p>
-      <div class="home-hero-actions" data-hero-actions>
-        <a class="btn btn-primary btn-lg" href="https://github.com/Twarga/T-cut/blob/main/docs/plan/release-roadmap.md">Read the plan</a>
-        <a class="btn btn-quiet btn-lg" href="https://github.com/Twarga/T-cut">
-          <svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg>
-          View on GitHub
-        </a>
+    <div class="hero-sky">
+      <div class="hero-stars" aria-hidden="true"></div>
+      <div class="container home-hero-copy">
+        <h1 id="hero-title">A familiar video editor, <span class="hero-accent">coming to Linux.</span></h1>
+        <p class="home-hero-lede">
+          Free and open source. Offline, with no account and no subscription.
+          Built around the workflow CapCut Desktop users already know, without copying its interface.
+        </p>
+        <div class="home-hero-actions" data-hero-actions>
+          <a class="btn btn-primary btn-lg" href="https://github.com/Twarga/T-cut/blob/main/docs/plan/release-roadmap.md">Read the plan</a>
+          <a class="btn btn-glass btn-lg" href="https://github.com/Twarga/T-cut">
+            <svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg>
+            View on GitHub
+          </a>
+        </div>
+        <p class="home-hero-status">Planning is done. The editor is not built yet, so there is nothing to download.</p>
       </div>
-      <p class="home-hero-status">Planning is done. The editor is not built yet, so there is nothing to download.</p>
+
+      <svg class="hero-scene" viewBox="0 0 1600 440" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+        <defs>
+          <radialGradient id="hs-sun"><stop offset="0" style="stop-color:var(--sun-core)"/><stop offset=".6" style="stop-color:var(--sun-core)"/><stop offset="1" style="stop-color:var(--sun-edge)"/></radialGradient>
+          <!-- The cut: three bands removed from the sun, echoing the cut in the T-cut mark. -->
+          <mask id="hs-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="1600" height="600">
+            <rect width="1600" height="600" fill="#fff"/>
+            <rect x="560" y="196" width="480" height="5" fill="#000"/>
+            <rect x="560" y="216" width="480" height="8" fill="#000"/>
+            <rect x="560" y="239" width="480" height="12" fill="#000"/>
+          </mask>
+        </defs>
+        <g class="hs-rings" fill="none" style="stroke:var(--sun-edge)">
+          <circle cx="800" cy="290" r="220" stroke-width="1.5" opacity=".35"/>
+          <circle cx="800" cy="290" r="285" stroke-width="1.2" opacity=".2"/>
+          <circle cx="800" cy="290" r="365" stroke-width="1" opacity=".1"/>
+        </g>
+        <g class="hs-sun-rise"><g class="hs-sun-sink"><circle cx="800" cy="290" r="170" fill="url(#hs-sun)" mask="url(#hs-cut)"/></g></g>
+        <g class="hs-far"><path style="fill:var(--land-far)" d="M0 304 L110 252 L200 284 L320 214 L440 272 L548 240 L650 292 L742 248 L842 296 L968 228 L1084 278 L1196 232 L1316 286 L1436 242 L1600 280 V440 H0Z"/></g>
+        <g class="hs-mid"><path style="fill:var(--land-mid)" d="M0 344 C160 304 262 324 400 334 S640 306 780 342 S1060 324 1200 334 S1462 306 1600 328 V440 H0Z"/></g>
+        <g class="hs-near" style="fill:var(--land-near)">
+          <path d="M0 376 C120 342 236 348 372 384 L372 440 H0Z"/>
+          <path d="M44 372 L60 306 L76 372Z M92 366 L112 282 L132 366Z M150 360 L164 312 L178 360Z M196 364 L214 300 L232 364Z M252 372 L264 332 L276 372Z"/>
+          <path d="M1228 390 C1352 352 1476 344 1600 352 V440 H1228Z"/>
+          <path d="M1330 366 L1348 300 L1366 366Z M1392 356 L1414 272 L1436 356Z M1464 352 L1480 300 L1496 352Z M1528 352 L1548 286 L1568 352Z"/>
+        </g>
+        <rect y="380" width="1600" height="60" style="fill:var(--lake)"/>
+        <g style="fill:var(--sun-edge)" opacity=".75">
+          <rect x="670" y="386" width="260" height="3" rx="1.5"/>
+          <rect x="715" y="396" width="170" height="3" rx="1.5"/>
+          <rect x="745" y="406" width="110" height="2.5" rx="1.25"/>
+          <rect x="770" y="415" width="60" height="2" rx="1"/>
+          <rect x="787" y="424" width="26" height="2" rx="1"/>
+        </g>
+        <g fill="none" stroke-width="3" stroke-linecap="round" style="stroke:var(--land-near)">
+          <path d="M500 140 q14 -12 28 0 q14 -12 28 0"/>
+          <path d="M584 108 q10 -9 20 0 q10 -9 20 0"/>
+          <path d="M1060 160 q12 -10 24 0 q12 -10 24 0"/>
+        </g>
+      </svg>
     </div>
 
-    <!-- Editor concept: drawn in HTML and CSS, not a screenshot -->
-    <figure class="stage container">
-      <div class="ed" role="img" aria-label="Concept drawing of the planned editor. A media library on the left, a player in the middle showing a selected title reading Day one, a text inspector on the right with font, size, color, alignment, position and scale, and a timeline below with a title track, three video clips, a music track with fades, and a playhead.">
-        <div class="ed-bar">
-          <span class="ed-mark"></span>
-          <span class="ed-project">Weekend trip</span>
-          <span class="ed-ratio">16:9 · 30 fps</span>
-          <span class="ed-export">Export</span>
-        </div>
+    <div class="hero-lake">
+      <!-- Editor concept: drawn in HTML, CSS and SVG, not a screenshot -->
+      <figure class="stage container">
+        <div class="ed" role="img" aria-label="Concept drawing of the planned editor. A media library of six clips on the left, a player in the middle showing a sunset over a lake with a selected title reading Day one, a text inspector on the right with font, size, color, alignment, position and scale, and a timeline below with a title track, three video clips, a music track with fades, and a playhead.">
+          <div class="ed-bar">
+            <span class="ed-mark"></span>
+            <span class="ed-project">Weekend trip</span>
+            <span class="ed-ratio">16:9 · 30 fps</span>
+            <span class="ed-export">Export</span>
+          </div>
 
-        <div class="ed-library">
-          <div class="ed-tabs"><span class="is-on">Media</span><span>Audio</span><span>Text</span></div>
-          <div class="ed-thumbs">
-            <span class="thumb t1"><i>0:12</i></span>
-            <span class="thumb t2"><i>0:08</i></span>
-            <span class="thumb t3"><i>0:21</i></span>
-            <span class="thumb t4"><i>0:05</i></span>
-            <span class="thumb t5"><i>0:16</i></span>
-            <span class="thumb t6"><i>0:09</i></span>
+          <div class="ed-library">
+            <div class="ed-tabs"><span class="is-on">Media</span><span>Audio</span><span>Text</span></div>
+            <div class="ed-thumbs">
+              <span class="thumb"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-sunset"/></svg><i>0:12</i></span>
+              <span class="thumb"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-sea"/></svg><i>0:08</i></span>
+              <span class="thumb"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-city"/></svg><i>0:21</i></span>
+              <span class="thumb"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-forest"/></svg><i>0:05</i></span>
+              <span class="thumb"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-dunes"/></svg><i>0:16</i></span>
+              <span class="thumb"><svg viewBox="0 0 320 180" preserveAspectRatio="xMaxYMid slice"><use href="#sc-sea"/></svg><i>0:09</i></span>
+            </div>
+          </div>
+
+          <div class="ed-player">
+            <div class="ed-canvas">
+              <svg class="scene" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-sunset"/></svg>
+              <span class="ed-select"><b>Day one</b><i class="h1"></i><i class="h2"></i><i class="h3"></i><i class="h4"></i></span>
+              <span class="ed-chip">Static title</span>
+            </div>
+            <div class="ed-transport"><span class="ed-play"></span><span class="ed-time">00:00:04:12 <em>/ 00:00:12:00</em></span></div>
+          </div>
+
+          <div class="ed-inspector">
+            <div class="ed-tabs"><span class="is-on">Text</span><span>Audio</span></div>
+            <dl class="ed-fields">
+              <div><dt>Font</dt><dd>Inter</dd></div>
+              <div><dt>Size</dt><dd>64</dd></div>
+              <div><dt>Color</dt><dd><span class="ed-swatch"></span></dd></div>
+              <div><dt>Align</dt><dd><span class="ed-align"><i class="is-on"></i><i></i><i></i></span></dd></div>
+              <div><dt>Position</dt><dd>0, 220</dd></div>
+              <div><dt>Scale</dt><dd>100%</dd></div>
+            </dl>
+          </div>
+
+          <div class="ed-timeline">
+            <div class="ed-tools"><i></i><i></i><i class="cut"></i><i></i><span class="ed-zoom"></span></div>
+            <div class="ed-ruler"><span>00:00</span><span>00:03</span><span>00:06</span><span>00:09</span><span>00:12</span></div>
+            <div class="ed-track"><span class="clip clip-text is-selected" style="--x:22%;--w:30%">Day one</span></div>
+            <div class="ed-track ed-track-main">
+              <span class="clip clip-video" style="--x:0%;--w:31%"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-sunset"/></svg></span>
+              <span class="clip clip-video" style="--x:31.5%;--w:30%"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-sea"/></svg></span>
+              <span class="clip clip-video" style="--x:62%;--w:32%"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-forest"/></svg></span>
+            </div>
+            <div class="ed-track"><span class="clip clip-audio" style="--x:0%;--w:94%"><span class="fade fade-in"></span><span class="fade fade-out"></span></span></div>
+            <span class="ed-playhead"></span>
           </div>
         </div>
-
-        <div class="ed-player">
-          <div class="ed-canvas">
-            <span class="scene"></span>
-            <span class="ed-select"><b>Day one</b><i class="h1"></i><i class="h2"></i><i class="h3"></i><i class="h4"></i></span>
-            <span class="ed-chip">Static title</span>
-          </div>
-          <div class="ed-transport"><span class="ed-play"></span><span class="ed-time">00:00:04:12 <em>/ 00:00:12:00</em></span></div>
-        </div>
-
-        <div class="ed-inspector">
-          <div class="ed-tabs"><span class="is-on">Text</span><span>Audio</span></div>
-          <dl class="ed-fields">
-            <div><dt>Font</dt><dd>Inter</dd></div>
-            <div><dt>Size</dt><dd>64</dd></div>
-            <div><dt>Color</dt><dd><span class="ed-swatch"></span></dd></div>
-            <div><dt>Align</dt><dd><span class="ed-align"><i class="is-on"></i><i></i><i></i></span></dd></div>
-            <div><dt>Position</dt><dd>0, 220</dd></div>
-            <div><dt>Scale</dt><dd>100%</dd></div>
-          </dl>
-        </div>
-
-        <div class="ed-timeline">
-          <div class="ed-tools"><i></i><i></i><i class="cut"></i><i></i><span class="ed-zoom"></span></div>
-          <div class="ed-ruler"><span>00:00</span><span>00:03</span><span>00:06</span><span>00:09</span><span>00:12</span></div>
-          <div class="ed-track"><span class="clip clip-text is-selected" style="--x:22%;--w:30%">Day one</span></div>
-          <div class="ed-track ed-track-main">
-            <span class="clip clip-video v1" style="--x:0%;--w:31%"></span>
-            <span class="clip clip-video v2" style="--x:31.5%;--w:30%"></span>
-            <span class="clip clip-video v3" style="--x:62%;--w:32%"></span>
-          </div>
-          <div class="ed-track"><span class="clip clip-audio" style="--x:0%;--w:94%"><span class="fade fade-in"></span><span class="fade fade-out"></span></span></div>
-          <span class="ed-playhead"></span>
-        </div>
-      </div>
-      <figcaption>Design concept, drawn for this page. Not a screenshot: no application exists yet.</figcaption>
-    </figure>
+        <figcaption>Design concept with drawn footage. Not a screenshot: no application exists yet.</figcaption>
+      </figure>
+    </div>
   </section>
 
   <!-- Version 0.1: numbered accordion, native details so it works without JavaScript -->
@@ -164,6 +296,7 @@
     <div class="container">
       <div class="split-head">
         <div>
+          <p class="kicker">The first release</p>
           <h2 id="features-title">What version 0.1 has to do</h2>
           <p>Fewer tools than CapCut. Every item works end to end before v0.1 ships. No placeholder buttons.</p>
         </div>
@@ -181,9 +314,9 @@
             </ul>
             <div class="acc-art art-home" aria-hidden="true">
               <span class="pc pc-new">+</span>
-              <span class="pc"><i class="t1"></i><b>Weekend trip</b></span>
-              <span class="pc"><i class="t3"></i><b>Lecture 04</b></span>
-              <span class="pc"><i class="t5"></i><b>Recipe short</b></span>
+              <span class="pc"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-sunset"/></svg><b>Weekend trip</b></span>
+              <span class="pc"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-city"/></svg><b>Night walk</b></span>
+              <span class="pc"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-dunes"/></svg><b>Desert short</b></span>
             </div>
           </div>
         </details>
@@ -196,8 +329,8 @@
               <li>Undo and redo restore the exact previous project state.</li>
             </ul>
             <div class="acc-art art-split" aria-hidden="true">
-              <span class="lane"><i class="clip-video v1"></i><i class="clip-video v2"></i></span>
-              <span class="lane"><i class="clip-video v3"></i><i class="clip-video v1 is-moved"></i></span>
+              <span class="lane"><span><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-sea"/></svg></span><span><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-sunset"/></svg></span></span>
+              <span class="lane"><span><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-forest"/></svg></span><span class="is-moved"><svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-city"/></svg></span></span>
               <span class="cutline"></span>
             </div>
           </div>
@@ -212,6 +345,7 @@
               <li>Music volume with fade in and fade out, mixed into the exported file.</li>
             </ul>
             <div class="acc-art art-type" aria-hidden="true">
+              <svg class="scene" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-dunes"/></svg>
               <span lang="en">Day one</span>
               <span lang="ar" dir="rtl">اليوم الأول</span>
               <span lang="ja">一日目</span>
@@ -239,17 +373,18 @@
     </div>
   </section>
 
-  <!-- Canvas presets: the three shapes v0.1 promises -->
+  <!-- Canvas presets: the same drawn shot, recomposed for each planned shape -->
   <section class="section formats" aria-labelledby="formats-title">
     <div class="container">
       <div class="center-head">
-        <h2 id="formats-title">One edit. Three shapes.</h2>
+        <p class="kicker">Canvas presets</p>
+        <h2 id="formats-title">One edit. <span class="grad-text">Three shapes.</span></h2>
         <p>Version 0.1 ships 16:9, 9:16 and 1:1 canvas presets with fit, fill, position and scale. Changing the canvas never crops your source files.</p>
       </div>
       <ul class="frames" aria-label="Planned canvas presets">
-        <li class="frame frame-wide"><span class="frame-shot"><span class="scene"></span><b>Day one</b></span><span class="frame-label">16:9 · YouTube, lectures</span></li>
-        <li class="frame frame-tall"><span class="frame-shot"><span class="scene"></span><b>Day one</b></span><span class="frame-label">9:16 · Shorts, Reels, TikTok</span></li>
-        <li class="frame frame-square"><span class="frame-shot"><span class="scene"></span><b>Day one</b></span><span class="frame-label">1:1 · Feeds</span></li>
+        <li class="frame frame-wide"><span class="frame-shot"><svg class="scene" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-sunset"/></svg><b>Day one</b></span><span class="frame-label"><strong>16:9</strong> YouTube, lectures</span></li>
+        <li class="frame frame-tall"><span class="frame-shot"><svg class="scene" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-sunset"/></svg><b>Day one</b></span><span class="frame-label"><strong>9:16</strong> Shorts, Reels, TikTok</span></li>
+        <li class="frame frame-square"><span class="frame-shot"><svg class="scene" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><use href="#sc-sunset"/></svg><b>Day one</b></span><span class="frame-label"><strong>1:1</strong> Feeds</span></li>
       </ul>
     </div>
   </section>
@@ -259,13 +394,14 @@
     <div class="container">
       <div class="split-head">
         <div>
+          <p class="kicker">Roadmap</p>
           <h2 id="roadmap-title">Six phases. No dates.</h2>
           <p>Each phase is a capability gate. Phase 0 can still change the engine decision, so nothing downstream gets a date.</p>
         </div>
         <a class="btn btn-ink" href="https://github.com/Twarga/T-cut/blob/main/docs/plan/release-roadmap.md">Full roadmap</a>
       </div>
 
-      <div class="phase-tabs" data-phase-tabs>
+      <div class="phase-tabs" data-phase-tabs style="--p:1">
         <ul class="phase-tablist" data-phase-tablist>
           <li><a class="phase-tab" href="#panel-p0" id="tab-p0" data-phase-tab><span class="phase-tab-num">0</span> Engine test</a></li>
           <li><a class="phase-tab" href="#panel-p1" id="tab-p1" data-phase-tab data-phase-default><span class="phase-tab-num">1</span> Basic editor</a></li>
@@ -275,112 +411,163 @@
           <li><a class="phase-tab" href="#panel-p5" id="tab-p5" data-phase-tab><span class="phase-tab-num">5</span> Stable</a></li>
         </ul>
 
-        <div class="phase-panels">
-          <div class="phase-panel" id="panel-p0" data-phase-panel>
-            <h3 data-phase-heading>Phase 0: Engine test</h3>
-            <p class="phase-meta"><span class="badge">No public release</span><span class="badge badge-now">Next up</span></p>
-            <p class="phase-lede">Nothing to use yet. This phase decides whether the foundation is sound.</p>
-            <ul class="ticks">
-              <li>Build a real Rust window that plays and exports known media.</li>
-              <li>Generate test footage with numbered frames and audio impulses at known positions.</li>
-              <li>Run 12 qualification checks and decode the output with an independent tool.</li>
-              <li>Commit to one media backend, with the reasoning written down.</li>
-            </ul>
-            <details class="note">
-              <summary>The gate that must pass</summary>
-              <p>A nominal four-second, 30&nbsp;fps render previously produced 121 frames and 4.033333&nbsp;seconds instead of 120 frames. The cause must be found and fixed, or the engine replaced. Changing the expected number to match the bug is not an acceptable outcome.</p>
-            </details>
-          </div>
+        <div class="phase-side">
+          <!-- The sun climbs from Phase 0 to v1.0 and follows the selected phase. -->
+          <svg class="sunpath" viewBox="0 0 600 210" aria-hidden="true" focusable="false">
+            <path class="sunpath-arc" d="M40 190 A260 170 0 0 1 560 190"/>
+            <line class="sunpath-horizon" x1="0" y1="190" x2="600" y2="190"/>
+            <g class="sunpath-ticks">
+              <circle cx="40" cy="190" r="5"/><circle cx="89.7" cy="90" r="5"/><circle cx="219.7" cy="28.3" r="5"/>
+              <circle cx="380.3" cy="28.3" r="5"/><circle cx="510.3" cy="90" r="5"/><circle cx="560" cy="190" r="5"/>
+            </g>
+            <g class="sunpath-labels">
+              <text x="40" y="206">0</text><text x="89.7" y="114">1</text><text x="219.7" y="52">2</text>
+              <text x="380.3" y="52">3</text><text x="510.3" y="114">4</text><text x="560" y="206">5</text>
+            </g>
+            <g class="sunpath-sun"><circle r="22" class="sunpath-glow"/><circle r="13" class="sunpath-core"/></g>
+          </svg>
 
-          <div class="phase-panel" id="panel-p1" data-phase-panel>
-            <h3 data-phase-heading>Phase 1: Basic editor</h3>
-            <p class="phase-meta"><span class="badge badge-release">v0.1</span><span class="badge">First usable release</span></p>
-            <p class="phase-lede">Make and export a simple video, using a layout you already recognize.</p>
-            <ul class="ticks">
-              <li>Home with projects; create, open, rename, duplicate, trash and restore.</li>
-              <li>Import; trim, split and move across multiple tracks; undo and redo.</li>
-              <li>Canvas presets with position and scale; static titles; music volume and fades.</li>
-              <li>Autosave, crash recovery, relinking moved media, and a real export.</li>
-            </ul>
-            <details class="note">
-              <summary>Deliberately left out</summary>
-              <p>Transitions, keyframes, auto captions, effects and AI. They are planned for later phases and will not appear as controls that do nothing.</p>
-            </details>
-          </div>
+          <div class="phase-panels">
+            <div class="phase-panel" id="panel-p0" data-phase-panel>
+              <h3 data-phase-heading>Phase 0: Engine test</h3>
+              <p class="phase-meta"><span class="badge">No public release</span><span class="badge badge-now">Next up</span></p>
+              <p class="phase-lede">Nothing to use yet. This phase decides whether the foundation is sound.</p>
+              <ul class="ticks">
+                <li>Build a real Rust window that plays and exports known media.</li>
+                <li>Generate test footage with numbered frames and audio impulses at known positions.</li>
+                <li>Run 12 qualification checks and decode the output with an independent tool.</li>
+                <li>Commit to one media backend, with the reasoning written down.</li>
+              </ul>
+              <details class="note">
+                <summary>The gate that must pass</summary>
+                <p>A nominal four-second, 30&nbsp;fps render previously produced 121 frames and 4.033333&nbsp;seconds instead of 120 frames. The cause must be found and fixed, or the engine replaced. Changing the expected number to match the bug is not an acceptable outcome.</p>
+              </details>
+            </div>
 
-          <div class="phase-panel" id="panel-p2" data-phase-panel>
-            <h3 data-phase-heading>Phase 2: Smooth editing</h3>
-            <p class="phase-meta"><span class="badge badge-release">v0.2</span></p>
-            <p class="phase-lede">Editing stops feeling clumsy, and you can subtitle a video by hand.</p>
-            <ul class="ticks">
-              <li>Snapping, main-track magnet and linked clips, each a separate visible control.</li>
-              <li>Richer static text styling and fuller audio controls.</li>
-              <li>Manual captions, with SRT and VTT import and export.</li>
-            </ul>
-          </div>
+            <div class="phase-panel" id="panel-p1" data-phase-panel>
+              <h3 data-phase-heading>Phase 1: Basic editor</h3>
+              <p class="phase-meta"><span class="badge badge-release">v0.1</span><span class="badge">First usable release</span></p>
+              <p class="phase-lede">Make and export a simple video, using a layout you already recognize.</p>
+              <ul class="ticks">
+                <li>Home with projects; create, open, rename, duplicate, trash and restore.</li>
+                <li>Import; trim, split and move across multiple tracks; undo and redo.</li>
+                <li>Canvas presets with position and scale; static titles; music volume and fades.</li>
+                <li>Autosave, crash recovery, relinking moved media, and a real export.</li>
+              </ul>
+              <details class="note">
+                <summary>Deliberately left out</summary>
+                <p>Transitions, keyframes, auto captions, effects and AI. They are planned for later phases and will not appear as controls that do nothing.</p>
+              </details>
+            </div>
 
-          <div class="phase-panel" id="panel-p3" data-phase-panel>
-            <h3 data-phase-heading>Phase 3: Creator tools</h3>
-            <p class="phase-meta"><span class="badge badge-release">v0.3</span></p>
-            <p class="phase-lede">The creative jump: animation, composition and color.</p>
-            <ul class="ticks">
-              <li>Keyframes and easing; speed, reverse and freeze frames.</li>
-              <li>Transitions, masks and chroma key.</li>
-              <li>Color grading with curves, LUTs and scopes; animated text.</li>
-              <li>Screen and webcam recording; original templates.</li>
-            </ul>
-          </div>
+            <div class="phase-panel" id="panel-p2" data-phase-panel>
+              <h3 data-phase-heading>Phase 2: Smooth editing</h3>
+              <p class="phase-meta"><span class="badge badge-release">v0.2</span></p>
+              <p class="phase-lede">Editing stops feeling clumsy, and you can subtitle a video by hand.</p>
+              <ul class="ticks">
+                <li>Snapping, main-track magnet and linked clips, each a separate visible control.</li>
+                <li>Richer static text styling and fuller audio controls.</li>
+                <li>Manual captions, with SRT and VTT import and export.</li>
+              </ul>
+            </div>
 
-          <div class="phase-panel" id="panel-p4" data-phase-panel>
-            <h3 data-phase-heading>Phase 4: Local AI</h3>
-            <p class="phase-meta"><span class="badge badge-release">v0.4</span><span class="badge">Optional</span></p>
-            <p class="phase-lede">Assistance that runs on your own machine, suggests rather than overwrites, and is always optional.</p>
-            <ul class="ticks">
-              <li>Auto captions and translation; transcript-based editing.</li>
-              <li>Background removal, object tracking and auto reframe.</li>
-              <li>Voice cleanup, music separation and beat detection.</li>
-              <li>Text to speech, dubbing and upscaling.</li>
-            </ul>
-            <details class="note">
-              <summary>Honest warning about models</summary>
-              <p>Each of these needs a model whose license permits redistribution and commercial use. Where those rights cannot be established, the feature ships as unavailable with the reason stated. It is not faked, and it is not quietly replaced by a cloud service.</p>
-            </details>
-          </div>
+            <div class="phase-panel" id="panel-p3" data-phase-panel>
+              <h3 data-phase-heading>Phase 3: Creator tools</h3>
+              <p class="phase-meta"><span class="badge badge-release">v0.3</span></p>
+              <p class="phase-lede">The creative jump: animation, composition and color.</p>
+              <ul class="ticks">
+                <li>Keyframes and easing; speed, reverse and freeze frames.</li>
+                <li>Transitions, masks and chroma key.</li>
+                <li>Color grading with curves, LUTs and scopes; animated text.</li>
+                <li>Screen and webcam recording; original templates.</li>
+              </ul>
+            </div>
 
-          <div class="phase-panel" id="panel-p5" data-phase-panel>
-            <h3 data-phase-heading>Phase 5: Stable</h3>
-            <p class="phase-meta"><span class="badge badge-release">v1.0</span></p>
-            <p class="phase-lede">No new features. Make the existing ones trustworthy.</p>
-            <ul class="ticks">
-              <li>No release-blocking defect that can lose your work.</li>
-              <li>A published, measured list of supported media and hardware.</li>
-              <li>Tested installation and upgrade on the supported runtime.</li>
-            </ul>
-            <details class="note">
-              <summary>What v1.0 does not claim</summary>
-              <p>A stable local editor is not a claim that every CapCut cloud service has been reproduced. Generative video, broader project interoperability, optional self-hosted sync and authorized publishing are tracked separately after v1.0, each with its own rights and infrastructure gate.</p>
-            </details>
+            <div class="phase-panel" id="panel-p4" data-phase-panel>
+              <h3 data-phase-heading>Phase 4: Local AI</h3>
+              <p class="phase-meta"><span class="badge badge-release">v0.4</span><span class="badge">Optional</span></p>
+              <p class="phase-lede">Assistance that runs on your own machine, suggests rather than overwrites, and is always optional.</p>
+              <ul class="ticks">
+                <li>Auto captions and translation; transcript-based editing.</li>
+                <li>Background removal, object tracking and auto reframe.</li>
+                <li>Voice cleanup, music separation and beat detection.</li>
+                <li>Text to speech, dubbing and upscaling.</li>
+              </ul>
+              <details class="note">
+                <summary>Honest warning about models</summary>
+                <p>Each of these needs a model whose license permits redistribution and commercial use. Where those rights cannot be established, the feature ships as unavailable with the reason stated. It is not faked, and it is not quietly replaced by a cloud service.</p>
+              </details>
+            </div>
+
+            <div class="phase-panel" id="panel-p5" data-phase-panel>
+              <h3 data-phase-heading>Phase 5: Stable</h3>
+              <p class="phase-meta"><span class="badge badge-release">v1.0</span></p>
+              <p class="phase-lede">No new features. Make the existing ones trustworthy.</p>
+              <ul class="ticks">
+                <li>No release-blocking defect that can lose your work.</li>
+                <li>A published, measured list of supported media and hardware.</li>
+                <li>Tested installation and upgrade on the supported runtime.</li>
+              </ul>
+              <details class="note">
+                <summary>What v1.0 does not claim</summary>
+                <p>A stable local editor is not a claim that every CapCut cloud service has been reproduced. Generative video, broader project interoperability, optional self-hosted sync and authorized publishing are tracked separately after v1.0, each with its own rights and infrastructure gate.</p>
+              </details>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Promises: what the plan commits to, in four cards with different weight -->
+  <!-- Promises: four commitments from the product spec, each with its own drawing -->
   <section class="section promises" aria-labelledby="promises-title">
     <div class="container">
       <div class="split-head">
         <div>
+          <p class="kicker">Promises</p>
           <h2 id="promises-title">Four promises in the plan</h2>
           <p>Written into the product spec as requirements, not marketing copy.</p>
         </div>
         <a class="btn btn-ink" href="https://github.com/Twarga/T-cut/blob/main/docs/plan/product-spec.md">Read the product spec</a>
       </div>
       <ul class="promise-cards">
-        <li class="promise promise-violet"><h3>No account</h3><p>Open the app and edit. No sign-in, no registration, no required setup wizard.</p></li>
-        <li class="promise promise-lime"><h3>No watermark</h3><p>No subscription, no ads and no paid unlocks. Every export is yours.</p></li>
-        <li class="promise promise-ink"><h3>Works offline</h3><p>Editing, saving and export run on your machine. Optional AI runs locally too.</p></li>
-        <li class="promise promise-paper"><h3>Free software</h3><p>GPL-3.0-or-later. Read the code, change it, share it.</p></li>
+        <li class="promise promise-sunset">
+          <svg class="promise-art" viewBox="0 0 120 90" aria-hidden="true" focusable="false">
+            <path d="M30 84 V14 H74 V84" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M30 14 L58 22 V90 L30 84Z" fill="currentColor"/>
+            <circle cx="51" cy="54" r="3" fill="#ffc552"/>
+            <path d="M74 14 L116 4 V90 L74 84Z" fill="currentColor" opacity=".14"/>
+          </svg>
+          <h3>No account</h3><p>Open the app and edit. No sign-in, no registration, no required setup wizard.</p>
+        </li>
+        <li class="promise promise-rose">
+          <svg class="promise-art" viewBox="0 0 120 90" aria-hidden="true" focusable="false">
+            <rect x="8" y="10" width="104" height="70" rx="8" fill="none" stroke="currentColor" stroke-width="4"/>
+            <g fill="currentColor"><rect x="16" y="16" width="8" height="6" rx="1"/><rect x="34" y="16" width="8" height="6" rx="1"/><rect x="52" y="16" width="8" height="6" rx="1"/><rect x="70" y="16" width="8" height="6" rx="1"/><rect x="88" y="16" width="8" height="6" rx="1"/><rect x="16" y="68" width="8" height="6" rx="1"/><rect x="34" y="68" width="8" height="6" rx="1"/><rect x="52" y="68" width="8" height="6" rx="1"/><rect x="70" y="68" width="8" height="6" rx="1"/><rect x="88" y="68" width="8" height="6" rx="1"/></g>
+            <circle cx="74" cy="40" r="8" fill="currentColor"/>
+            <path d="M16 62 L44 36 L60 50 L72 42 L104 62Z" fill="currentColor"/>
+          </svg>
+          <h3>No watermark</h3><p>No subscription, no ads and no paid unlocks. Every export is yours.</p>
+        </li>
+        <li class="promise promise-dusk">
+          <svg class="promise-art" viewBox="0 0 120 90" aria-hidden="true" focusable="false">
+            <path d="M92 10 a16 16 0 1 0 14 24 a13 13 0 0 1 -14 -24Z" fill="#ffc552"/>
+            <g fill="#fff8ee"><circle cx="20" cy="14" r="1.6"/><circle cx="44" cy="8" r="1.2"/><circle cx="66" cy="22" r="1.4"/><circle cx="12" cy="40" r="1.1"/></g>
+            <path d="M14 84 L48 30 L82 84Z" fill="#ff6f9a"/>
+            <path d="M48 30 L56 84 H40Z" fill="#160f22"/>
+            <path d="M4 84 H116" stroke="#fff8ee" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <h3>Works offline</h3><p>Editing, saving and export run on your machine. Optional AI runs locally too.</p>
+        </li>
+        <li class="promise promise-cream">
+          <svg class="promise-art" viewBox="0 0 120 90" aria-hidden="true" focusable="false">
+            <path d="M40 40 V26 a20 20 0 0 1 40 0 V18" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" transform="rotate(-18 60 40)"/>
+            <rect x="26" y="40" width="68" height="46" rx="10" fill="currentColor"/>
+            <circle cx="60" cy="58" r="6" fill="#ffc552"/>
+            <path d="M60 60 V72" stroke="#ffc552" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+          <h3>Free software</h3><p>GPL-3.0-or-later. Read the code, change it, share it.</p>
+        </li>
       </ul>
     </div>
   </section>
@@ -403,6 +590,7 @@
   <section class="section" id="stack" aria-labelledby="stack-title">
     <div class="container stack-layout">
       <div class="stack-intro">
+        <p class="kicker">Architecture</p>
         <h2 id="stack-title">The planned stack</h2>
         <p>Chosen to avoid rewriting solved problems, and to keep your project data independent of any single component.</p>
         <h3 class="rejected-head">Deliberately rejected</h3>
@@ -434,10 +622,26 @@
     </div>
   </section>
 
-  <!-- Closing call to action -->
+  <!-- Closing call to action: a second drawn sunset closes the page -->
   <section class="closing" aria-labelledby="closing-title" data-closing>
     <div class="container">
       <div class="closing-band">
+        <div class="closing-stars" aria-hidden="true"></div>
+        <svg class="closing-scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+          <defs>
+            <radialGradient id="cl-sun"><stop offset="0" stop-color="#fff3c4"/><stop offset=".6" stop-color="#ffd27a"/><stop offset="1" stop-color="#ff8a4c"/></radialGradient>
+            <mask id="cl-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="1200" height="300">
+              <rect width="1200" height="300" fill="#fff"/>
+              <rect x="400" y="196" width="400" height="6" fill="#000"/>
+              <rect x="400" y="214" width="400" height="9" fill="#000"/>
+              <rect x="400" y="234" width="400" height="13" fill="#000"/>
+            </mask>
+          </defs>
+          <circle cx="600" cy="300" r="230" fill="none" stroke="#ffc552" stroke-width="1.5" opacity=".25"/>
+          <circle cx="600" cy="300" r="170" fill="url(#cl-sun)" mask="url(#cl-cut)"/>
+          <path d="M0 236 L120 190 L220 226 L340 168 L460 228 L520 210 L560 240 L640 240 L700 214 L800 236 L900 176 L1020 222 L1100 196 L1200 230 V300 H0Z" fill="#5a1a4e"/>
+          <path d="M0 270 C200 236 380 258 600 270 S1000 244 1200 262 V300 H0Z" fill="#2a0c2e"/>
+        </svg>
         <img class="closing-mark" src="assets/brand/icon.svg" alt="" width="72" height="72">
         <h2 id="closing-title">Review the plan before the code exists.</h2>
         <p>The most useful contribution right now is review. If a requirement, dependency or gate looks wrong, say so now. Fixing it in a patch later costs more.</p>
@@ -502,7 +706,7 @@
       <p>
         T-cut original code is licensed GPL-3.0-or-later. The bundled Inter and Space Grotesk
         typefaces are licensed under the SIL Open Font License 1.1, and their license files ship with
-        this site.
+        this site. All illustrations on this page are original drawings made for T-cut.
       </p>
       <p>
         T-cut is an independent project. It is <strong>not affiliated with, endorsed by, or derived

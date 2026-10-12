@@ -120,6 +120,8 @@
       tab.setAttribute("tabindex", on ? "0" : "-1");
       panels[i].hidden = !on;
     });
+    /* The roadmap sun (CSS) follows the selected phase along its arc. */
+    tabsRoot.style.setProperty("--p", String(index));
     if (moveFocus) tabs[index].focus();
   }
 

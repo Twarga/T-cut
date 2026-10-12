@@ -59,47 +59,104 @@
   --amber-600: #9a6d00; /* 4.60 on white */
   --red-400:   #ff5d5d;
   --red-600:   #d32b2b;
+
+  /* Golden hour: the site palette. Dusk (dark surfaces), Cream (light surfaces)
+   * and the sunset accents Ember, Gold and Rose. Violet, lime and ink above stay
+   * for the logo artwork and the editor concept. Ratios measured, see brand guide. */
+  --dusk-980: #07040c;
+  --dusk-950: #0d0816;
+  --dusk-900: #160f22;
+  --dusk-850: #120b1d;
+  --dusk-800: #201733;
+  --dusk-750: #2a1f40;
+  --dusk-700: #3a2d55;
+  --dusk-600: #54466f;
+  --dusk-400: #a497b8;  /* 7.24 on dusk-950 */
+  --dusk-300: #d2c6de;  /* 12.10 on dusk-950 */
+
+  --cream-0:   #ffffff;
+  --cream-25:  #fffaf3;
+  --cream-50:  #fbf2e4;
+  --cream-100: #f3e5cf;
+  --cream-200: #e6d2b3;
+  --cream-300: #cfb48d;
+  --cream-ink: #fff8ee;  /* text on dusk: 18.73 */
+
+  --plum-900: #1c1126;   /* text on cream-25: 17.47 */
+  --plum-700: #4e3f5e;   /* 9.21 on cream-25 */
+  --plum-500: #6c5b7d;   /* 5.89 on cream-25 */
+
+  --ember-300: #ff8a5c;  /* 8.50 on dusk-950 */
+  --ember-500: #ff6b3d;  /* dusk-950 label 6.98 */
+  --ember-600: #f2702e;
+  --ember-800: #a83a12;  /* 6.17 on cream-25 */
+  --ember-900: #7f2a0b;
+  --gold-300:  #ffdc8f;
+  --gold-400:  #ffc552;  /* 12.56 on dusk-950 */
+  --rose-400:  #ff6f9a;  /* 7.52 on dusk-950 */
+  --rose-700:  #b02a52;  /* 6.13 on cream-25 */
+  --magenta-700: #8a2d5c;
+
+  --grad-sunset: linear-gradient(100deg, var(--ember-500) 0%, #ff9147 45%, var(--gold-400) 100%);
 }
 
-/* ---------- Layer 2: semantic roles (dark, default) ---------- */
+/* ---------- Layer 2: semantic roles (dark "Dusk", default) ---------- */
 :root {
   color-scheme: dark;
 
-  --surface-sunken:  var(--ink-980);
-  --surface-base:    var(--ink-950);
-  --surface-raised:  var(--ink-900);
-  --surface-overlay: var(--ink-800);
-  --surface-inset:   #10121a;
+  --surface-sunken:  var(--dusk-980);
+  --surface-base:    var(--dusk-950);
+  --surface-raised:  var(--dusk-900);
+  --surface-overlay: var(--dusk-800);
+  --surface-inset:   var(--dusk-850);
 
-  --border-subtle:  var(--ink-750);
-  --border-default: var(--ink-700);
-  --border-strong:  var(--ink-600);
+  --border-subtle:  var(--dusk-750);
+  --border-default: var(--dusk-700);
+  --border-strong:  var(--dusk-600);
 
-  --text-primary:   var(--ink-50);
-  --text-secondary: var(--ink-300);
-  --text-muted:     var(--ink-400);
-  --text-inverse:   var(--ink-950);
-  --text-on-accent: #ffffff;
-  --text-link: var(--violet-400);
-  --text-link-hover: var(--violet-300);
-  --selection-bg: color-mix(in srgb, var(--violet-500) 45%, transparent);
-  --hero-wash: color-mix(in srgb, var(--violet-500) 12%, transparent);
+  --text-primary:   var(--cream-ink);
+  --text-secondary: var(--dusk-300);
+  --text-muted:     var(--dusk-400);
+  --text-inverse:   var(--dusk-950);
+  --text-on-accent: var(--dusk-950);
+  --text-link: var(--gold-400);
+  --text-link-hover: var(--gold-300);
+  --selection-bg: color-mix(in srgb, var(--rose-400) 40%, transparent);
+  --hero-wash: color-mix(in srgb, var(--rose-400) 14%, transparent);
 
-  /* Filled button: base 600, hover lightens to 500, press darkens to 700.
-   * All three keep a white label above 4.5. 400 is deliberately not used here. */
-  --action-primary-bg:       var(--violet-600);
-  --action-primary-bg-hover: var(--violet-500);
-  --action-primary-bg-press: var(--violet-700);
+  /* Filled button: sunset gradient with a dark label (6.98 at its darkest stop).
+   * The solid values are the fallback and the hover/press states. */
+  --action-primary-bg:       var(--ember-500);
+  --action-primary-bg-hover: var(--gold-400);
+  --action-primary-bg-press: var(--ember-600);
   --action-primary-fg:       var(--text-on-accent);
+  --action-primary-image:    var(--grad-sunset);
 
   --action-secondary-bg:       transparent;
   --action-secondary-bg-hover: var(--surface-overlay);
   --action-secondary-fg:       var(--text-primary);
   --action-secondary-border:   var(--border-strong);
 
-  --accent-signature: var(--lime-500);
-  --accent-signature-dim: var(--lime-700);
-  --focus-ring: var(--lime-500);
+  --accent-signature: var(--rose-400);
+  --accent-signature-dim: var(--magenta-700);
+  --focus-ring: var(--gold-400);
+
+  /* Gradient for large display numbers and emphasis (large text, 3:1 minimum). */
+  --grad-display: linear-gradient(100deg, var(--rose-400), var(--ember-300) 50%, var(--gold-400));
+
+  /* Hero sky and landscape, drawn in index.html and tinted per theme. */
+  --sky-0: var(--dusk-950);
+  --sky-1: #1f0f33;
+  --sky-2: #4a1a4f;
+  --sky-3: #a8355a;
+  --sky-4: #ff7a4c;
+  --land-far: #5a2150;
+  --land-mid: #331339;
+  --land-near: #1a0a22;
+  --lake: #12081b;
+  --sun-core: #ffe7a3;
+  --sun-edge: #ff8a4c;
+  --stars: 1;
 
   --status-info-fg:    var(--blue-400);
   --status-success-fg: var(--green-400);
@@ -111,58 +168,73 @@
   --status-error-bg:   color-mix(in srgb, var(--red-400) 12%, transparent);
 
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.5);
-  --shadow-md: 0 4px 16px -2px rgb(0 0 0 / 0.55);
-  --shadow-lg: 0 24px 64px -16px rgb(0 0 0 / 0.7);
-  --glow-brand: 0 0 0 1px color-mix(in srgb, var(--violet-500) 40%, transparent),
-                0 12px 48px -12px color-mix(in srgb, var(--violet-500) 45%, transparent);
+  --shadow-md: 0 6px 20px -4px rgb(0 0 0 / 0.55);
+  --shadow-lg: 0 32px 80px -20px rgb(0 0 0 / 0.75);
+  --glow-brand: 0 0 0 1px color-mix(in srgb, var(--ember-500) 40%, transparent),
+                0 18px 60px -14px color-mix(in srgb, var(--ember-500) 50%, transparent);
 }
 
-/* ---------- Layer 2b: light theme ---------- */
+/* ---------- Layer 2b: light theme ("Cream") ---------- */
 [data-theme="light"] {
   color-scheme: light;
 
-  --surface-sunken:  var(--ink-50);
-  --surface-base:    var(--ink-0);
-  --surface-raised:  var(--ink-0);
-  --surface-overlay: var(--ink-25);
-  --surface-inset:   var(--ink-50);
+  --surface-sunken:  var(--cream-100);
+  --surface-base:    var(--cream-25);
+  --surface-raised:  var(--cream-0);
+  --surface-overlay: var(--cream-50);
+  --surface-inset:   var(--cream-50);
 
-  --border-subtle:  var(--ink-100);
-  --border-default: var(--ink-200);
-  --border-strong:  var(--ink-300);
+  --border-subtle:  var(--cream-100);
+  --border-default: var(--cream-200);
+  --border-strong:  var(--cream-300);
 
-  --text-primary:   var(--ink-900);
-  --text-secondary: var(--ink-600);
-  --text-muted:     var(--ink-500);
-  --text-inverse:   var(--ink-0);
-  --text-link: var(--violet-600);
-  --text-link-hover: var(--violet-700);
-  --selection-bg: var(--violet-100);
-  --hero-wash: color-mix(in srgb, var(--violet-500) 7%, transparent);
+  --text-primary:   var(--plum-900);
+  --text-secondary: var(--plum-700);
+  --text-muted:     var(--plum-500);
+  --text-inverse:   var(--cream-25);
+  --text-on-accent: var(--plum-900);
+  --text-link: var(--ember-800);
+  --text-link-hover: var(--ember-900);
+  --selection-bg: #ffd9c4;
+  --hero-wash: color-mix(in srgb, var(--ember-500) 10%, transparent);
 
-  --action-primary-bg:       var(--violet-600);
-  --action-primary-bg-hover: var(--violet-700);
-  --action-primary-bg-press: var(--violet-800);
+  --action-primary-bg:       var(--ember-500);
+  --action-primary-bg-hover: var(--gold-400);
+  --action-primary-bg-press: var(--ember-600);
 
-  --action-secondary-bg-hover: var(--ink-50);
-  --action-secondary-border:   var(--ink-200);
+  --action-secondary-bg-hover: var(--cream-50);
+  --action-secondary-border:   var(--cream-300);
 
-  /* Lime at 500 fails contrast on white; step down for light surfaces. */
-  --accent-signature: var(--lime-800);
-  --accent-signature-dim: var(--lime-700);
-  --focus-ring: var(--violet-600);
+  --accent-signature: var(--rose-700);
+  --accent-signature-dim: var(--rose-400);
+  --focus-ring: var(--ember-800);
 
-  /* Extra foreground depth preserves contrast over tinted status backgrounds. */
+  /* Darker stops keep large gradient text above 3:1 on cream. */
+  --grad-display: linear-gradient(100deg, var(--rose-700), var(--ember-800) 55%, #8a4b00);
+
+  --sky-0: var(--cream-25);
+  --sky-1: #fff1e2;
+  --sky-2: #ffdcc4;
+  --sky-3: #ffb08a;
+  --sky-4: #ff8a5c;
+  --land-far: #f2937e;
+  --land-mid: #c45b72;
+  --land-near: #6e2a55;
+  --lake: #4a1d45;
+  --sun-core: #fff4d1;
+  --sun-edge: #ffb35c;
+  --stars: 0;
+
   --status-info-fg:    color-mix(in srgb, var(--blue-600) 85%, var(--ink-950));
   --status-success-fg: color-mix(in srgb, var(--green-600) 85%, var(--ink-950));
   --status-warning-fg: color-mix(in srgb, var(--amber-600) 85%, var(--ink-950));
   --status-error-fg:   color-mix(in srgb, var(--red-600) 85%, var(--ink-950));
 
-  --shadow-sm: 0 1px 2px rgb(16 18 26 / 0.06);
-  --shadow-md: 0 6px 20px -4px rgb(16 18 26 / 0.1);
-  --shadow-lg: 0 28px 64px -20px rgb(16 18 26 / 0.18);
-  --glow-brand: 0 0 0 1px color-mix(in srgb, var(--violet-600) 24%, transparent),
-                0 16px 48px -16px color-mix(in srgb, var(--violet-600) 28%, transparent);
+  --shadow-sm: 0 1px 2px rgb(60 30 20 / 0.08);
+  --shadow-md: 0 8px 24px -6px rgb(60 30 20 / 0.14);
+  --shadow-lg: 0 32px 72px -22px rgb(74 29 69 / 0.32);
+  --glow-brand: 0 0 0 1px color-mix(in srgb, var(--ember-800) 24%, transparent),
+                0 16px 48px -16px color-mix(in srgb, var(--ember-500) 34%, transparent);
 }
 
 /* ---------- Typography ---------- */

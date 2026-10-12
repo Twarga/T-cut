@@ -70,7 +70,7 @@ Details: [starter plan](docs/plan/starter-plan.md).
 
 ## Brand and themes
 
-The **cut T** mark pairs violet with a lime slice. Two themes: **Ink** (dark) and **Paper** (light).
+The **cut T** mark pairs violet with a lime slice. The website uses a golden-hour palette with two themes: **Dusk** (dark) and **Cream** (light). All illustrations are original SVG drawings.
 
 - [Brand guidelines](docs/brand/brand-guidelines.md)
 - [Design system](docs/brand/design-system.md)
