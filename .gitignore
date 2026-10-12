@@ -1,0 +1,26 @@
+# Rust build output
+/target/
+**/*.rs.bk
+*.pdb
+
+# Project-local caches and generated verification output
+/target/verification/
+/corpus/generated/
+*.lceproj/cache/
+
+# Media and model artifacts are never committed
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.wav
+*.flac
+*.gguf
+*.onnx
+*.safetensors
+
+# Editor and OS noise
+.vscode/
+.idea/
+*.swp
+.DS_Store

@@ -1,0 +1,399 @@
+{
+  "product": "t-cut",
+  "captured_at": "2026-10-12T08:59:33.509954+00:00",
+  "method": "Public screenshots visually inspected using read; URLs separately fetched with Python urllib User-Agent Mozilla/5.0 and decoded using Pillow for dimensions/hash. CDN content negotiation can change representation and hash. No CapCut executable was run.",
+  "screenshots": [
+    {
+      "id": "S01",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "722b5d3a4512fbe084c332d4fd766681c2208f20469e6bbe90319db26cdb211e",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/c4c64032de664f92a561361c5449917d~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Home dashboard",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S02",
+      "size": [
+        1919,
+        1062
+      ],
+      "format": "PNG",
+      "sha256": "79e4518c47a2216bc76359ea3f22ea9e80060e438f43a5081902b5de4c63ab97",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/f20642bc9a6f4d518172111f17f23e69~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Empty editor / import",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S03",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "7a1ed8a7966378d8c594f32d52aaada31e3d3105923de57a257a87611bced170",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/8730d3773a1e446c838bc33ea78450b1~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Video selection and filter browser",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S04",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "911556d058a1aa69258b1dbabd47cb9c91d23b9ad74a90083993032d2e85b5dc",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/53ea2032bb3041d6921572035c09cf82~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Transition browser",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S05",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "59deb64a21f83b3ee08edffab381c960532f328cc97528fdd06bb72289689355",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/492e7a512e9f4a14afb089a007fe3246~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Caption generation and text inspector",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S06",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "c7cb7b5252013b1319a7e7a03fa19b5c50cb197067a876b2c1e33ff85ff97054",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/3a3b8094d5c44bddbf408c58a865e3db~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Music browser and voice changer",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S07",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "f4d12a695f44654140958d38030e3475dfe1863366c125d98e2380a9f7025a7a",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/34387373599e4f3bb9e897396db1b92a~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Export settings dialog",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S08",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "e731a4c933ac96e92554f3618b2bf7fd2676f7b119b6205cf6ee889c20fa3011",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/50e42516583341c8a07544766c5f27d8~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Auto reframe inspector",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S09",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "e48a33e0b4a6d1b0793c51d159ffeb8f69fe06050a02860140435b36b837c513",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/69230f4d8308446a9222b8daa66066fb~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Import empty state variant",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S10",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "ccca2ada800af01d7ff22023050ad5f03d74a34dae8a60b031ef1eca2f68df77",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/9de67dc51336414094010fc4c09028b6~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Text to speech inspector",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S11",
+      "size": [
+        1280,
+        675
+      ],
+      "format": "PNG",
+      "sha256": "7dc7fb5b061a683d056f55caf90019dfb9ca70ea2775c78f4751dbf2ccbfb418",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/27e2f6d98a154cae902d34587b1ab257~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Alternate editor cohort",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S12",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "c48215dcbc29394889bdfd3971ade3779325dab5f8805392cab82207689b7f41",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/2df18a1840414ea492f538feebfab34e~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "AI media within timeline editor",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S13",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "f3348734352de7b3c6db09f0bdfd5aa1f944fa9d1f37dc4dabd7b00ef407cddb",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/92f09d5f57754d028ab8b179468c4b19~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Separate AI maker landing",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S14",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "230fd5deb5f938ba2ef6617ad958f925ed6192b1a5d52a3042b394aa54b298c7",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/b99ee656924b48eea9d68334fb09eb11~tplv-2zwwjm3azk-compress:q75.image",
+      "screen": "Separate AI maker storyboard",
+      "source_page": "https://www.capcut.com/resource/how-to-use-capcut-on-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown"
+    },
+    {
+      "id": "S15",
+      "screen": "Transform/keyframe control",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/1e1c6d54dd494dbd81dcb4e928d98ae6~tplv-2zwwjm3azk-compress:q75.image",
+      "source_page": "https://www.capcut.com/resource/how-to-add-keyframes-in-capcut",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        1280,
+        704
+      ],
+      "format": "PNG",
+      "sha256": "5b9321c4e33b1cb59df2e21c275618bd449b38b2bcb130864380ed01b028487e"
+    },
+    {
+      "id": "S16",
+      "screen": "Basic audio inspector",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/afb2522ebe0b42d3b8e9517a075dc2dd~tplv-2zwwjm3azk-compress:q75.image",
+      "source_page": "https://www.capcut.com/resource/how-to-add-keyframes-in-capcut",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        1280,
+        717
+      ],
+      "format": "PNG",
+      "sha256": "23f93b60c3ffc4732c1b65968db43d9424b3ab12332cbeef898ed2a59750d102"
+    },
+    {
+      "id": "S17",
+      "screen": "Basic color inspector",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/a7e1f14a13b6448486da38d199cd3355~tplv-2zwwjm3azk-compress:q75.image",
+      "source_page": "https://www.capcut.com/resource/capcut-color-grading",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "ac70aa066257fb05ebe4e3e34ffd8c582bf904449e60210d96439b46d9d58362"
+    },
+    {
+      "id": "S18",
+      "screen": "Color curves inspector",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/e992699c5c0840c79757029f97682110~tplv-2zwwjm3azk-compress:q75.image",
+      "source_page": "https://www.capcut.com/resource/capcut-color-grading",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "c7f0053dedd7d61c085e9854d63e3a4b9ecb64e5ee3e49b9f0c4c7a747c3dcc2"
+    },
+    {
+      "id": "S19",
+      "screen": "HSL inspector",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/223b43222dfc4bfc9eca38a69dd84db3~tplv-2zwwjm3azk-compress:q75.image",
+      "source_page": "https://www.capcut.com/resource/capcut-color-grading",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "706b11a8fc16a77620b4dc1c1f31f4a697ec3e5744b297518149f559885f17be"
+    },
+    {
+      "id": "S20",
+      "screen": "Color wheel inspector",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/b625bfcfb3cc4a4898acf89caf2aaa5a~tplv-2zwwjm3azk-compress:q75.image",
+      "source_page": "https://www.capcut.com/resource/capcut-color-grading",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        1919,
+        1079
+      ],
+      "format": "PNG",
+      "sha256": "c8ddfd72dbac01974bbc96f183e600a121c98f5af4b2e0d87d7d00e235d40ef0"
+    },
+    {
+      "id": "S21",
+      "screen": "Standard speed inspector",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/d256cfa63d8040d6bb0f345355183d05~tplv-2zwwjm3azk-compress:q75.image",
+      "source_page": "https://www.capcut.com/resource/how-to-speed-up-a-video",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        1680,
+        1002
+      ],
+      "format": "PNG",
+      "sha256": "d34cb5a2c020e5502972c9567cf7a4c6a799663ae5b9b4abd933e7dde7a6025e"
+    },
+    {
+      "id": "S22",
+      "screen": "Timeline context menu",
+      "url": "http://r.tourboxtech.com/file/202405/create-compound-clip-in-capcut.jpg",
+      "source_page": "https://www.tourboxtech.com/en/news/capcut-what-is-a-compound-clip.html",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        1768,
+        940
+      ],
+      "format": "JPEG",
+      "sha256": "6f1b8022a73885731fd5929e86ad169c1d3257137e15408922961ac5b536b332"
+    },
+    {
+      "id": "S23",
+      "screen": "Layout preset menu",
+      "url": "http://r.tourboxtech.com/file/202405/timeline-layout-first-in-capcut.jpg",
+      "source_page": "https://www.tourboxtech.com/en/news/capcut-what-is-a-compound-clip.html",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        826,
+        517
+      ],
+      "format": "JPEG",
+      "sha256": "ac0b4fb821c02dc997ed94da6c52bcfc9e140bfe43666a91c4d7576b3838d231"
+    },
+    {
+      "id": "S24",
+      "screen": "Project card context menu",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/fcced6250af9480fa705c9dc4668a0e9~tplv-2zwwjm3azk-compress:q75.image",
+      "source_page": "https://www.capcut.com/help/delete-history-task",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        1169,
+        695
+      ],
+      "format": "PNG",
+      "sha256": "5df393f8a2c91df721983fb0628ade2b621c4cd9f6269cb92d9e931c7ab0a1bc"
+    },
+    {
+      "id": "S25",
+      "screen": "Move to Trash confirmation",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/5c1abfb8f2f54ac0ab57230be04246a7~tplv-2zwwjm3azk-compress:q75.image",
+      "source_page": "https://www.capcut.com/help/delete-history-task",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        1425,
+        788
+      ],
+      "format": "PNG",
+      "sha256": "8e5869ddbc5be70eb142e587226121a03fbc699c9624209c8fb57195bd15a373"
+    },
+    {
+      "id": "S26",
+      "screen": "General settings",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/99430022cfbe495c82161437cf8a32fa~tplv-2zwwjm3azk-compress:q75.image",
+      "source_page": "https://www.capcut.com/help/how-to-switch-languages-in-capcut",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        512,
+        832
+      ],
+      "format": "PNG",
+      "sha256": "78da4d83ca07cbe03ffb2ca847af2491f53c7164f91918bdfac444ad7ad9f630"
+    },
+    {
+      "id": "S27",
+      "screen": "Link media dialog",
+      "url": "https://www.downloadsource.net/uploaded/ENGLISH_2023/CapCut_Media_Not_Found/CapCut_Media_Not_found_error_solution.png",
+      "source_page": "https://www.downloadsource.net/how-to-fix-media-lost-in-capcut-pc-project-media-not-found/n/23192/",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "unknown",
+      "size": [
+        572,
+        471
+      ],
+      "format": "PNG",
+      "sha256": "5533bf78423ca23f6d1e76750e762bc4a1684c65a6789f2b3b9186792cbb2fed"
+    },
+    {
+      "id": "S28",
+      "screen": "Version 8.11 dialog",
+      "url": "https://p16-seeyou-sg.ibyteimg.com/tos-alisg-i-2zwwjm3azk-sg/758fb9a71d4146f88178c6462d521dcc~tplv-2zwwjm3azk-compress:q75.image",
+      "source_page": "https://www.capcut.com/help/access-cloud-space-capcut-pc",
+      "evidence": "visually_inspected_public_screenshot",
+      "application_build": "8.11 visibly stated in this screenshot only",
+      "size": [
+        785,
+        472
+      ],
+      "format": "PNG",
+      "sha256": "0c3c530530e8ccfa4aab825d32994c670b7b0a0412210963b656b75d0ee3ac1e"
+    }
+  ]
+}
