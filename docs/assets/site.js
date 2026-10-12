@@ -62,6 +62,34 @@
     else if (mq.addListener) mq.addListener(onSystemChange);
   }
 
+  /* ---------- Floating status bar ---------- */
+  /* Visible only between the hero actions and the closing band. Without
+   * IntersectionObserver (or without JS) it stays hidden: the hero already says the same. */
+  var floatBar = document.querySelector("[data-float-cta]");
+  var heroActions = document.querySelector("[data-hero-actions]");
+  var closing = document.querySelector("[data-closing]");
+  if (floatBar && heroActions && "IntersectionObserver" in window) {
+    var pastHero = false;
+    var atEnd = false;
+    var syncFloat = function () {
+      floatBar.classList.toggle("is-visible", pastHero && !atEnd);
+    };
+    floatBar.hidden = false;
+    new IntersectionObserver(function (entries) {
+      var e = entries[entries.length - 1];
+      pastHero = !e.isIntersecting && e.boundingClientRect.top < 0;
+      syncFloat();
+    }).observe(heroActions);
+    if (closing) {
+      new IntersectionObserver(function (entries) {
+        var e = entries[entries.length - 1];
+        /* Stay hidden from the closing band through the footer. */
+        atEnd = e.isIntersecting || e.boundingClientRect.top < 0;
+        syncFloat();
+      }).observe(closing);
+    }
+  }
+
   /* ---------- Roadmap: upgrade stacked sections into a tablist ---------- */
   var tabsRoot = document.querySelector("[data-phase-tabs]");
   if (!tabsRoot) return;

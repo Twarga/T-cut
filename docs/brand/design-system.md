@@ -204,17 +204,17 @@ Thumbnail, title, truthful metadata, open action and context menu. Open uses sta
 
 Title, content, action footer and error/help region. Use native dialog semantics; contain focus, return it to the trigger and document Escape behavior. Export has preview/settings columns; settings has tabs; relink has rows/status. Do not force all three into one identical form. At small sizes or high scaling, stack columns and scroll content while actions remain reachable. Saving is separate from exporting media. Progress is measured or indeterminate, never invented.
 
-### StatusCallout: implemented site
+### Status line and floating status bar: implemented site
 
-**Use:** information that changes a visitor’s decision, such as no application release. **Do not use:** repeated decorative warnings.
+**Use:** information that changes a visitor's decision, such as no application release. **Do not use:** repeated decorative warnings, countdowns or urgency.
 
-`.status-callout` contains a heading, explanatory text and useful links; icon is decorative. Use `--status-warning-bg/fg` and readable body text. Static status is not an interrupting live alert. Dynamic editor errors may use a bounded live announcement when relevant. At narrow widths, icon/content stack. It is visible before the feature sections so planned features cannot imply current availability.
+`.home-hero-status` sits directly under the hero actions and states that the editor is not built and nothing can be downloaded. `.float-cta` repeats that status with one "Read the plan" link. It starts `hidden`; JavaScript shows it only after the hero actions leave the viewport and hides it again from the closing band onward, so it never duplicates an action already on screen. Hidden states use `visibility: hidden` to stay out of the tab order. `scroll-padding-bottom` keeps focused elements clear of it. Static status is not an interrupting live alert.
 
 ### Tabs: implemented site
 
 **Use:** peer roadmap sections. **Do not use:** to hide unrelated navigation or essential status.
 
-HTML starts as working anchor links and six headed sections. JavaScript adds `tablist`, `tab`, `tabpanel`, roving tabindex, `aria-selected`, panel labels and orientation. Desktop vertical tabs use Up/Down; narrow horizontal tabs use Left/Right. Home/End jump; Enter/Space activate. One panel appears with JS; all remain readable without it. Selection has a slice indicator and semantics. Long labels wrap. Avoid automatic rotation and hover selection.
+HTML starts as working anchor links and six headed sections. JavaScript adds `tablist`, `tab`, `tabpanel`, roving tabindex, `aria-selected`, panel labels and orientation. Desktop vertical tabs use Up/Down; narrow horizontal tabs use Left/Right. Home/End jump; Enter/Space activate. One panel appears with JS; all remain readable without it. On desktop the tabs are a large type list and the selected one carries a lime bar; on narrow screens they are a horizontally scrolling row and the selected one is filled. Selection never relies on color alone. Avoid automatic rotation and hover selection.
 
 ### FeatureCard: brand page
 

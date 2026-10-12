@@ -21,7 +21,7 @@
 
 ### Site and docs readability
 
-- Rebuilt the landing page: centered hero, status callout, numbered feature groups, a phase tablist, a stack table and an evidence section. Removed the stats strip and the identical feature cards.
+- Redesigned the landing page using CapCut's site as a layout reference only: a large centered hero, an editor concept drawn in HTML and CSS, a numbered v0.1 accordion, the three planned canvas shapes, a large-type roadmap list, four promise cards, sourced project numbers, the stack table, a violet closing band and a floating status bar. No CapCut assets, copy, stats or testimonials.
 - Rewrote the roadmap, plan, research and fidelity docs into short sections, tables and "At a glance" summaries. Requirements, IDs, numbers, gates and links are unchanged.
 - Removed em dashes from docs, SVG titles, and HTML/CSS comments, and replaced banned filler words.
 
