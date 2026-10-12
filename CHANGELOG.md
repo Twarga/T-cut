@@ -28,4 +28,10 @@
 - Rewrote the roadmap, plan, research and fidelity docs into short sections, tables and "At a glance" summaries. Requirements, IDs, numbers, gates and links are unchanged.
 - Removed em dashes from docs, SVG titles, and HTML/CSS comments, and replaced banned filler words.
 
+### Plan updates
+
+- Crates, binaries and paths now use the `tcut-*` prefix (`tcut-core`, `tcut-engine`, `apps/tcut-desktop`, ...) instead of `lce-*`; project folders use `.tcutproj/`. Only names changed.
+- The app code lives in a separate repository, `tcut-editor/`, prepared with an agent manual, a read-only spec snapshot, per-version execution plans and a quality gate.
+- The starter plan now records that a newer matched binding family exists (gtk4 0.11, glib 0.22, gstreamer 0.25, gst-plugin-gtk4 0.15); T01 chooses one family and records it in the engine ADR.
+
 The desktop video editor remains unimplemented. These changes do not qualify a renderer or complete Phase 0.

@@ -1,6 +1,6 @@
 # Engineering Qualification and First Editable Export Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans. Steps use checkboxes (`- [ ]`).
+> **For agentic workers:** in the app repository, follow the `tcut-version-workflow` skill and the matching file in `docs/versions/`. Steps use checkboxes (`- [ ]`).
 
 ## At a glance
 
@@ -8,7 +8,7 @@
 - **Scope:** this is the engineering starter and first safe edit/export slice. It is **not** the whole v0.1 release. The [MVP contract](release-roadmap.md) also needs Home, basic geometry/text/audio, settings, relink/recovery, and installed-package acceptance.
 - **Architecture:** [architecture.md](architecture.md). Key ideas: ownership, rational time, immutable render snapshots, durable saves.
 - **Spec:** [product-spec.md](product-spec.md) features F01–F04, F09, F29, F30, F36. Parent tasks T01–T09 in [implementation.md](implementation.md).
-- **Stack:** Rust 1.96.0 (initial pin). GTK4 Rust 0.10, GLib 0.21, GStreamer/GES Rust 0.24, GTK sink 0.14. Native floors: GTK ≥4.14, GStreamer/GES ≥1.26.
+- **Stack:** Rust 1.96.0 (initial pin). Planned family: GTK4 Rust 0.10, GLib 0.21, GStreamer/GES Rust 0.24, GTK sink 0.14. Native floors: GTK ≥4.14, GStreamer/GES ≥1.26. As of 2026-10-12 a newer matched family also exists (gtk4 0.11, glib 0.22, gstreamer 0.25, gst-plugin-gtk4 0.15); T01 selects one family and records it in the engine ADR.
 - **Known open issue:** a nominal 4-second, 30 fps render produced **121 frames (4.033333 seconds)**. T01 must explain and fix it, or reject the engine.
 
 > **Rule:** this is a plan, not a created app. Every shell command below is a **future instruction**, unless it is listed as observed. No packages were installed, no models downloaded, and no repo created.
@@ -34,7 +34,7 @@ Checked during the research session:
 
 ## B. Repository and dependency setup
 
-- [ ] Create `linux-creator-editor/` as a **new sibling** project. Do not put it inside or replace `photocraft/`. Confirm the path before running shell setup.
+- [ ] Work in the separate app repository `tcut-editor/` (prepared as a starter folder with `AGENTS.md`, skills and version plans). Do not put app code in the planning/website repository and do not touch `photocraft/`. Confirm the path before running shell setup.
 - [ ] Add `LICENSE` (GPL-3.0-or-later), SPDX headers, `README.md`, `.gitignore`, `rust-toolchain.toml`, and root `Cargo.toml`. Don't move existing research repos.
 - [ ] Pick a maintained Flatpak SDK or runtime that meets the native floors. Record the exact runtime branch, commit, and offline source hashes. Native Fedora dev is useful, but it does not replace package qualification.
 - [ ] Lock the matched dependency families below. Run `cargo tree -d` to catch duplicate GLib families. Check advisories before freezing the lockfile.
@@ -44,9 +44,9 @@ Checked during the research session:
 ```toml
 [workspace]
 members = [
-  "apps/lce-desktop",
-  "crates/lce-core",
-  "crates/lce-engine",
+  "apps/tcut-desktop",
+  "crates/tcut-core",
+  "crates/tcut-engine",
 ]
 resolver = "3"
 
@@ -150,7 +150,7 @@ ffmpeg -v error -i target/qualification/q01.webm -f null -
 
 ## D. First domain tests
 
-Define the public domain APIs in `lce-core` **before** UI code touches state.
+Define the public domain APIs in `tcut-core` **before** UI code touches state.
 
 - **Types:** `Time`, `FrameRate`, `TimeRange`, `Project`, `Sequence`, `Track`, `Clip`, `Command`, `EditError`.
 - **Rule:** constructors validate invariants. No GLib types enter this crate.

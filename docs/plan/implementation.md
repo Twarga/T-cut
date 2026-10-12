@@ -47,7 +47,7 @@ Critical path: T01 → T02 → T03/T04 → T05 → T07/T08 → T09 → creator t
 ## T01: Qualify the media/UI stack before committing to it
 
 Dependencies: none. Detailed initial commands and manifest: [starter-plan.md](starter-plan.md).
-Files: create root manifests/toolchain, `crates/lce-engine/examples/qualify.rs`, `apps/lce-desktop/src/main.rs`, `corpus/manifests/engine-qualification.json`, `docs/adr/0001-media-engine.md` and `packaging/flatpak/qualification.yml`.
+Files: create root manifests/toolchain, `crates/tcut-engine/examples/qualify.rs`, `apps/tcut-desktop/src/main.rs`, `corpus/manifests/engine-qualification.json`, `docs/adr/0001-media-engine.md` and `packaging/flatpak/qualification.yml`.
 
 - [ ] Resolve the matched GTK/GLib/GStreamer/sink families; compile a minimal real Rust preview window, not a web mock. Inventory actual decoders, encoders and native licenses in the chosen runtime.
 - [ ] Generate an owned numbered-frame/color-patch/impulse-audio corpus. Exercise cut, overlap/transition, alpha title, random seek, frame-step, repeated rate changes, reverse, nested mapping, mixed sample rates and VFR mapping in Rust.
@@ -55,12 +55,12 @@ Files: create root manifests/toolchain, `crates/lce-engine/examples/qualify.rs`,
 - [ ] Measure whether preview GES controls block GTK; qualify thread/sink ownership. Probe software and available hardware paths; record copies and capability failures.
 - [ ] Accept GES only with documented implementations for all hard paths. If a gap remains, run the same fixtures through a bounded MLT experiment and select one production backend with reasons. If choosing a custom time-map/effect element, specify and qualify it here before promising the feature.
 
-Verify: `cargo run -p lce-engine --example qualify -- --corpus corpus/manifests/engine-qualification.json`; launch GTK example; inspect decoded frame labels and audio impulses. Exit: evidence-backed engine ADR, not “example compiles.”
+Verify: `cargo run -p tcut-engine --example qualify -- --corpus corpus/manifests/engine-qualification.json`; launch GTK example; inspect decoded frame labels and audio impulses. Exit: evidence-backed engine ADR, not “example compiles.”
 
 ## T02: Exact model, commands and durable project foundation
 
 Dependencies: T01 backend boundary selected.
-Files: create `crates/lce-core/src/{time,model,command,history,validate}.rs`, `crates/lce-project/src/{snapshot,journal,migrate}.rs`, `schemas/project-v1.json`; tests `crates/lce-core/tests/edit_invariants.rs`, `crates/lce-project/tests/crash_recovery.rs`.
+Files: create `crates/tcut-core/src/{time,model,command,history,validate}.rs`, `crates/tcut-project/src/{snapshot,journal,migrate}.rs`, `schemas/project-v1.json`; tests `crates/tcut-core/tests/edit_invariants.rs`, `crates/tcut-project/tests/crash_recovery.rs`.
 
 - [ ] Implement normalized rational times, checked arithmetic, half-open intervals, explicit rate conversion, stable IDs and validated deserialization. Reject zero denominators, invalid references and impossible source ranges.
 - [ ] Implement atomic command validation/apply/inverse and revision checks. Separate durable model, view selection and transient pointer draft state.
@@ -72,7 +72,7 @@ Verify: both named tests, plus a process-kill/reopen scenario on a disposable lo
 ## T03: Asset discovery and safe import
 
 Dependencies: T02.
-Files: create `crates/lce-media/src/{discover,asset,hash}.rs`, `apps/lce-desktop/src/panels/import.rs`; test `crates/lce-media/tests/discovery.rs`.
+Files: create `crates/tcut-media/src/{discover,asset,hash}.rs`, `apps/tcut-desktop/src/panels/import.rs`; test `crates/tcut-media/tests/discovery.rs`.
 
 - [ ] Probe media in a bounded worker; enumerate streams and preserve orientation, SAR, VFR PTS, color, channel layout and uncertain duration.
 - [ ] Store file/portal locator separately from content identity. Import multiple assets incrementally with individual errors; do not roll back successful unrelated imports after one corrupt file.
@@ -84,7 +84,7 @@ Verify: discovery test plus actual import of the corpus through the file chooser
 ## T04: Home, project lifecycle, real workbench and transport
 
 Dependencies: T01, T02, T03.
-Files: create `apps/lce-desktop/src/{app,actions,workspace,navigation}.rs`, `src/home/{view,project_card,actions,trash}.rs`, `src/panels/{library,player,inspector,timeline}.rs` and `src/dialogs/{settings,project_settings,shortcuts}.rs` under that app, plus resources tokens/styles; `crates/lce-project/src/registry.rs`; `crates/lce-engine/src/{owner,transport,events}.rs`; test `crates/lce-engine/tests/transport.rs`. Existing T07/T08 own export/relink/recovery integration.
+Files: create `apps/tcut-desktop/src/{app,actions,workspace,navigation}.rs`, `src/home/{view,project_card,actions,trash}.rs`, `src/panels/{library,player,inspector,timeline}.rs` and `src/dialogs/{settings,project_settings,shortcuts}.rs` under that app, plus resources tokens/styles; `crates/tcut-project/src/registry.rs`; `crates/tcut-engine/src/{owner,transport,events}.rs`; test `crates/tcut-engine/tests/transport.rs`. Existing T07/T08 own export/relink/recovery integration.
 
 - [ ] Build the screenshot-backed Home/project dashboard, real recent-project registry/cards, Create/Open/Rename/Duplicate/Trash/Restore and return-Home flow. Then build the editor with horizontal library categories, inner vertical categories, Player, context-sensitive Details/Video/Audio/Text inspector, and undo/redo in the timeline toolbar. Follow the [fidelity contract](../research/fidelity-contract.md), not the earlier generic wireframe; preserve original media and durable saves across navigation.
 - [ ] Implement sequence/source mode, seek generations, play/pause, frame-step, loop, time fields, quality choice and visible buffering/failure state.
@@ -97,7 +97,7 @@ Verify: transport test and real GUI playback with synchronized click/flash media
 ## T05: Basic editing and undo
 
 Dependencies: T02–T04.
-Files: extend core command/history; create `apps/lce-desktop/src/timeline/{gestures,hit_test,selection}.rs`; test `crates/lce-core/tests/timeline_edits.rs`.
+Files: extend core command/history; create `apps/tcut-desktop/src/timeline/{gestures,hit_test,selection}.rs`; test `crates/tcut-core/tests/timeline_edits.rs`.
 
 - [ ] Implement insert/move/trim/split/delete/duplicate with typed source/sequence time rules, collision policy, track compatibility and locks.
 - [ ] Implement draft-gesture preview, commit once on release, Escape/capture-loss rollback and undo/redo. Preserve link and animation references even before advanced editors expose them.
@@ -109,7 +109,7 @@ Verify: named test plus actual GUI edit/playback/export once T07 lands; MVP edit
 ## T06: Media library, proxies and bounded caches
 
 Dependencies: T03, T04.
-Files: create `crates/lce-media/src/{thumbnail,waveform,proxy,cache}.rs`, `crates/lce-jobs/src/{queue,cancel,budget}.rs`; tests `crates/lce-media/tests/proxy_mapping.rs`, `crates/lce-jobs/tests/cancellation.rs`.
+Files: create `crates/tcut-media/src/{thumbnail,waveform,proxy,cache}.rs`, `crates/tcut-jobs/src/{queue,cancel,budget}.rs`; tests `crates/tcut-media/tests/proxy_mapping.rs`, `crates/tcut-jobs/tests/cancellation.rs`.
 
 - [ ] Add bins, search, sort, thumbnail strips and multiresolution waveform envelopes; selection/insertion remain distinct actions.
 - [ ] Implement content/parameter/version keyed cache, bounded disk quota, LRU eviction and pinning for active jobs. Eviction may delete disposable caches, never sources or accepted derived media.
@@ -121,7 +121,7 @@ Verify: named tests; play the same VFR edit with proxies on/off and compare iden
 ## T07: Headless rendering and first export UI
 
 Dependencies: T01–T06.
-Files: create `apps/lce-cli/src/main.rs`, `crates/lce-engine/src/{compile,render,profiles}.rs`, `apps/lce-desktop/src/dialogs/export.rs`; test `crates/lce-engine/tests/export_boundaries.rs`.
+Files: create `apps/tcut-cli/src/main.rs`, `crates/tcut-engine/src/{compile,render,profiles}.rs`, `apps/tcut-desktop/src/dialogs/export.rs`; test `crates/tcut-engine/tests/export_boundaries.rs`.
 
 - [ ] Implement CLI `inspect PROJECT`, `render PROJECT --output FILE --profile NAME`, and `verify-media FILE --expect-frames N`. Return structured errors and nonzero exit on invalid output.
 - [ ] Compile immutable render snapshot; resolve originals, declared effects and exact output frame range. Reject missing dependencies before final destination publication.
@@ -133,7 +133,7 @@ Verify: named test; actual CLI/GUI export, full decode, first/last frame identit
 ## T08: Recovery, project portability and real scenario runner
 
 Dependencies: T02, T06, T07.
-Files: extend `crates/lce-project/src/{recovery,collect,relink}.rs`; create `xtask/src/{main,verify,corpus}.rs`, `corpus/scenarios/{offline,recovery,collect}.json`; test `crates/lce-project/tests/portable_project.rs`.
+Files: extend `crates/tcut-project/src/{recovery,collect,relink}.rs`; create `xtask/src/{main,verify,corpus}.rs`, `corpus/scenarios/{offline,recovery,collect}.json`; test `crates/tcut-project/tests/portable_project.rs`.
 
 - [ ] Implement recovery chooser, missing-media relink by identity, Collect project and safe archive/unarchive with path/size limits.
 - [ ] Keep external locators and collected relative paths explicit. Prevent archive traversal/symlink escape; report unsupported fonts/effects/models in portability report.
@@ -145,7 +145,7 @@ Verify: portable project test; `cargo run -p xtask -- verify recovery`, then `..
 ## T09: Familiar timeline mode contract
 
 Dependencies: T05, T08.
-Files: create `crates/lce-core/src/{ripple,links,snap}.rs`, `apps/lce-desktop/src/timeline/modes.rs`; test `crates/lce-core/tests/mode_matrix.rs`; scenario `timeline-modes`.
+Files: create `crates/tcut-core/src/{ripple,links,snap}.rs`, `apps/tcut-desktop/src/timeline/modes.rs`; test `crates/tcut-core/tests/mode_matrix.rs`; scenario `timeline-modes`.
 
 - [ ] Implement independent snapping, main-track magnet, linked selection, AV pairing and follow anchors exactly as UI contract; make each mode visible.
 - [ ] Implement deterministic snap resolution/hysteresis; distinguish all-track ripple from main-track operations. Locked dependent item rejects the transaction.
@@ -157,7 +157,7 @@ Verify: mode matrix test and `... verify timeline-modes`; observe drag previews 
 ## T10: Geometry, crop and canvas
 
 Dependencies: T04, T05, T07. T10-basic (position/scale, fit/fill and canvas) ships in v0.1; remaining static geometry ships in v0.2 using the same modules.
-Files: create `crates/lce-effects/src/{transform,crop,canvas}.rs`, `apps/lce-desktop/src/player/handles.rs`; test `crates/lce-effects/tests/geometry.rs`; scenario `geometry`.
+Files: create `crates/tcut-effects/src/{transform,crop,canvas}.rs`, `apps/tcut-desktop/src/player/handles.rs`; test `crates/tcut-effects/tests/geometry.rs`; scenario `geometry`.
 
 - [ ] Implement normalized anchor, position, scale, rotation, flip, crop, fit/fill and background with explicit coordinate spaces.
 - [ ] Map preview pointer through window scale/letterbox/source orientation into sequence coordinates; numeric fields and gestures dispatch the same command.
@@ -168,7 +168,7 @@ Verify: geometry test and actual rendered labeled corners for rotated/SAR media;
 ## T11: Keyframes and curves
 
 Dependencies: T10, T09.
-Files: create `crates/lce-core/src/animation.rs`, `apps/lce-desktop/src/panels/curves.rs`; test `crates/lce-core/tests/animation_split.rs`; scenario `keyframes`.
+Files: create `crates/tcut-core/src/animation.rs`, `apps/tcut-desktop/src/panels/curves.rs`; test `crates/tcut-core/tests/animation_split.rs`; scenario `keyframes`.
 
 - [ ] Implement typed numeric/vector/color interpolation, hold/linear/cubic modes and property eligibility; serialize stable units and time domain.
 - [ ] Add diamond controls, previous/next key, curve editor and numeric tangent/time/value alternatives; one gesture is one undo operation.
@@ -179,7 +179,7 @@ Verify: evaluate known curves before/after split at multiple interior times; ren
 ## T12: Speed maps, reverse and freeze
 
 Dependencies: T01 hard-path solution, T11.
-Files: create `crates/lce-core/src/time_map.rs`, `crates/lce-engine/src/retime.rs`, `apps/lce-desktop/src/panels/speed.rs`; test `crates/lce-engine/tests/retiming.rs`; scenario `speed`.
+Files: create `crates/tcut-core/src/time_map.rs`, `crates/tcut-engine/src/retime.rs`, `apps/tcut-desktop/src/panels/speed.rs`; test `crates/tcut-engine/tests/retiming.rs`; scenario `speed`.
 
 - [ ] Implement constant speed, explicit reverse/freeze segments and integrated positive ramp curves; validate source bounds and output-duration changes before commit.
 - [ ] Implement qualified reverse decode/cache path and pitch-preserving time stretch where available. Variable-rate audio smoothing is measured, not assumed from a constant-rate element.
@@ -191,7 +191,7 @@ Verify: numbered-frame reverse/freeze/ramp output, endpoint count and impulse au
 ## T13: Groups, compounds, adjustment layers and multicamera
 
 Dependencies: T09–T12.
-Files: create `crates/lce-core/src/{sequence_graph,multicam}.rs`, `crates/lce-engine/src/nesting.rs`, `apps/lce-desktop/src/timeline/breadcrumbs.rs`; test `crates/lce-core/tests/nested_sequences.rs`; scenario `compound`.
+Files: create `crates/tcut-core/src/{sequence_graph,multicam}.rs`, `crates/tcut-engine/src/nesting.rs`, `apps/tcut-desktop/src/timeline/breadcrumbs.rs`; test `crates/tcut-core/tests/nested_sequences.rs`; scenario `compound`.
 
 - [ ] Distinguish selection group from child sequence. Implement create/open/exit/decompose compound with stable child IDs and explicit parent time map.
 - [ ] Reject cycles, excessive depth and expansion; render child composition consistently and cache by content/revision rather than mutable pointer identity.
@@ -203,7 +203,7 @@ Verify: create compound, animate/retime it, change child, decompose, undo and re
 ## T14: Transitions
 
 Dependencies: T11, T13.
-Files: create `crates/lce-effects/src/transitions.rs`, `assets/presets/transitions/`, `apps/lce-desktop/src/panels/transitions.rs`; test `crates/lce-effects/tests/transition_handles.rs`; scenario `transitions`.
+Files: create `crates/tcut-effects/src/transitions.rs`, `assets/presets/transitions/`, `apps/tcut-desktop/src/panels/transitions.rs`; test `crates/tcut-effects/tests/transition_handles.rs`; scenario `transitions`.
 
 - [ ] Implement dissolve, fade-through-color, wipe and slide as original parameterized operators; transition duration uses explicit overlap and source handles.
 - [ ] Dropping a transition shows needed handles and allowed duration; insufficient handles require shorten/freeze policy chosen visibly, not hidden duplicated frames.
@@ -214,7 +214,7 @@ Verify: cut/transition boundary frames and audio overlap independently; changing
 ## T15: Masks, chroma and blending
 
 Dependencies: T10, T11, T13.
-Files: create `crates/lce-effects/src/{mask,chroma,blend}.rs`, `apps/lce-desktop/src/panels/mask.rs`; test `crates/lce-effects/tests/compositing.rs`; scenario `compositing`.
+Files: create `crates/tcut-effects/src/{mask,chroma,blend}.rs`, `apps/tcut-desktop/src/panels/mask.rs`; test `crates/tcut-effects/tests/compositing.rs`; scenario `compositing`.
 
 - [ ] Implement rectangle/ellipse/path masks, invert, feather and keyframed transforms with explicit resolution-independent coordinates.
 - [ ] Implement chroma sampling/tolerance/spill control and documented blend-mode formulas; enforce premultiplied-alpha convention at boundaries.
@@ -225,7 +225,7 @@ Verify: synthetic alpha/color edges, overlapping translucent layers and feathere
 ## T16: Color, LUTs, scopes and HDR path
 
 Dependencies: T10, T15.
-Files: create `crates/lce-effects/src/{color,lut,scopes}.rs`, `apps/lce-desktop/src/panels/color.rs`; test `crates/lce-effects/tests/color_pipeline.rs`; scenario `color`.
+Files: create `crates/tcut-effects/src/{color,lut,scopes}.rs`, `apps/tcut-desktop/src/panels/color.rs`; test `crates/tcut-effects/tests/color_pipeline.rs`; scenario `color`.
 
 - [ ] Implement input metadata interpretation, explicit working/output transforms, exposure/contrast/temperature/tint/saturation, curves, HSL and color wheels with documented units.
 - [ ] Parse bounded LUT files with defined domains/interpolation; reject invalid sizes/NaNs. Scopes sample the selected pipeline stage, not an unrelated thumbnail.
@@ -236,7 +236,7 @@ Verify: reference color patches/range ramps, HDR metadata and SDR tone-map fixtu
 ## T17: Effects, filters and retouch
 
 Dependencies: T11, T15, T16; landmark/AI-dependent retouch also uses T23 job contracts.
-Files: create `crates/lce-effects/src/{catalog,blur,sharpen,retouch}.rs`, `assets/presets/filters/`; test `crates/lce-effects/tests/effect_order.rs`; scenario `effects`.
+Files: create `crates/tcut-effects/src/{catalog,blur,sharpen,retouch}.rs`, `assets/presets/filters/`; test `crates/tcut-effects/tests/effect_order.rs`; scenario `effects`.
 
 - [ ] Add deterministic blur/sharpen/vignette/noise/glow/texture operators with bounded parameters and original presets; effect catalog resolves stable semantic versions.
 - [ ] Store filters as inspectable parameter bundles, not opaque proprietary look files. Adjustment, per-clip and global effect scopes are visible.
@@ -247,7 +247,7 @@ Verify: operator reference fixtures, reorder/disable/undo, extreme valid paramet
 ## T18: Typography, graphics and text animation
 
 Dependencies: basic static text consumes T10-basic, T02 and T07 for v0.1; static styling expansion uses the same text path in v0.2. Full animated/composited closure consumes T10, T11 and T15 in v0.3. Do not make static text depend on keyframes or masks.
-Files: create `crates/lce-effects/src/{text,shapes}.rs`, `apps/lce-desktop/src/panels/text.rs`, `assets/fonts/manifest.json`; test `crates/lce-effects/tests/text_shaping.rs`; scenario `typography`.
+Files: create `crates/tcut-effects/src/{text,shapes}.rs`, `apps/tcut-desktop/src/panels/text.rs`, `assets/fonts/manifest.json`; test `crates/tcut-effects/tests/text_shaping.rs`; scenario `typography`.
 
 - [ ] Implement shaping, font selection/fallback, alignment, wrapping, line spacing, outline/shadow/background and safe-area guides using a consistent layout contract.
 - [ ] Add vector/basic shapes and original stickers; sanitize imported SVG, reject external resources/scripts and bound rasterization cost.
@@ -258,7 +258,7 @@ Verify: Arabic mixed with Latin/numbers, CJK wrapping, combining marks, emoji fa
 ## T19: Deterministic audio editing and mixing
 
 Dependencies: basic gain/fades/mixing consumes T02, T05 and T07 for v0.1; v0.2 static controls additionally use T09. Full automation/retimed-audio closure consumes T09, T11 and T12 in v0.3. Reuse the same audio modules across releases.
-Files: create `crates/lce-engine/src/audio.rs`, `crates/lce-effects/src/{audio_gain,audio_eq,ducking}.rs`, `apps/lce-desktop/src/panels/audio.rs`; test `crates/lce-engine/tests/audio_timing.rs`; scenario `audio`.
+Files: create `crates/tcut-engine/src/audio.rs`, `crates/tcut-effects/src/{audio_gain,audio_eq,ducking}.rs`, `apps/tcut-desktop/src/panels/audio.rs`; test `crates/tcut-engine/tests/audio_timing.rs`; scenario `audio`.
 
 - [ ] Implement extract/detach, fades, gain automation, pan/channel layout, mute/solo, buses and non-destructive trim/loop.
 - [ ] Add peak/loudness meters, loudness analysis/normalization and ducking with explicit threshold/attack/release; report target and measured result separately.
@@ -269,7 +269,7 @@ Verify: impulse position, stereo channel identity, silence/gap behavior, mixed s
 ## T20: Manual and automatic captions
 
 Dependencies: manual captions consume T08 plus static T18 text and basic T19 timing in v0.2. Qualified transcription/word highlighting uses the required completed T18/T19 controls and local worker infrastructure in v0.3; model download/inference must not gate manual subtitles.
-Files: create `crates/lce-ai/src/{manifest,transcribe}.rs`, `workers/whisper/`, `crates/lce-interchange/src/subtitles.rs`, `apps/lce-desktop/src/panels/captions.rs`; tests `crates/lce-interchange/tests/subtitle_roundtrip.rs`, `crates/lce-ai/tests/transcription_apply.rs`; scenario `captions`.
+Files: create `crates/tcut-ai/src/{manifest,transcribe}.rs`, `workers/whisper/`, `crates/tcut-interchange/src/subtitles.rs`, `apps/tcut-desktop/src/panels/captions.rs`; tests `crates/tcut-interchange/tests/subtitle_roundtrip.rs`, `crates/tcut-ai/tests/transcription_apply.rs`; scenario `captions`.
 
 - [ ] Implement manual captions and SRT/VTT parsing/export before model integration; retain timing/text and warn about styling loss.
 - [ ] Add explicit model download/license/size UI and local transcription worker; actual speech input produces editable segments/words, never a canned transcript.
@@ -280,7 +280,7 @@ Verify: offline multilingual speech corpus, timing/text round-trip, cancel, chan
 ## T21: Translation, diarization and transcript editing
 
 Dependencies: T20, T09.
-Files: create `crates/lce-ai/src/{translate,diarize,transcript}.rs`, `apps/lce-desktop/src/panels/transcript.rs`; test `crates/lce-core/tests/transcript_edits.rs`; scenario `transcript`.
+Files: create `crates/tcut-ai/src/{translate,diarize,transcript}.rs`, `apps/tcut-desktop/src/panels/transcript.rs`; test `crates/tcut-core/tests/transcript_edits.rs`; scenario `transcript`.
 
 - [ ] Integrate qualified language-pair and diarization packs with independent license manifests; unknown speakers remain anonymous labels.
 - [ ] Store translated captions as a separate linked language layer; preserve original transcript and let users correct timing/text independently.
@@ -291,7 +291,7 @@ Verify: overlaps, two speakers, code switching, punctuation edits, low-confidenc
 ## T22: Tracking, stabilization and reframe
 
 Dependencies: T11, T12, T15, T08.
-Files: create `crates/lce-ai/src/{tracking,stabilize,reframe}.rs`, `apps/lce-desktop/src/panels/tracking.rs`; test `crates/lce-ai/tests/analysis_coordinates.rs`; scenario `tracking`.
+Files: create `crates/tcut-ai/src/{tracking,stabilize,reframe}.rs`, `apps/tcut-desktop/src/panels/tracking.rs`; test `crates/tcut-ai/tests/analysis_coordinates.rs`; scenario `tracking`.
 
 - [ ] Implement selected-region tracking in source coordinates with confidence/lost states and manual correction keys. Reuse qualified classical tracking where sufficient; avoid unnecessary foundational-model inference.
 - [ ] Stabilize by estimating/smoothing camera motion with explicit crop/rolling-shutter limitations; result is an editable transform path or derived asset.
@@ -302,7 +302,7 @@ Verify: occlusion, scene cuts, camera shake, fast motion, vertical crop and reti
 ## T23: Segmentation, matting and inpainting
 
 Dependencies: T15, T22, T08.
-Files: create `crates/lce-ai/src/{segment,matte,inpaint}.rs`, model-specific worker directories, `apps/lce-desktop/src/panels/cutout.rs`; test `crates/lce-ai/tests/mask_mapping.rs`; scenario `cutout`.
+Files: create `crates/tcut-ai/src/{segment,matte,inpaint}.rs`, model-specific worker directories, `apps/tcut-desktop/src/panels/cutout.rs`; test `crates/tcut-ai/tests/mask_mapping.rs`; scenario `cutout`.
 
 - [ ] Integrate separately qualified segmentation and alpha-matting models; click/brush prompts and edge refinement remain user-editable.
 - [ ] Cache temporal masks by source frame identity and parameters. Keep source-time mapping through speed/trim changes; invalidate correctly.
@@ -313,7 +313,7 @@ Verify: hair, translucent edges, motion blur, occlusion, cuts and difficult back
 ## T24: Speech cleanup, separation and voice effects
 
 Dependencies: T19, T20 worker infrastructure.
-Files: create `crates/lce-ai/src/{denoise,separate,voice_effect}.rs`, native/model workers; test `crates/lce-ai/tests/audio_latency.rs`; scenario `voice-cleanup`.
+Files: create `crates/tcut-ai/src/{denoise,separate,voice_effect}.rs`, native/model workers; test `crates/tcut-ai/tests/audio_latency.rs`; scenario `voice-cleanup`.
 
 - [ ] Integrate qualified speech denoise/enhance models with exact sample-rate conversion and lookahead compensation.
 - [ ] Separate vocal/music stems as independently editable derived assets; retain originals and align stem start/end precisely.
@@ -324,7 +324,7 @@ Verify: speech plus music/noise corpus, latency impulse, stereo preservation, ar
 ## T25: Beats and music-driven edits
 
 Dependencies: T19, T11.
-Files: create `crates/lce-ai/src/beats.rs`, `apps/lce-desktop/src/panels/beats.rs`; test `crates/lce-core/tests/beat_edits.rs`; scenario `beats`.
+Files: create `crates/tcut-ai/src/beats.rs`, `apps/tcut-desktop/src/panels/beats.rs`; test `crates/tcut-core/tests/beat_edits.rs`; scenario `beats`.
 
 - [ ] Detect onset/tempo candidates and expose editable beat markers with confidence; support manual tap/add/remove for rubato or failed detection.
 - [ ] Suggest beat-aligned cuts/keyframes subject to minimum clip durations and source handles; display a complete preview transaction.
@@ -335,7 +335,7 @@ Verify: metronome ground truth, changing tempo, quiet intro and off-beat music; 
 ## T26: TTS, cloning and dubbing
 
 Dependencies: T20, T21, T24.
-Files: create `crates/lce-ai/src/{tts,voice_consent,dub}.rs`, voice manifests/workers; test `crates/lce-ai/tests/dubbing_alignment.rs`; scenario `dubbing`.
+Files: create `crates/tcut-ai/src/{tts,voice_consent,dub}.rs`, voice manifests/workers; test `crates/tcut-ai/tests/dubbing_alignment.rs`; scenario `dubbing`.
 
 - [ ] Integrate qualified local TTS/voice packs, language/pronunciation controls and preview; model/voice rights visible before installation.
 - [ ] Implement explicit consent attestation and provenance for custom voice cloning, local reference deletion controls and abuse-report policy for hosted services. Do not claim this proves legal identity.
@@ -346,7 +346,7 @@ Verify: long/short translations, names/numbers, absent voice pack, consent cance
 ## T27: Search, highlights and script/storyboard assembly
 
 Dependencies: T20, T21, T22, T31 template schema when assembling recipes.
-Files: create `crates/lce-ai/src/{search,highlights,storyboard}.rs`, `apps/lce-desktop/src/panels/storyboard.rs`; test `crates/lce-ai/tests/storyboard_apply.rs`; scenario `storyboard`.
+Files: create `crates/tcut-ai/src/{search,highlights,storyboard}.rs`, `apps/tcut-desktop/src/panels/storyboard.rs`; test `crates/tcut-ai/tests/storyboard_apply.rs`; scenario `storyboard`.
 
 - [ ] Build local transcript/metadata search first; optional embeddings add semantic search with model/version keyed indices and deletable caches.
 - [ ] Suggest highlights/long-to-short extracts with source ranges, captions and reframe proposals. User reviews and accepts a new sequence, leaving original untouched.
@@ -357,7 +357,7 @@ Verify: search relevance on labeled corpus, source-range fidelity and revised so
 ## T28: Linux capture and recording
 
 Dependencies: T03, T19, T08.
-Files: create `crates/lce-media/src/{capture,devices}.rs`, `apps/lce-desktop/src/dialogs/record.rs`; test `crates/lce-media/tests/capture_timestamps.rs`; scenario `capture`.
+Files: create `crates/tcut-media/src/{capture,devices}.rs`, `apps/tcut-desktop/src/dialogs/record.rs`; test `crates/tcut-media/tests/capture_timestamps.rs`; scenario `capture`.
 
 - [ ] Use desktop ScreenCast portal/PipeWire for Wayland screen capture, approved microphone/webcam device access and visible recording state; do not bypass permission prompts.
 - [ ] Record monotonic timestamps and synchronize sources; support countdown, pause/stop policy, input meters and user-chosen destination.
@@ -368,7 +368,7 @@ Verify: GNOME/KDE Wayland, denied/revoked permission, device unplug, monitor sca
 ## T29: Restoration and upscaling
 
 Dependencies: T08, T12, T23 worker infrastructure.
-Files: create `crates/lce-ai/src/{upscale,restore}.rs`, workers/model manifests; test `crates/lce-ai/tests/tiled_processing.rs`; scenario `restoration`.
+Files: create `crates/tcut-ai/src/{upscale,restore}.rs`, workers/model manifests; test `crates/tcut-ai/tests/tiled_processing.rs`; scenario `restoration`.
 
 - [ ] Implement qualified model tiling with overlap/blend, resource budgeting, cancel and content-addressed derived media.
 - [ ] Offer denoise/deblur/sharpen/upscale as distinct operations and compare against ordinary resampling; preserve color metadata and timing.
@@ -379,7 +379,7 @@ Verify: tile seams, moving textures, faces/text, color shifts, low-memory fallba
 ## T30: Advanced image/video generation and presenters
 
 Dependencies: T26, T27, T29.
-Files: create `crates/lce-ai/src/{generate,avatar,providers}.rs`, model/provider manifests, `apps/lce-desktop/src/panels/generate.rs`; test `crates/lce-ai/tests/generated_asset_apply.rs`; scenario `generation`.
+Files: create `crates/tcut-ai/src/{generate,avatar,providers}.rs`, model/provider manifests, `apps/tcut-desktop/src/panels/generate.rs`; test `crates/tcut-ai/tests/generated_asset_apply.rs`; scenario `generation`.
 
 - [ ] Qualify exact unrestricted checkpoints for local text/image-to-video or image generation/expansion; record hardware, latency, duration and output limitations.
 - [ ] Add optional provider adapters with explicit endpoint, consent, credential storage, estimated cost and cancellability limits. No silent upload or automatic charged retry.
@@ -390,7 +390,7 @@ Verify: real generation on supported hardware, cancel/OOM, reproducibility limit
 ## T31: Templates, original content packs and covers
 
 Dependencies: T13, T14, T18, T20.
-Files: create `schemas/template-v1.json`, `crates/lce-project/src/templates.rs`, `assets/templates/`, `apps/lce-desktop/src/panels/templates.rs`; test `crates/lce-project/tests/template_instantiation.rs`; scenario `templates`.
+Files: create `schemas/template-v1.json`, `crates/tcut-project/src/templates.rs`, `assets/templates/`, `apps/tcut-desktop/src/panels/templates.rs`; test `crates/tcut-project/tests/template_instantiation.rs`; scenario `templates`.
 
 - [ ] Define declarative media/text slots, duration constraints, allowed crop behavior, style/effect versions and license/provenance; templates contain no arbitrary scripts.
 - [ ] Implement instantiate/replace slots as ordinary editable sequence commands, with missing-font/effect/media checks and bounded archive parsing.
@@ -401,7 +401,7 @@ Verify: replace short/long/wrong-aspect media, multilingual text, missing depend
 ## T32: Production export and delivery profiles
 
 Dependencies: T07, T12–T20, T29 as applicable.
-Files: extend engine profiles/render, create `apps/lce-desktop/src/panels/export_queue.rs`, `assets/export-profiles/`; test `crates/lce-engine/tests/delivery_profiles.rs`; scenario `delivery`.
+Files: extend engine profiles/render, create `apps/tcut-desktop/src/panels/export_queue.rs`, `assets/export-profiles/`; test `crates/tcut-engine/tests/delivery_profiles.rs`; scenario `delivery`.
 
 - [ ] Qualify H.264/AAC MP4, available open profiles, audio-only, image/still, supported alpha/mezzanine and subtitle-sidecar paths. List exact supported formats, not “all codecs.”
 - [ ] Add rational frame-rate/resolution/bitrate/custom range, SDR/HDR metadata policy, audio layout, queue priority, output naming and validation.
@@ -412,7 +412,7 @@ Verify: full decode for each shipped profile, exact output frame selection, seek
 ## T33: Interchange and bounded CapCut import research
 
 Dependencies: T08, T13, T20, T32.
-Files: create `crates/lce-interchange/src/{otio,capcut,loss_report}.rs`, `docs/formats/compatibility.md`; test `crates/lce-interchange/tests/editorial_roundtrip.rs`; scenario `interchange`.
+Files: create `crates/tcut-interchange/src/{otio,capcut,loss_report}.rs`, `docs/formats/compatibility.md`; test `crates/tcut-interchange/tests/editorial_roundtrip.rs`; scenario `interchange`.
 
 - [ ] Implement OTIO editorial mapping and subtitle import/export with explicit representability/loss reports; retain original project and original timebases.
 - [ ] Examine lawfully supplied unencrypted draft fixtures with user consent; version-detect, map only understood constructs, reject unknown protected input, and never execute embedded resources.
@@ -423,7 +423,7 @@ Verify: foreign timeline cut/source ranges, unsupported speed/effect report, mal
 ## T34: Optional self-hosted sync and backup
 
 Dependencies: T08, T38 security baseline.
-Files: create `services/lce-sync/src/{api,auth,assets,revisions}.rs`, `crates/lce-project/src/sync.rs`, `docs/self-hosting.md`; test `services/lce-sync/tests/sync_conflicts.rs`; scenario `sync`.
+Files: create `services/tcut-sync/src/{api,auth,assets,revisions}.rs`, `crates/tcut-project/src/sync.rs`, `docs/self-hosting.md`; test `services/tcut-sync/tests/sync_conflicts.rs`; scenario `sync`.
 
 - [ ] Define authenticated project/revision/content APIs and storage quotas; upload immutable snapshots/assets, never mirror a live journal blindly.
 - [ ] Support resumable chunked transfer with hashes, offline queue and explicit concurrent branches. Preserve both revisions when concurrent changes cannot merge safely.
@@ -434,7 +434,7 @@ Verify: disconnect mid-upload, corrupt chunk, unauthorized cross-project read, c
 ## T35: Review and collaborative editing
 
 Dependencies: T34, T09.
-Files: extend service with `src/{comments,collaboration}.rs`, create `apps/lce-desktop/src/panels/review.rs`; test `services/lce-sync/tests/collaboration_order.rs`; scenario `collaboration`.
+Files: extend service with `src/{comments,collaboration}.rs`, create `apps/tcut-desktop/src/panels/review.rs`; test `services/tcut-sync/tests/collaboration_order.rs`; scenario `collaboration`.
 
 - [ ] Implement revision/time-range comments, roles, invitations, presence and auditable permission revocation without changing local project authority.
 - [ ] Add simultaneous edit sessions using a server-ordered operation log and explicit sequence ownership/locking initially; rejected stale operations rebase or become proposals, never overwrite silently.
@@ -445,7 +445,7 @@ Verify: two real clients concurrently trim/delete/relink, reconnect after revoca
 ## T36: Authorized publishing
 
 Dependencies: T32, T34 credentials/security facilities; local export does not depend on this.
-Files: create `crates/lce-jobs/src/publish.rs`, `apps/lce-desktop/src/panels/share.rs`, `docs/publishing.md`; test `crates/lce-jobs/tests/publish_state.rs`; scenario `publishing`.
+Files: create `crates/tcut-jobs/src/publish.rs`, `apps/tcut-desktop/src/panels/share.rs`, `docs/publishing.md`; test `crates/tcut-jobs/tests/publish_state.rs`; scenario `publishing`.
 
 - [ ] Qualify official platform APIs and app approval requirements; implement only permitted OAuth/upload flows, scopes, expiry and rate limits.
 - [ ] Show destination/account/privacy/title and file before explicit publish; use a durable upload ID to avoid duplicate publication on retry.
@@ -456,7 +456,7 @@ Verify: provider sandbox/test account with actual approved API, expiry/revocatio
 ## T37: Familiarity, accessibility and localization closure
 
 Dependencies: begins T04; final gate after local feature integration. Home and editor layout fidelity are early MVP obligations, not deferred until this final closure task.
-Files: create `apps/lce-desktop/src/accessibility/`, `po/`, `docs/migration-from-capcut.md`, `docs/parity/desktop-reference.csv`; scenarios `keyboard`, `ime`, `familiarity`.
+Files: create `apps/tcut-desktop/src/accessibility/`, `po/`, `docs/migration-from-capcut.md`, `docs/parity/desktop-reference.csv`; scenarios `keyboard`, `ime`, `familiarity`.
 
 - [ ] Capture pinned reference-build evidence and reconcile shortcut/mode differences; maintain independent visual identity and original assets.
 - [ ] Complete accessible timeline/keyframe/caption actions, focus recovery, high contrast, reduced motion and text scaling; translate messages with context/plurals.

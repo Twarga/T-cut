@@ -94,7 +94,7 @@ Official desktop guides describe the broad pattern. Keep these locations:
 
 ## 2. Original design tokens
 
-- Define tokens in `apps/lce-desktop/resources/tokens.css`. Component styles consume them.
+- Define tokens in `apps/tcut-desktop/resources/tokens.css`. Component styles consume them.
 - GTK CSS is **not** browser CSS. Use supported GTK constructs and generated named colors. Don't assume arbitrary web layout APIs.
 
 | Token family | Initial proposal | Purpose |

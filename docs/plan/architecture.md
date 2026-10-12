@@ -77,17 +77,17 @@
 
 ```text
 Cargo.toml / Cargo.lock / rust-toolchain.toml
-apps/lce-desktop/              GTK application, actions, panels, timeline view
-apps/lce-cli/                  headless inspect/render/verify commands
-crates/lce-core/               exact time, project model, commands, undo, validation
-crates/lce-project/            snapshots, journal, migrations, collect/relink
-crates/lce-media/              discovery, asset registry, thumbnails, proxies
-crates/lce-engine/             GES ownership, compile schedule, playback/export
-crates/lce-effects/            effect definitions, parameters, deterministic operators
-crates/lce-jobs/               scheduling, cancellation, resource budgets, worker protocol
-crates/lce-ai/                 model manifests, AI task adapters, result validation
-crates/lce-interchange/        subtitles, OTIO and bounded draft adapters
-services/lce-sync/             optional sync/review/collaboration API
+apps/tcut-desktop/              GTK application, actions, panels, timeline view
+apps/tcut-cli/                  headless inspect/render/verify commands
+crates/tcut-core/               exact time, project model, commands, undo, validation
+crates/tcut-project/            snapshots, journal, migrations, collect/relink
+crates/tcut-media/              discovery, asset registry, thumbnails, proxies
+crates/tcut-engine/             GES ownership, compile schedule, playback/export
+crates/tcut-effects/            effect definitions, parameters, deterministic operators
+crates/tcut-jobs/               scheduling, cancellation, resource budgets, worker protocol
+crates/tcut-ai/                 model manifests, AI task adapters, result validation
+crates/tcut-interchange/        subtitles, OTIO and bounded draft adapters
+services/tcut-sync/             optional sync/review/collaboration API
 workers/                      separately pinned model-specific executables/environments
 assets/                       original redistributable icons/fonts/presets/samples
 schemas/                      project, effect, worker and template schema artifacts
@@ -101,8 +101,8 @@ docs/                         ADRs, contributors, formats, parity, user migratio
 
 - Create only the crates T01–T08 need. The map is **not** a request for empty crates for every future feature.
 - Split a crate only when it has a real boundary, tests, and consumers.
-- `lce-core` has **no** GTK, GES, or Python dependencies.
-- `lce-engine` consumes validated, immutable core snapshots. It never owns the authoritative project.
+- `tcut-core` has **no** GTK, GES, or Python dependencies.
+- `tcut-engine` consumes validated, immutable core snapshots. It never owns the authoritative project.
 - The UI sends commands. It never mutates engine objects directly.
 
 **Ownership:**
@@ -175,7 +175,7 @@ A clip stores: placement, visible duration, source reference, source stream sele
 
 ### Layout
 
-Project folders use the suffix `.lceproj/`:
+Project folders use the suffix `.tcutproj/`:
 
 ```text
 project.json                 authoritative durable snapshot

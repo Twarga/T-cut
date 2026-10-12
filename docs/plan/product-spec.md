@@ -1,7 +1,7 @@
 # t-cut Product Specification
 
 > **Status:** planning baseline, 2026-10-12. No application is built yet.
-> **Name:** public name **t-cut**. Earlier `LCE` / `lce-*` names are internal identifiers in the [implementation plan](implementation.md). Naming does not establish trademark clearance.
+> **Name:** public name **t-cut**. Crates, binaries and paths use the `tcut-*` prefix (earlier drafts said `lce-*`). Naming does not establish trademark clearance.
 > **Versions and MVP acceptance:** [release-roadmap.md](release-roadmap.md).
 
 ## At a glance
@@ -217,7 +217,7 @@ Track five kinds of parity separately: **capability**, **quality**, **performanc
 
 These are **not** permission to invent facts.
 
-- **Public name, domain, app ID:** maintainer trademark and domain review before signed releases. Source may use `lce` meanwhile.
+- **Public name, domain, app ID:** maintainer trademark and domain review before signed releases. Source uses the `tcut` prefix meanwhile.
 - **Exact CapCut reference build and defaults:** capture legally obtained app behavior before calling any profile "verified."
 - **GES hard paths:** reverse, ramped audio, nesting, color, render endpoints, and zero-copy must pass T01.
 - **GPU and model performance:** benchmark chosen checkpoints on real reference hardware. A README throughput number is not our benchmark.

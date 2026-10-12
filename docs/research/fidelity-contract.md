@@ -319,15 +319,15 @@ These are **future UI checks**, not tests run during research. Each needs real i
 
 **Suggested future paths** (relative to the new application repository):
 
-- `apps/lce-desktop/src/home/{view,project_card,actions,trash}.rs`
-- `apps/lce-desktop/src/navigation.rs`
-- `apps/lce-desktop/src/dialogs/{settings,project_settings,shortcuts,relink,export}.rs`
-- `apps/lce-desktop/src/panels/{library,player,inspector,timeline}.rs`
-- `apps/lce-desktop/src/inspector/{details,video,audio,text}.rs`
-- `crates/lce-project/src/registry.rs`: real local project identities and recents. Authoritative project content stays in the existing project format.
+- `apps/tcut-desktop/src/home/{view,project_card,actions,trash}.rs`
+- `apps/tcut-desktop/src/navigation.rs`
+- `apps/tcut-desktop/src/dialogs/{settings,project_settings,shortcuts,relink,export}.rs`
+- `apps/tcut-desktop/src/panels/{library,player,inspector,timeline}.rs`
+- `apps/tcut-desktop/src/inspector/{details,video,audio,text}.rs`
+- `crates/tcut-project/src/registry.rs`: real local project identities and recents. Authoritative project content stays in the existing project format.
 - `docs/parity/desktop-reference.csv`: screenshot IDs, build or cohort, observed state, t-cut action, intentional differences.
 
-The `lce-*` names are internal plan names, not the public brand. This research does not create or rename application crates. It does not modify PhotoCraft.
+The `tcut-*` names are crate and path names in the app repository. This research does not create application crates. It does not modify PhotoCraft.
 
 **MVP closure:**
 

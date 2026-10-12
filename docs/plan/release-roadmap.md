@@ -32,7 +32,7 @@
 - No hidden cloud fallback, silent loss of effects, fake output, or unmeasured quality or performance claims.
 - Whole-app familiarity starts in the MVP: Home, project lifecycle, editor, settings, recovery, and export. Not just a generic timeline.
 - License: GPL-3.0-or-later. Audit every dependency, model, and asset before redistribution. No extra noncommercial limit is added to the GPL.
-- The name is **t-cut**. Earlier `lce-*` names are internal future-crate names, not a second product. Do not modify PhotoCraft to bootstrap this editor.
+- The name is **t-cut**. Crates and paths use the `tcut-*` prefix (earlier drafts said `lce-*`). Do not modify PhotoCraft to bootstrap this editor.
 
 ## 1. Version scope in plain language
 
@@ -166,9 +166,9 @@ Keep all 40 work packages. Only these early subsets are split out, so the MVP do
 
 | Slice | Depends on | Produces | Verification and reuse |
 |---|---|---|---|
-| T10-basic | T02 time and project model; T04/T05 selection and edits; T07 render path | Static position, scale, fit/fill, canvas. `crates/lce-effects/src/{transform,canvas}.rs`, `apps/lce-desktop/src/player/handles.rs` | Known corner and center placement, crop boundaries in preview and rendered frames. T10 extends these modules. |
-| T18-basic | T10-basic geometry; T02 commands; T07 render path | Static shaped text. `crates/lce-effects/src/text.rs`, `apps/lce-desktop/src/panels/text.rs`, font manifest | RTL, CJK, combining text, and missing-font behavior. Saved text equals rendered text. T18 animation consumes T11 later, not the reverse. |
-| T19-basic | T02 commands and time; T05 edits; T07 render path | Clip gain, fades, mix. `crates/lce-engine/src/audio.rs`, `crates/lce-effects/src/audio_gain.rs`, `apps/lce-desktop/src/panels/audio.rs` | Known impulses and fade envelope at explicit sample boundaries. T19 automation, EQ, and buses extend the same path. |
+| T10-basic | T02 time and project model; T04/T05 selection and edits; T07 render path | Static position, scale, fit/fill, canvas. `crates/tcut-effects/src/{transform,canvas}.rs`, `apps/tcut-desktop/src/player/handles.rs` | Known corner and center placement, crop boundaries in preview and rendered frames. T10 extends these modules. |
+| T18-basic | T10-basic geometry; T02 commands; T07 render path | Static shaped text. `crates/tcut-effects/src/text.rs`, `apps/tcut-desktop/src/panels/text.rs`, font manifest | RTL, CJK, combining text, and missing-font behavior. Saved text equals rendered text. T18 animation consumes T11 later, not the reverse. |
+| T19-basic | T02 commands and time; T05 edits; T07 render path | Clip gain, fades, mix. `crates/tcut-engine/src/audio.rs`, `crates/tcut-effects/src/audio_gain.rs`, `apps/tcut-desktop/src/panels/audio.rs` | Known impulses and fade envelope at explicit sample boundaries. T19 automation, EQ, and buses extend the same path. |
 | T20-manual | T08 project and recovery; T18 static text; T19 timing | Manual captions, SRT and VTT. No inference dependency. | Subtitle round trip, timing, and actual display and export. Transcription attaches later through reviewed commands. |
 | T31-schema | T08 projects; qualified slots from T13, T14, T18, T20 when used | Declarative template schema and core in T31's existing files | Rejects invalid slot, time, and license references. T27 storyboard assembly uses this core before full template-gallery polish. |
 

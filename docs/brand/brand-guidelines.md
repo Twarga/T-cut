@@ -18,7 +18,7 @@ Start with the [design system](design-system.md). The [tokens](../assets/tokens.
 | Signature | A violet T with a lime section cut from its right arm |
 | Themes | Dusk/dark and Cream/light, in a golden-hour palette |
 
-Use **T-cut** in titles and prose. Keep the hyphen and lowercase “cut.” Avoid “TCut,” “T Cut,” “T-Cut” or a second public name. Repository URLs, local paths and the earlier internal `lce-*` crate identifiers need not follow prose capitalization. Those internal names do not create a second brand.
+Use **T-cut** in titles and prose. Keep the hyphen and lowercase “cut.” Avoid “TCut,” “T Cut,” “T-Cut” or a second public name. Repository URLs, local paths and `tcut-*` crate identifiers need not follow prose capitalization. Those internal names do not create a second brand.
 
 ## 2. Voice and cognitive accessibility
 
